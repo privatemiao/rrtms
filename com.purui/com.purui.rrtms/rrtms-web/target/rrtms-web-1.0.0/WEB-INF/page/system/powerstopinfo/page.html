@@ -1,0 +1,251 @@
+<style>
+.k-marquee {
+	z-index: 1041;
+}
+
+textarea {
+	width: 500px;
+	height: 90px;
+}
+
+#stop-info-tab .widget-body {
+	height: 550px;
+}
+</style>
+
+<div class="page-header">
+	<h1>停电信息</h1>
+</div>
+<!-- /.page-header -->
+<div class="row">
+	<div class="col-xs-12">
+		<div id='stop-info-tab' class="widget-box">
+			<div class="widget-header">
+
+				<div class="widget-toolbar no-border pull-left">
+					<ul class="nav nav-tabs" id="myTab">
+						<li class="active"><a data-toggle="tab" href="#available">当前停电信息</a></li>
+						<li><a data-toggle="tab" href="#line">线路停电信息</a></li>
+						<li><a data-toggle="tab" href="#cuofeng">错峰停电信息</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="widget-body">
+				<div class="widget-main padding-6">
+					<div class="tab-content">
+						<div id="available" class="tab-pane active">
+							<div class="col-xs-12 col-sm-12">线路停电信息</div>
+							<div class="col-xs-12 col-sm-12">
+								<div id='available-line-grid'></div>
+							</div>
+							<div class="col-xs-12 col-sm-12">
+								<hr>
+							</div>
+							<div class="col-xs-12 col-sm-12">错峰停电信息</div>
+							<div class="col-xs-12 col-sm-12">
+								<div id='available-cuofeng-grid'></div>
+							</div>
+						</div>
+						<div id="line" class="tab-pane">
+							<div id="line-grid"></div>
+							<div class="right-panel">
+								<div class="btn btn-app btn-xs btn-warning">
+									<i class="icon-desktop bigger-150"></i>
+								</div>
+								<div class="row">
+									<div class="input-group col-sm-12">
+										<input type="text" name="startDate" placeholder="开始日期"
+											data-rel="tooltip" title="开始日期" data-placement="bottom"
+											class="form-control date-picker"> <span
+											class="input-group-addon"> <i
+											class="icon-calendar bigger-110"></i></span> <span
+											class="input-group-addon"> <i
+											class="icon-trash bigger-110"></i>
+										</span>
+									</div>
+									<div class="input-group col-sm-12">
+										<input type="text" name="endDate" placeholder="结束日期"
+											data-rel="tooltip" title="结束日期" data-placement="top"
+											class="form-control date-picker"> <span
+											class="input-group-addon"> <i
+											class="icon-calendar bigger-110"></i></span> <span
+											class="input-group-addon"> <i
+											class="icon-trash bigger-110"></i>
+										</span>
+									</div>
+									<div class="input-group col-sm-12">
+										<button class="pull-right btn btn-primary btn-okay">
+											<i class="icon-search align-top bigger-125"></i>确定
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="cuofeng" class="tab-pane">
+							<div id="cuofeng-grid"></div>
+							<div class="right-panel">
+								<div class="btn btn-app btn-xs btn-warning">
+									<i class="icon-desktop bigger-150"></i>
+								</div>
+								<div class="row">
+									<div class="input-group col-sm-12">
+										<input type="text" name="startDate" placeholder="开始日期"
+											data-rel="tooltip" title="开始日期" data-placement="bottom"
+											class="form-control date-picker"> <span
+											class="input-group-addon"> <i
+											class="icon-calendar bigger-110"></i></span> <span
+											class="input-group-addon"> <i
+											class="icon-trash bigger-110"></i>
+										</span>
+									</div>
+									<div class="input-group col-sm-12">
+										<input type="text" name="endDate" placeholder="结束日期"
+											data-rel="tooltip" title="结束日期" data-placement="top"
+											class="form-control date-picker"> <span
+											class="input-group-addon"> <i
+											class="icon-calendar bigger-110"></i></span> <span
+											class="input-group-addon"> <i
+											class="icon-trash bigger-110"></i>
+										</span>
+									</div>
+									<div class="input-group col-sm-12">
+										<button class="pull-right btn btn-primary btn-okay">
+											<i class="icon-search align-top bigger-125"></i>确定
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div style="clear: both;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- line stop detail -->
+<div id="line-stop-detail-modal" class="modal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="blue bigger">线路停电详细信息</h4>
+			</div>
+
+			<div class="modal-body overflow-visible">
+				<div class="row">
+					<div class="col-xs-12 col-sm-6">
+						停电开始时间：<span class="startDate"></span>
+					</div>
+					<div class="col-xs-12 col-sm-6">
+						停电结束时间：<span class="endDate"></span>
+					</div>
+					<div class="space-4"></div>
+					<div class="col-xs-12 col-sm-12">停电区域</div>
+					<div class="col-xs-12 col-sm-12">
+						<textarea class="area"></textarea>
+					</div>
+					<div class="space-4"></div>
+					<div class="col-xs-12 col-sm-12">停电线路</div>
+					<div class="col-xs-12 col-sm-12">
+						<textarea class="line"></textarea>
+					</div>
+					<div class="space-4"></div>
+					<div class="col-xs-12 col-sm-12">停电范围</div>
+					<div class="col-xs-12 col-sm-12">
+						<textarea class="range"></textarea>
+					</div>
+					<div class="space-4"></div>
+					<div class="col-xs-12 col-sm-12">涉及用户</div>
+					<div class="col-xs-12 col-sm-12">
+						<textarea class="companys"></textarea>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<button class="btn btn-sm btn-primary btn-okay" data-dismiss="modal">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end line stop detail -->
+
+<!-- cuofeng stop detail -->
+<div id="cuofeng-stop-detail-modal" class="modal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="blue bigger">错峰停电详细信息</h4>
+			</div>
+
+			<div class="modal-body overflow-visible">
+				<div class="row">
+					<div class="col-xs-12 col-sm-6">
+						停电开始时间：<span class="startDate"></span>
+					</div>
+					<div class="col-xs-12 col-sm-6">
+						停电结束时间：<span class="endDate"></span>
+					</div>
+					<div class="space-4"></div>
+					<div class="col-xs-12 col-sm-12">停电区域</div>
+					<div class="col-xs-12 col-sm-12">
+						<textarea class="area"></textarea>
+					</div>
+					<div class="space-4"></div>
+					<div class="col-xs-12 col-sm-12">涉及线路</div>
+					<div class="col-xs-12 col-sm-12">
+						<textarea class="line"></textarea>
+					</div>
+					<div class="space-4"></div>
+					<div class="col-xs-12 col-sm-12">停电原因</div>
+					<div class="col-xs-12 col-sm-12">
+						<textarea class="release"></textarea>
+					</div>
+					<div class="space-4"></div>
+					<div class="col-xs-12 col-sm-4">
+						错峰类型：<span class="type"></span>
+					</div>
+					<div class="col-xs-12 col-sm-4">
+						错峰容量：<span class="capacity"></span>
+					</div>
+					<div class="col-xs-12 col-sm-4">
+						责任单位：<span class="owner"></span>
+					</div>
+					<div class="space-4"></div>
+					<div class="col-xs-12 col-sm-12">涉及用户</div>
+					<div class="col-xs-12 col-sm-12">
+						<textarea class="companys"></textarea>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<button class="btn btn-sm btn-primary btn-okay" data-dismiss="modal">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end cuofeng stop detail -->
+
+<script
+	src="../resources/rrtms/js/rrtms/system/powerstopinfo/StopInfo.js"></script>
+<script>
+	$(function() {
+		sideMenu.setTitle([ '停电信息' ]);
+
+		var stopInfo = new com.rrtms.system.powerstopinfo.StopInfo();
+		$.clear = function() {
+			console.log('clear power stop info page...');
+
+			if (stopInfo && stopInfo.destroy) {
+				stopInfo.destroy();
+				stopInfo = null;
+			}
+		};
+	});
+</script>

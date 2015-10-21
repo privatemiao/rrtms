@@ -1,0 +1,126 @@
+<style>
+#right-panel {
+	width: 300px;
+	height: 100px;
+	position: absolute;
+	z-index: 1;
+	right: 0;
+}
+
+#right-panel>div {
+	float: left;
+}
+
+#right-panel>div:first-child {
+	width: 45px;
+	border-radius: 0;
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+	margin-top: 0;
+}
+
+#right-panel>div:nth-child(2) {
+	left: -6px;
+	border: 1px solid #FFB34B;
+}
+
+.sidebar-collapse {
+	background-image: linear-gradient(#FFBF66 0px, ​ #FFA830 100%);
+}
+
+#station-grid td {
+	cursor: pointer;
+}
+
+label.BMapLabel {
+	border-color: #eee !important;
+	background: rgba(255, 255, 255, .8) !important;
+	font-weight: 600 !important;
+}
+
+label.BMapLabel>span>span {
+	color: #f00 !important;
+}
+
+label.BMapLabel>span {
+	color: #00f !important;
+}
+
+.console {
+	height: 200px;
+}
+
+#console {
+	z-index: 2;
+	position: absolute;
+}
+#console
+.closest
+</style>
+<div class="page-header">
+	<h1>站点分布</h1>
+</div>
+<!-- /.page-header -->
+<div class="row">
+	<div class="col-xs-12">
+		<div id="toolbar" class="table-header"></div>
+		<div id="map" style="background-color: #e93; height: 300px;"></div>
+	</div>
+</div>
+
+<div id="right-panel">
+	<div class="btn btn-app btn-xs btn-warning">
+		<i class="icon-desktop bigger-150"></i>
+	</div>
+	<div id="station-grid"></div>
+</div>
+
+<div id="context-menu" style="position: absolute; z-index: 2; right: 20px; cursor: pointer; display: none;">
+	<i class="icon-external-link bigger-200"></i>
+</div>
+
+<div id='console' class="col-xs-12 widget-container-span ui-sortable no-padding">
+	<div class="widget-box collapsed">
+		<div class="widget-header widget-header-small header-color-orange">
+			<h6>
+				<i class="icon-sort"></i> 报警信息
+			</h6>
+
+			<div class="widget-toolbar">
+				</a> <a data-action="collapse" href="#"> <i class="icon-chevron-down"></i>
+				</a>
+			</div>
+		</div>
+
+		<div class="widget-body">
+			<div class="widget-body-inner" style="display: none;">
+				<div class="widget-main box">
+					<div class="console"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="resources/rrtms/js/rrtms/component/WebSocket.js"></script>
+<script src="resources/rrtms/js/rrtms/system/stationdist/Map.js"></script>
+<script src="resources/rrtms/js/rrtms/system/stationdist/StationDist.js"></script>
+
+<script>
+	$(function() {
+		sideMenu.setTitle([ '站点分布' ]);
+		sideMenu.showSearchPanel();
+
+		$.stationDist = new com.rrtms.system.StationDist();
+		setTimeout(function() {
+			$.stationDist.hideRightPanel();
+		}, 1000);
+		$.clear = function() {
+			console.log('clear station dist page...');
+			if ($.stationDist && $.stationDist.destroy) {
+				$.stationDist.destroy();
+				$.stationDist = null;
+				delete $.stationDist;
+			}
+		};
+	});
+</script>

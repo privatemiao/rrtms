@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<title></title>
+<script type="text/javascript" src="../js/dygraph-combined.js"></script>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">标题</h1>
+	</header>
+	<div class="mui-content">
+		<div id="graphdiv3" style="width: 320px; height: 300px;"></div>
+	</div>
+
+
+	<script>
+		var g = new Dygraph(document.getElementById("graphdiv3"), [ [ 1, 20, 100 ], [ 2, 20, 80 ], [ 3, 50, 60 ], [ 4, 70, 80 ], [ 5, 67, 80 ], [ 6, 67, 80 ], [ 7, 10, 52 ], [ 8, 56, 80 ], [ 9, 56, 80 ], [ 10, 10, 80 ], [ 11, 56, 80 ], [ 12, 89, 80 ],[ 13, 20, 100 ], [ 14, 20, 80 ], [ 15, 50, 60 ], [ 16, 70, 80 ], [ 17, 67, 80 ], [ 18, 67, 80 ], [ 19, 10, 52 ], [ 20, 56, 80 ], [ 21, 56, 80 ], [ 22, 10, 80 ], [ 23, 56, 80 ], [ 24, 89, 80 ] ], {
+			labels : [ "x", "A", "B" ],
+			legend : 'always',
+			rollPeriod : 3,
+			labelsSeparateLines : true,
+			labelsDivWidth : 100,
+
+			labelsDivStyles : {
+				'textalign' : 'right',
+				'background' : 'none'
+			},
+			showRangeSelector : true,
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/app.js"></script>
+		<style>
+			html,body {
+				background-color: #efeff4;
+			}
+		</style>
+		<script>
+			mui.init();
+		</script>
+	</head>
+
+	<body>
+
+<header class="mui-bar mui-bar-nav">
+	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	<h1 class="mui-title">关于</h1>
+</header>
+<div class="mui-content">
+	<div class="mui-content-padded">
+		<h4 style="margin-top:10px;">苏州普瑞智能</h4>
+		<p>
+			苏州普瑞智能综合服务有限公司（简称<a href="http://www.szprzn.com">苏州普瑞智能</a>）是一家以客户变电站的安全经济运行为己任，以解决客户用电问题、创造和谐用电环境为使命的高科技运行服务管理公司。公司拥有一批热爱电力服务工作,在电力行业有着丰富工作经验和管理经验的专家级人才，为客户的安全用电、节约用电、合理用电提供全方位的专业服务。 
+		</p>
+		<p>
+			公司运用自主知识产权的“PH-ZDH中低压客户变电站配网自动化实时远程监控系统” 对110千伏及以下变电站实现远程实时集中监控管理，可靠有效地实现了无人值守，为客户变电站的<strong>运行、管理、维护、检修、抢修</strong>提供24小时不间断服务。公司秉承“典范的管家式电力服务商”的经营和服务理念，为广大企事业变电站提供专业、优质运行管理服务，并实现负荷主动响应及负荷互济，帮助企业实现合理有序用电，节约能源，降低用电成本并享受政府电力需求侧项目补贴。
+		</p>
+		<h4>我们的客户</h4>
+		<p>
+			苏州普瑞智能提出“服务即产品”的用电服务运行模式已经实施多年，深知企业用电的情况、企业用电的管理水平、了解企业用电的需求，
+			我们客户遍及各个领域，如制造业、服务业、教育、医疗、物流、政府机构、公共设施等。
+		</p>
+		
+		
+		
+
+	</div>
+</div>
+<style type="text/css">
+	p {
+		text-indent: 22px;
+		padding: 5px 8px;
+	}
+	html,
+	body,
+	.mui-content {
+		background-color: #fff;
+	}
+	h4 {
+		margin-left: 5px;
+	}
+</style>
+<script type="text/javascript" charset="utf-8">
+	//处理点击事件，需要打开原生浏览器
+	mui('body').on('tap', 'a', function(e) {
+		var href = this.getAttribute('href');
+		if (href) {
+			if (window.plus) {
+				plus.runtime.openURL(href);
+			} else {
+				location.href = href;
+			}
+		}
+	});
+</script>
+
+</body>
+</html>

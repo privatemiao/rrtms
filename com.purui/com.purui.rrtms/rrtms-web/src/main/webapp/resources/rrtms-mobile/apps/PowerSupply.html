@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>保电业务</title>
+    <link href="../css/mui.min.css" rel="stylesheet"/>
+    <script src="../js/mui.min.js"></script>
+    <script type="text/javascript" src="../js/Math.uuid.js" ></script>
+    <script type="text/javascript" src="../js/pr_common.js" ></script>
+    <script type="text/javascript" src="../js/config.js" ></script>
+    <script type="text/javascript" src="../js/app.js" ></script>
+    
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav">
+	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	<h1 class="mui-title">保电业务</h1>
+	<a id="info" class="mui-icon mui-icon-info-filled mui-pull-right" style="color: #999;"></a>
+	</header>
+	<div class="mui-content">
+		    <div  class="mui-input-row">
+				<label>开始日期</label>
+				<input type="date" class="mui-input-clear" id="StartDate">
+			</div>
+			 <div  class="mui-input-row">
+				<label>开始时间</label>
+				<input type="time" class="mui-input-clear" id="StartTime" >
+			</div>
+			<div  class="mui-input-row">
+				<label>截止日期</label>
+				<input type="date" class="mui-input-clear" id="EndDate">
+			</div>
+			 <div  class="mui-input-row">
+				<label>截止时间</label>
+				<input type="time" class="mui-input-clear" id="EndTime">
+			</div>
+			<div class="mui-input-row ">
+                <textarea rows="4" placeholder="把您需求反馈我们" id="Nodes"></textarea>
+            </div>
+            <div class="mui-content-padded">
+            <div class="mui-input-row mui-checkbox">
+				<label>我已经阅读并同意相关协议</label>
+				<input name="checkbox1" type="checkbox" id="check">
+			</div>
+			
+            <div class="mui-input-row">
+                <button class="mui-btn mui-btn-positive mui-btn-block" id="reportup">我要申请</button>
+            </div>
+           </div>
+	</div>
+	<script>
+		          
+          function callback(response)
+          {
+          	var result = JSON.stringify(response);
+				if(result.indexOf("ERROR") >0)
+				{
+					showNjsView("错误","很遗憾，您提交的保电业务信息无法完成!","确认");
+					alert(result);
+				}
+				else
+				{
+					showNjsView("提示","恭喜您，您提交的保电业务信息已成功入库!","谢谢");
+						//
+		   document.getElementById("StartDate").value='';
+           document.getElementById("StartTime").value='';
+           document.getElementById("EndDate").value='';
+           document.getElementById("EndTime").value='';
+           document.getElementById("Nodes").value='';
+           document.getElementById("check").checked=false;
+				}
+          }
+          
+          function ajax()
+          {
+          	var check = document.getElementById("check");
+				
+				
+				var url=config.variables.mobile_url+'requestPowerSupply';
+				
+				 var currentuser= JSON.parse(plus.storage.getItem("user"));
+				
+				 var data={
+		         StartDate:document.getElementById("StartDate").value,
+		         StartTime:document.getElementById("StartTime").value,
+		         EndDate:document.getElementById("EndDate").value,
+		         EndTime:document.getElementById("EndTime").value,
+		         Nodes:document.getElementById("Nodes").value,
+		         GUID:Math.uuid(),
+		         UserID:currentuser.securityUser.id,
+		         UserName:currentuser.name,
+		         Status:0
+	            };
+				
+				if(data.StartDate ==undefined || data.StartDate =='')
+				{
+					showNjsView("提示","开始日期不能为空!","确认");
+	            	deviceVibrate();
+	            	return;
+				}
+				if(data.StartTime ==undefined || data.StartTime =='')
+				{
+					showNjsView("提示","开始时间不能为空!","确认");
+	            	deviceVibrate();
+	            	return;
+				}
+				if(data.EndDate ==undefined || data.EndDate =='')
+				{
+					showNjsView("提示","截止日期不能为空!","确认");
+	            	deviceVibrate();
+	            	return;
+				}
+				
+				if(data.EndTime ==undefined || data.EndTime =='')
+				{
+					showNjsView("提示","截止时间不能为空!","确认");
+	            	deviceVibrate();
+	            	return;
+				}
+				
+	            if(data.StartDate > data.EndDate)
+	            {
+	            	showNjsView("提示","开始日期不能大于截止日期!","确认");
+	            	deviceVibrate();
+	            	return;
+	            }
+	            if(!check.checked)
+				{
+					deviceVibrate();
+					return;
+				}
+				mui.post(url,data,callback);
+          }
+          
+          window.onload = function(){
+          	
+          	document.getElementById("reportup").addEventListener('tap', function() {
+			ajax();
+		    });
+		    mui.init();
+		    mui.plusReady(function(){
+		    	//增加震动提示
+		    	if(window.plus){
+	            plusReady();
+                  }else{
+	            document.addEventListener("plusready",plusReady,false);
+                }
+          	
+		    });
+          	
+          };
+          
+          
+	</script>
+</body>
+</html>

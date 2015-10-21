@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="../js/mui.js"></script>
+    <link href="../css/mui.min.css" rel="stylesheet"/>
+     <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css"/>
+    <script type="text/javascript" src="../js/common.js" ></script>
+    <script src="../js/knockout-3.2.0.js"></script>
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+      	
+      	      	 
+      	
+    </script>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">我的信息</h1>
+	</header>
+	<div class="mui-content">
+		<div id="tabbar" class="mui-control-content mui-active">
+		<ul class="mui-table-view">
+			
+			<li class="mui-table-view-cell">
+				<i class="fa fa-tag"></i>系统编号:<span data-bind = "text:ID"></span>
+			</li>
+			<li class="mui-table-view-cell">
+				<i class="fa fa-cc"></i>登录号:<span data-bind = "text:LOGINID"></span>
+			</li>
+			<li class="mui-table-view-cell">
+				<i class="fa fa-user"></i>姓名:<span data-bind = "text:NAME"></span>
+			</li>
+			<li class="mui-table-view-cell">
+				<i class="fa fa-users"></i>用户类型:<span data-bind = "text:USER_TYPE"></span>
+			</li>
+			<li class="mui-table-view-cell">
+				<i class="fa fa-home"></i>地址:<span data-bind = "text:ADDRESS"></span>
+			</li>
+			<li class="mui-table-view-cell">
+				<i class="fa fa-birthday-cake"></i>生日:<span data-bind = "text:BIRTHDAY"></span>
+			</li>
+			
+			<li class="mui-table-view-cell">
+				<i class="fa fa-envelope-o"></i>电子邮件:<span data-bind = "text:EMAIL"></span>
+			</li>
+			
+			<li class="mui-table-view-cell">
+				<i class="fa fa-mobile-phone"></i>手机号码:<span data-bind = "text:MOBILE"></span>
+			</li>
+			
+			
+			
+			<li class="mui-table-view-cell">
+				<i class="fa fa-lock"></i>状态:<span data-bind = "text:STATUS"></span>
+			</li>
+			
+			
+		</ul>
+		
+	</div>
+	
+	</div>
+	<script>
+	    
+	    window.onload = function(){
+	    
+	    try{
+	    	
+	   
+	    	
+	     mui.plusReady(function(){
+	     	 var currentuser= JSON.parse(plus.storage.getItem("user"));
+		   
+			var userModel={
+		    ID:ko.observable(currentuser.securityUser.id),
+      		ADDRESS:ko.observable(currentuser.address),
+		    BIRTHDAY:ko.observable(currentuser.birthday),
+		    EMAIL:ko.observable(currentuser.email),
+		    GENDER:ko.observable(currentuser.gender),
+		    MOBILE:ko.observable(currentuser.mobile),
+		    NAME:ko.observable(currentuser.name),
+		    USER_TYPE:ko.observable(currentuser.userType),
+		    LOGINID:ko.observable(currentuser.securityUser.loginId),
+		    STATUS:ko.observable(currentuser.securityUser.status)
+		   
+      	};
+		ko.applyBindings(userModel);
+		
+		plus.nativeUI.closeWaiting();
+  	
+  	     mui.currentWebview.show();
+	     	
+	     });
+	      }catch(e){
+	    	alert(e);
+	    }
+	    };
+	  
+			
+      	 
+      	 	
+		
+	</script>
+</body>
+</html>

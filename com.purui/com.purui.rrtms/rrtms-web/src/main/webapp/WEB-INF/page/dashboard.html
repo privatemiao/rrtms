@@ -1,0 +1,196 @@
+<style>
+.chart {
+	min-height: 133px;
+}
+
+#area-map {
+	height: 300px;
+	background-color: #e0e0e0;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+</style>
+<div class="page-header">
+	<h1>
+		仪表盘 <small> <i class="icon-double-angle-right"></i> 概览 &amp; 状态
+		</small>
+	</h1>
+</div>
+
+<div class="row">
+	<div class="col-xs-12">
+		<div class="row">
+			<div class="col-xs-12 col-sm-6">
+				<div class="col-sm-12 col-xs-12">
+					<div id="area-map"></div>
+				</div>
+			</div>
+
+
+			<div class="col-xs-12 col-sm-6" style="padding-right: 25px;">
+				<div class="widget-box">
+					<div class="widget-header widget-header-flat widget-header-small">
+						<h5>
+							<i class="icon-signal"></i> 区域负荷信息
+						</h5>
+					</div>
+
+					<div class="widget-body">
+						<div class="widget-main">
+							<div class="chart" id="are-load-info"></div>
+						</div>
+						<!-- /widget-main -->
+					</div>
+					<!-- /widget-body -->
+				</div>
+				<!-- /widget-box -->
+			</div>
+
+			<div class="col-sm-7 infobox-container hide">
+				<div class="infobox infobox-green  ">
+					<div class="infobox-icon">
+						<i class="icon-comments"></i>
+					</div>
+
+					<div class="infobox-data">
+						<span class="infobox-data-number">132</span>
+						<div class="infobox-content">总接入企业数：120/12</div>
+					</div>
+				</div>
+
+				<div class="infobox infobox-blue  ">
+					<div class="infobox-icon">
+						<i class="icon-twitter"></i>
+					</div>
+
+					<div class="infobox-data">
+						<span class="infobox-data-number">11</span>
+						<div class="infobox-content">本月注册用户</div>
+					</div>
+
+					<div class="badge badge-success">
+						+32% <i class="icon-arrow-up"></i>
+					</div>
+				</div>
+
+				<div class="infobox infobox-pink  ">
+					<div class="infobox-icon">
+						<i class="icon-shopping-cart"></i>
+					</div>
+
+					<div class="infobox-data">
+						<span class="infobox-data-number">8</span>
+						<div class="infobox-content">本月新增企业</div>
+					</div>
+					<div class="stat stat-important">4%</div>
+				</div>
+
+				<div class="infobox infobox-red  ">
+					<div class="infobox-icon">
+						<i class="icon-beaker"></i>
+					</div>
+
+					<div class="infobox-data">
+						<span class="infobox-data-number">97</span>
+						<div class="infobox-content">上报能源中心</div>
+					</div>
+				</div>
+
+				<div class="infobox infobox-orange2  ">
+					<div class="infobox-chart">
+						<span data-values="196,128,202,177,154,94,100,170,224" class="sparkline"></span>
+					</div>
+
+					<div class="infobox-data">
+						<span class="infobox-data-number">6,251</span>
+						<div class="infobox-content">平均总能耗</div>
+					</div>
+
+					<div class="badge badge-success">
+						7.2% <i class="icon-arrow-up"></i>
+					</div>
+				</div>
+
+				<div class="infobox infobox-blue2  ">
+					<div class="infobox-progress">
+						<div data-size="46" data-percent="42" class="easy-pie-chart percentage easyPieChart" style="width: 46px; height: 46px; line-height: 46px;">
+							<span class="percent">42</span>%
+						</div>
+					</div>
+
+					<div class="infobox-data">
+						<span class="infobox-text">系统内存</span>
+
+						<div class="infobox-content">
+							<span class="bigger-110">~</span> 58GB remaining
+						</div>
+					</div>
+				</div>
+
+				<div class="space-6"></div>
+
+				<div class="infobox infobox-green infobox-small infobox-dark">
+					<div class="infobox-progress">
+						<div data-size="39" data-percent="61" class="easy-pie-chart percentage easyPieChart" style="width: 39px; height: 39px; line-height: 39px;">
+							<span class="percent">61</span>%
+						</div>
+					</div>
+
+					<div class="infobox-data">
+						<div class="infobox-content">Task</div>
+						<div class="infobox-content">Completion</div>
+					</div>
+				</div>
+
+				<div class="infobox infobox-blue infobox-small infobox-dark">
+					<div class="infobox-chart">
+						<span data-values="3,4,2,3,4,4,2,2" class="sparkline"></span>
+					</div>
+
+					<div class="infobox-data">
+						<div class="infobox-content">Earnings</div>
+						<div class="infobox-content">$32,000</div>
+					</div>
+				</div>
+
+				<div class="infobox infobox-grey infobox-small infobox-dark">
+					<div class="infobox-icon">
+						<i class="icon-download-alt"></i>
+					</div>
+
+					<div class="infobox-data">
+						<div class="infobox-content">Downloads</div>
+						<div class="infobox-content">1,205</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xs-12 col-sm-12">
+				<div class="col-sm-12">
+					<div id="station-grid"></div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<!-- /.page-header -->
+
+
+
+<script src="resources/rrtms/js/rrtms/system/dashboard/Dashboard.js"></script>
+<script>
+	$(function() {
+		sideMenu.setTitle([ '仪表盘' ]);
+		var dashboard = new com.rrtms.Dashboard();
+
+		$.clear = function() {
+			console.log('clear dashboard page...');
+			if (dashboard && dashboard.destroy) {
+				dashboard.destroy();
+				dashboard = null;
+			}
+		};
+
+	});
+</script>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="../css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css"/>
+    <script src="../js/mui.min.js"></script>
+    <script type="text/javascript" src="../js/app.js" ></script>
+     
+    
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">客服服务</h1>
+	</header>
+	<div class="mui-content">
+		<div  class="mui-control-content mui-active">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					
+					<h4><i class="fa fa-fax"></i>服务热线:<span><a href="tel:4008865001">4008865001</a></span></h4>
+				
+				</li>
+				
+				<li class="mui-table-view-cell">
+					
+					<h4><i class="fa fa-phone"></i>值班电话:<span><a href="tel:051266595001">66595001</a></span></h4>
+				
+				</li>
+				
+				<li class="mui-table-view-cell">
+					
+					<h4><i class="fa fa-phone"></i>抢修电话:<span><a href="tel:051266595002">66595002</a></span></h4>
+				
+				</li>
+				
+				<li class="mui-table-view-cell">
+					
+					<h4><i class="fa fa-qq"></i>在线客服:<span><a href="#">2209476265</a></span></h4>
+				
+				</li>
+				<li class="mui-table-view-cell">
+					
+					<h4><i class="fa fa-weixin"></i>普瑞订阅号:szprzn</span></h4>
+				<p>
+			       <img src="../images/purui_wx_qcode.jpg" style="width: 120px; height: 120px;"/>
+		       </p>
+				</li>
+		
+		     <li class="mui-table-view-cell">
+			<h4><i class="fa fa-wordpress"></i><span><a href="http://www.szprzn.com">普瑞智能官方</a></span></h4>
+			</li>
+		
+		</ul>
+	</div>
+	</div>
+	<script>
+	
+		
+			
+			mui.init();
+			
+			mui.plusReady(function(){
+			
+			//处理点击事件，需要打开原生浏览器
+	        mui('body').on('tap', 'a', function(e) {
+		        var href = this.getAttribute('href');
+		        if (href) {
+			     if (window.plus) {
+				    plus.runtime.openURL(href);
+			      } else {
+				      location.href = href;
+			      }
+		         }
+	         });
+			
+			});
+		
+	</script>
+</body>
+</html>

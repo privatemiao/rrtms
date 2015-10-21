@@ -1,0 +1,70 @@
+<div class="page-header">
+	<h1>安全</h1>
+</div>
+<!-- /.page-header -->
+<div class="row">
+	<div class="col-xs-12">
+		<div id="toolbar" class="table-header"></div>
+		<div id="security-grid"></div>
+	</div>
+</div>
+
+<div id="security-code-modal-form" class="modal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="blue bigger"></h4>
+			</div>
+
+			<div class="modal-body overflow-visible">
+				<form>
+					<input type="hidden" name="id">
+					<div class="row">
+						<div class="col-xs-12 col-sm-12">
+							<div class="input-group col-xs-12 col-sm-12">
+								<select class="form-control" name="type">
+									<option value="SWITCH">开关</option>
+								</select>
+							</div>
+							<div class="space-4"></div>
+							<div class="input-group col-xs-12 col-sm-12">
+								<span class="input-group-addon"> <i class="icon-key bigger-110"></i>
+								</span><input type="text" name="password" class="form-control" placeholder="口令">
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<div class="modal-footer">
+				<button class="btn btn-sm btn-primary btn-save">
+					<i class="icon-ok"></i> 保存
+				</button>
+
+				<button class="btn btn-sm btn-primary btn-okay" data-dismiss="modal">确定</button>
+
+				<button class="btn btn-sm" data-dismiss="modal">
+					<i class="icon-remove"></i> 取消
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="resources/rrtms/js/rrtms/system/Security.js"></script>
+<script>
+	$(function() {
+		sideMenu.setTitle([ '安全' ]);
+
+		$.security = new com.rrtms.system.Security();
+
+		$.clear = function() {
+			console.log('clear security page...');
+			if ($.security && $.security.destroy) {
+				$.security.destroy();
+				$.security = null;
+			}
+		};
+	});
+</script>

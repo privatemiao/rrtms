@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>普瑞智能</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/common.js" ></script>
+		<script type="text/javascript" src="js/update.js" ></script>
+	</head>
+	<body>
+					
+		<header class="mui-bar mui-bar-nav">
+			<a id="closeid" class="mui-icon mui-icon-close mui-pull-left"></a>
+			<!--<a id="info" class="mui-icon mui-icon-info-filled mui-pull-right" style="color: #999;"></a>-->
+			<!--<a id="close" class="mui-icon mui-icon-close-filled mui-pull-left" style="color: #999;"></a>-->
+			<h1 class="mui-title">普瑞智能</h1>
+		</header>
+					
+		
+		<script>
+		
+		  document.getElementById('closeid').addEventListener('click',function(){
+		  	
+		  	if(mui.os.ios)
+		  	{
+		  		plus.nativeUI.alert('亲,您手机不支持该操作!请按HOME键退出!');
+		  	}
+		  	else
+		  	{
+		  		plus.runtime.quit();
+		  	}
+		  });
+		
+			mui.init({
+				swipeBack: false,
+				statusBarBackground:'#f7f7f7',
+				subpages: [{
+					id: 'login',
+					url: 'apps/login.html',
+					styles: {
+						top: '48px',
+						bottom: 0,
+						bounce: 'vertical'
+					}
+				}]
+			});
+
+			mui.plusReady(function() {
+				if(mui.os.android){
+					plus.screen.lockOrientation("portrait-primary");
+				}
+				
+			});
+			
+				
+			
+			//首页返回键处理
+			//处理逻辑：1秒内，连续两次按返回键，则退出应用；
+			var showMenu=false;
+			var first = null;
+			mui.back = function() {
+				if(showMenu){
+					//closeMenu();
+				}else{
+					//首次按键，提示‘再按一次退出应用’
+					if (!first) {
+						first = new Date().getTime();
+						mui.toast('再按一次退出应用');
+						setTimeout(function() {
+							first = null;
+						}, 1000);
+					} else {
+						if (new Date().getTime() - first < 1000) {
+							plus.runtime.quit();
+						}
+					}
+				}
+				
+			};
+			
+			
+		</script>
+	</body>
+</html>
+

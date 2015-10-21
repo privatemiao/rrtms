@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta name="description" content="overview &amp; stats" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link rel="stylesheet" href="../../../resources/pace/js/themes/pace-theme-barber-shop.css" />
+<script data-pace-options='{ "restartOnRequestAfter": true, "ajax" : true }' src="../../../resources/pace/js/pace.js"></script>
+
+<link href="../../../resources/aceadmin/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../../../resources/aceadmin/css/jquery.gritter.css" />
+<link href="../../../resources/aceadmin/css/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" />
+
+<link rel="stylesheet" href="../../../resources/aceadmin/css/ace.min.css" />
+<link rel="stylesheet" href="../../../resources/aceadmin/css/ace-rtl.min.css" />
+<link rel="stylesheet" href="../../../resources/aceadmin/css/ace-skins.min.css" />
+<link rel="stylesheet" href="../../../resources/aceadmin/css/font-awesome.min.css" />
+<link rel="stylesheet" href="../../../resources/aceadmin/css/datepicker.css" />
+
+<link rel="stylesheet" href="../../../resources/dhtmlx/tree/dhtmlxtree_std.css" />
+
+<link rel="stylesheet" href="../../../resources/kendoui/styles/kendo.common.min.css" />
+<link rel="stylesheet" href="../../../resources/kendoui/styles/kendo.metro.min.css" />
+
+<link rel="stylesheet" href="../../../resources/rrtms/main.css" />
+
+<style>
+body, button, input, select, textarea, h1, h2, h3, h4, h5, h6 {
+	font-family: "Microsoft YaHei", Arial;
+}
+
+body, .center-pane {
+	overflow-x: hidden !important;
+}
+
+.tab-content>div {
+	height: 100%;
+}
+
+.tab-content {
+	outline-color: #897048;
+	outline-style: dotted;
+	outline-width: 2px;
+	outline-offset: 5px;
+	min-height: 400px;
+}
+
+.k-marquee {
+	z-index: 1041;
+}
+
+.right-panel {
+	width: 47px;
+	height: 100px;
+	position: absolute;
+	z-index: 12;
+	right: -5px;
+	top: 0;
+}
+
+.right-panel>div {
+	position: absolute;
+}
+
+.right-panel>div:first-child {
+	width: 47px !important;
+	border-radius: 0;
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+	margin-top: 0;
+	left: 0;
+	top: 0;
+	border-radius: 0;
+}
+
+.right-panel>div:nth-child(2) {
+	border: 1px solid #FFB34B;
+	width: 260px;
+	height: 198px;
+	left: 52px;
+	top: 0;
+	background-color: #fff;
+	overflow: auto;
+	display: none;
+	margin: 0 -12px;
+}
+
+#user-data-point>div, .info>div {
+	border-bottom: 1px solid #eee;
+}
+
+.btn-export {
+	display: none;
+}
+</style>
+<script src='../../../resources/aceadmin/js/jquery-2.0.3.min.js'></script>
+<script src="../../../resources/aceadmin/js/bootstrap.min.js"></script>
+<script src="../../../resources/aceadmin/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="../../../resources/aceadmin/js/bootbox.min.js"></script>
+<script src="../../../resources/aceadmin/js/jquery.gritter.min.js"></script>
+<script src="../../../resources/cookie/jquery.cookie.js"></script>
+<script src="../../../resources/dhtmlx/tree/dhtmlxtree_std.js"></script>
+
+<script src="../../../resources/kendoui/js/kendo.web.js"></script>
+<script src="../../../resources/kendoui/js/cultures/kendo.culture.zh-CN.min.js"></script>
+
+<!-- <script src="../../../resources/highcharts/js/highcharts.js"></script> -->
+<script src="../../../resources/highstock/js/highstock.js"></script>
+<script src="../../../resources/highcharts/js/highcharts-more.js"></script>
+<script src="../../../resources/highcharts/js/modules/exporting.js"></script>
+
+<script src="../../../resources/exportexcel/excellentexport.js"></script>
+
+
+
+<script src="../../../resources/aceadmin/js/date-time/bootstrap-datepicker.min.js"></script>
+<script src="../../../resources/aceadmin/js/date-time/locales/bootstrap-datepicker.zh-CN.js" charset="UTF-8"></script>
+
+<script src="../../../resources/rrtms/js/commons.js"></script>
+
+<script src="../../../resources/rrtms/js/rrtms/component/CloseableTab.js"></script>
+<script src="../../../resources/rrtms/js/rrtms/component/WebSocket.js"></script>
+<script src="../../../resources/rrtms/js/rrtms/system/stationdetail/DatapointTree.js"></script>
+<script src="../../../resources/rrtms/js/rrtms/system/stationdetail/RealtimeData.js"></script>
+<script src="../../../resources/rrtms/js/rrtms/system/stationdetail/Diagram.js"></script>
+<script src="../../../resources/rrtms/js/rrtms/system/stationdetail/HistoryData.js"></script>
+<script src="../../../resources/rrtms/js/rrtms/system/stationdetail/Portal.js"></script>
+<script src="../../../resources/rrtms/js/rrtms/system/stationdetail/LoadBalance.js"></script>
+<script src="../../../resources/rrtms/js/rrtms/system/stationdetail/PowerDist.js"></script>
+<script src="../../../resources/rrtms/js/rrtms/system/stationdetail/Warning.js"></script>
+<script src="../../../resources/rrtms/js/rrtms/system/stationdetail/PowerAnalysis.js"></script>
+<script src="../../../resources/rrtms/js/rrtms/system/stationdetail/EnergyAnalysis.js"></script>
+<script src="../../../resources/rrtms/js/rrtms/system/stationdetail/StationDetail.js"></script>
+
+</head>
+<body>
+	<div class="navbar navbar-default" id="navbar">
+		<ul class="nav navbar-nav">
+			<li class="hide"><a tab-id="Portal" href="#">PORTAL</a></li>
+			<li><a tab-id="Diagram" href="#">接线图</a></li>
+			<li><a tab-id="RealtimeData" href="#">实时数据</a></li>
+			<li><a tab-id="HistoryData" href="#">历史数据</a></li>
+			<li><a tab-id="LoadBalance" href="#">负荷平衡图</a></li>
+			<li><a tab-id="PowerDist" href="#">电量分布图</a></li>
+			<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">对比分析&nbsp;<i class="icon-caret-down"></i></a>
+				<ul class="dropdown-menu" role="menu">
+					<li><a tab-id="PowerAnalysis" href="#">电力指标分析</a></li>
+					<li><a tab-id="EnergyAnalysis" href="#">耗电类比分析</a></li>
+				</ul></li>
+			<li><a tab-id="Warning" href="#">告警信息查询</a></li>
+		</ul>
+	</div>
+	<!-- end navbar -->
+
+	<div class='row'>
+		<div class="col-xs-12 col-sm-12 col-lg-12">
+			<div id='station-tab' class="widget-box">
+				<div class="widget-header">
+
+					<div class="widget-toolbar no-border pull-left">
+						<ul class="nav nav-tabs" id="myTab"></ul>
+					</div>
+				</div>
+
+				<div class="widget-body">
+					<div class="widget-main padding-6">
+						<div class="tab-content"></div>
+						<div style="clear: both;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 
+	<div class="right-panel">
+		<div class="btn btn-app btn-xs btn-warning">
+			<i class="icon-desktop bigger-150"></i>
+		</div>
+		<div></div>
+	</div>
+ -->
+
+	<div id="template" class="hide">
+		<div class="Portal">
+			<div class="row">
+
+				<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+					<div id="total-load" class="widget-box">
+						<div class="widget-header">
+							<h5>总负荷晴雨表</h5>
+						</div>
+
+						<div class="widget-body">
+							<div class="widget-main">
+								<div id="portal-load-chart"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+					<div id="load-trend" class="widget-box">
+						<div class="widget-header">
+							<h5>总负荷趋势（KW）</h5>
+						</div>
+
+						<div class="widget-body">
+							<div class="widget-main">
+								<div id="load-trend-chart"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+					<div id="consume-type" class="widget-box">
+						<div class="widget-header">
+							<h5>
+								能耗峰谷平<span class='title'></span>
+							</h5>
+						</div>
+
+						<div class="widget-body">
+							<div class="widget-main">
+								<div id="consume-type-chart"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+					<div id="default-data-point" class="widget-box">
+						<div class="widget-header">
+							<h5>关注点</h5>
+							<div class="widget-toolbar">
+								<a href="#" id='pop-up'> <i class="icon-cog"></i></a>
+							</div>
+						</div>
+
+						<div class="widget-body">
+							<div class="widget-main">
+								<div class="row">
+									<div id="user-data-point">
+										<div class="col-xs-8">dsadsa</div>
+										<div class="col-xs-4">12321321</div>
+										<div class="col-xs-8">dsadsa</div>
+										<div class="col-xs-4">12321321</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+					<div id="energy-trend" class="widget-box">
+						<div class="widget-header">
+							<h5>总能耗趋势（KW/H）</h5>
+						</div>
+
+						<div class="widget-body">
+							<div class="widget-main">
+								<div id="energy-trend-chart"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+					<div id="station-info" class="widget-box">
+						<div class="widget-header">
+							<h5>站点信息</h5>
+							<div class="widget-toolbar">
+								<a href="#" id='pop-up'> <i class="icon-cog"></i></a>
+							</div>
+						</div>
+
+						<div class="widget-body">
+							<div class="widget-main">
+								<div class="row">
+									<div class="info">
+										<div class="col-xs-4">站点名称</div>
+										<div class="col-xs-8">名称</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+		<div class="Diagram">
+			<iframe id='ifr' width="100%" height="100%" style="border: 0;"></iframe>
+		</div>
+
+		<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+		<div class="RealtimeData">
+			<div class="horizontal" style="height: 100%;">
+				<div class="left-pane">
+					<div id="RealtimeData-tree"></div>
+				</div>
+				<div class="center-pane">
+					<div class="vertical" style="height: 100%;">
+						<div class="top-pane">
+							<div id="RealtimeData-chart"></div>
+						</div>
+						<div class="bottom-pane">
+							<div id="RealtimeData-grid"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="right-panel">
+				<div class="btn btn-app btn-xs btn-warning">
+					<i class="icon-desktop bigger-150"></i>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<select name="filter" class="form-control">
+							<option value="">选择类型</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- end RealtimeData -->
+
+
+		<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+		<div class="HistoryData">
+			<div class="horizontal" style="height: 100%;">
+				<div class="left-pane">
+					<div id="HistoryData-tree"></div>
+				</div>
+				<div class="center-pane">
+					<div class="vertical" style="height: 100%;">
+						<div class="top-pane">
+							<div id="HistoryData-chart"></div>
+						</div>
+						<div class="bottom-pane">
+							<div id="HistoryData-grid"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="right-panel">
+				<div class="btn btn-app btn-xs btn-warning">
+					<i class="icon-desktop bigger-150"></i>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<select name="filter" class="form-control">
+							<option value="">选择类型</option>
+						</select>
+					</div>
+					<div class="space-4"></div>
+					<div class="input-group col-sm-12">
+						<input type="text" name="startDate" class="form-control date-picker" data-date-format="yyyy-mm-dd" placeholder="开始日期" data-rel="tooltip" title="开始日期" readonly> <span
+							class="input-group-addon"><i class="icon-calendar bigger-110"></i></span> <span class="input-group-addon"><i class="icon-remove bigger-110"></i></span>
+					</div>
+					<div class="space-4"></div>
+					<div class="input-group col-sm-12">
+						<input type="text" name="endDate" class="form-control date-picker" data-date-format="yyyy-mm-dd" placeholder="结束日期" data-rel="tooltip" title="结束日期" readonly> <span
+							class="input-group-addon"><i class="icon-calendar bigger-110"></i></span> <span class="input-group-addon"><i class="icon-remove bigger-110"></i></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- end HistoryData -->
+
+		<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+		<div class="LoadBalance">
+			<div class="horizontal" style="height: 100%;">
+				<div class="left-pane">
+					<div id="LoadBalance-tree"></div>
+				</div>
+				<div class="center-pane">
+					<div class="vertical" style="height: 100%;">
+						<div class="top-pane">
+							<div id="LoadBalance-chart"></div>
+						</div>
+						<div class="bottom-pane">
+							<div id="LoadBalance-grid"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- end LoadBalance -->
+
+		<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+		<div class="PowerDist">
+			<div class="vertical" style="height: 100%;">
+				<div class="top-pane" style="overflow: hidden;">
+					<div id="powerdist-powerchart" class="pull-left"></div>
+					<div id="powerdist-moneychart" class="pull-left"></div>
+				</div>
+				<div class="bottom-pane">
+					<div id="powerdist-grid"></div>
+				</div>
+			</div>
+		</div>
+		<!-- end PowerDist -->
+
+		<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+		<div class="PowerAnalysis">
+			<div class="horizontal" style="height: 100%;">
+				<div class="left-pane">
+					<div id="PowerAnalysis-tree"></div>
+				</div>
+				<div class="center-pane">
+					<div id="PowerAnalysis-chart"></div>
+				</div>
+			</div>
+
+			<div class="right-panel">
+				<div class="btn btn-app btn-xs btn-warning">
+					<i class="icon-desktop bigger-150"></i>
+				</div>
+				<div class="row" style="height: 300px;">
+					<div class="input-group col-sm-12">
+						<input type="text" name="date" class="form-control date-picker" data-date-format="yyyy-mm-dd" placeholder="日期" data-rel="tooltip" title="选择日期" data-placement="bottom" readonly> <span
+							class="input-group-addon"><i class="icon-calendar bigger-110"></i></span> <span class="input-group-addon"><i class="icon-remove bigger-110"></i></span>
+					</div>
+					<div class="space-4"></div>
+					<div class="input-group col-sm-12">
+						<select class="form-control" name="curve">
+							<option value="1">电压曲线</option>
+							<option value="2">电流曲线</option>
+							<option value="3">功率因数曲线</option>
+							<option value="4">负荷曲线</option>
+						</select>
+					</div>
+					<div class="space-4"></div>
+					<div class="input-group col-sm-12">
+						<select class="form-control" name="type">
+							<option value="avgValue">平均值</option>
+							<option value="maxValue">最大值</option>
+							<option value="minValue">最小值</option>
+						</select>
+					</div>
+					<div class="space-4"></div>
+					<div class="input-group col-sm-12">
+						<div data-toggle="buttons" class="btn-group">
+							<label class="btn btn-sm active"> <input name="kind" type="checkbox" value="A" checked /> A项
+							</label> <label class="btn btn-sm active"> <input name="kind" type="checkbox" value="B" checked /> B项
+							</label> <label class="btn btn-sm active"> <input name="kind" type="checkbox" value="C" checked /> C项
+							</label>
+						</div>
+					</div>
+					<div class="input-group col-sm-12">
+						<hr>
+					</div>
+					<div class="input-group col-sm-12">
+						<button class="btn btn-primary pull-right btn-analysis" style="margin-right: 10px;">分析</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- end PowerAnalysis -->
+
+		<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+		<div class="EnergyAnalysis">
+			<div class="horizontal" style="height: 100%;">
+				<div class="left-pane">
+					<div id="EnergyAnalysis-tree"></div>
+				</div>
+				<div class="center-pane">
+					<div id="EnergyAnalysis-chart"></div>
+				</div>
+			</div>
+
+			<div class="right-panel">
+				<div class="btn btn-app btn-xs btn-warning">
+					<i class="icon-desktop bigger-150"></i>
+				</div>
+				<div class="row" style="height: 300px;">
+					<div class="input-group col-xs-12">
+						<select id="EnergyAnalysis-type" name="type" class="form-control">
+							<option value="day">按日比对</option>
+							<option value="month">按月比对</option>
+							<option value="year">按年比对</option>
+						</select>
+					</div>
+					<div class="space-4"></div>
+					<div class="input-group col-xs-12">
+						<input id="EnergyAnalysis-date" type="text" name="date" class="form-control date-picker" placeholder="日期" data-rel="tooltip" title="选择日期" data-placement="bottom">
+					</div>
+					<div class="space-4"></div>
+					<div class="input-group col-xs-12">
+						<select id="EnergyAnalysis-curve" class="form-control" name="curve">
+							<option value="1">电压曲线</option>
+							<option value="2">电流曲线</option>
+							<option value="3">功率因数曲线</option>
+							<option value="4">负荷曲线</option>
+						</select>
+					</div>
+					<div class="space-4"></div>
+					<div class="input-group col-xs-12">
+						<select id="EnergyAnalysis-kind" class="form-control" name="kind">
+							<option value="A">A项</option>
+							<option value="B">B项</option>
+							<option value="C">C项</option>
+						</select>
+					</div>
+					<div class="input-group col-xs-12">
+						<hr>
+					</div>
+					<div class="input-group col-xs-12">
+						<button class="btn btn-primary pull-right btn-analysis" style="margin-right: 10px;">分析</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- end PowerAnalysis -->
+		<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+		<div class="Warning">
+			<div class="row">
+				<div id="warning-grid"></div>
+			</div>
+		</div>
+		<!-- end PowerDist -->
+	</div>
+
+
+
+	<div id="default-data-point-modal" class="modal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="blue bigger">选择你关注的监测点</h4>
+				</div>
+
+				<div class="modal-body overflow-visible">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="btn-group">
+								<button class="btn btn-xs btn-info btn-expand">打开</button>
+								<button class="btn btn-xs btn-info btn-collapse">关闭</button>
+								<button class="btn btn-xs btn-info btn-un-select-all">全部取消</button>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div id="default-data-point-modal-tree" style="height: 300px;"></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button class="btn btn-sm btn-primary btn-save">
+						<i class="icon-ok"></i> 保存
+					</button>
+					<button class="btn btn-sm" data-dismiss="modal">
+						<i class="icon-remove"></i> 取消
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- relogin -->
+	<div id="login-modal-form" class="modal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="blue bigger">您已在其它地方登录！</h4>
+				</div>
+
+				<div class="modal-body overflow-visible">
+					<div class="row">
+						<div class="input-group col-xs-12 col-sm-12">
+							<span class="input-group-addon"> <i class="icon-user bigger-110"></i>
+							</span><input class="form-control" type="text" name="loginId">
+						</div>
+						<div class="space-4"></div>
+						<div class="input-group col-xs-12 col-sm-12">
+							<span class="input-group-addon"> <i class="icon-key bigger-110"></i>
+							</span><input class="form-control" type="password" name="password">
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+
+					<button class="btn btn-sm btn-primary btn-login">登录</button>
+
+					<button class="btn btn-sm btn-cancel" data-dismiss="modal">
+						<i class="icon-remove"></i> 取消
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end relogin -->
+
+	<script type="text/x-kendo-template" id="template-power-dist">
+		<div>
+			<label>采集时间： <span style="display:inline-block;width:150px;"></span></label>
+			<label>累计时间： <span style="display:inline-block;width:200px;"></span></label>
+			<button class="k-button">全部</button>
+		</div>
+	</script>
+
+	<script type="text/x-kendo-template" id="template-warning">
+	<div class="row">
+		<form id="warning-form">
+			<div class="form-group">
+				<div class="input-group col-xs-12 col-sm-3">
+					<select class="form-control" name="warnType">
+						<option value="">全部</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="input-group col-xs-12 col-sm-3">
+					<input name="startDate" class="form-control date-picker" data-date-format="yyyy-mm-dd" placeholder="开始时间" readonly>
+					<span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
+					<span class="input-group-addon btn-clear-date"><i class="icon-only icon-trash"></i></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="input-group col-xs-12 col-sm-3">
+					<input name="endDate" class="form-control date-picker" data-date-format="yyyy-mm-dd" placeholder="结束时间" readonly>
+					<span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
+					<span class="input-group-addon btn-clear-date"><i class="icon-only icon-trash"></i></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<button class="btn btn-sm btn-light">查询</button>
+			</div>
+		<form>
+	</div>
+	</script>
+
+	<script>
+		$(function() {
+			$.stationDetail = new com.rrtms.system.StationDetail();
+		});
+	</script>
+</body>
+</html>

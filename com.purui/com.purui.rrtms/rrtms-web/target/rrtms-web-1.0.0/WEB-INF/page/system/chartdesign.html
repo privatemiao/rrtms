@@ -1,0 +1,371 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+<meta charset="UTF-8">
+<link href="../../../resources/aceadmin/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../../../resources/aceadmin/css/jquery.gritter.css" />
+<link href="../../../resources/aceadmin/css/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" />
+
+
+
+<link rel="stylesheet" href="../../../resources/aceadmin/css/ace.min.css" />
+<link rel="stylesheet" href="../../../resources/aceadmin/css/ace-rtl.min.css" />
+<link rel="stylesheet" href="../../../resources/aceadmin/css/ace-skins.min.css" />
+<link rel="stylesheet" href="../../../resources/aceadmin/css/font-awesome.min.css" />
+
+<link rel="stylesheet" href="../../../resources/dhtmlx/tree/dhtmlxtree_std.css" />
+
+<link rel="stylesheet" href="../../../resources/kendoui/styles/kendo.common.min.css" />
+<link rel="stylesheet" href="../../../resources/kendoui/styles/kendo.metro.min.css" />
+
+<SCRIPT src="../../../../resources/draw2d/jquery-1.8.1.min.js"></SCRIPT>
+<script src="../../../resources/aceadmin/js/bootstrap.min.js"></script>
+<script src="../../../resources/aceadmin/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="../../../resources/aceadmin/js/bootbox.min.js"></script>
+<script src="../../../resources/aceadmin/js/jquery.gritter.min.js"></script>
+<script src="../../../resources/cookie/jquery.cookie.js"></script>
+<script src="../../../resources/dhtmlx/tree/dhtmlxtree_std.js"></script>
+
+<script src="../../../resources/kendoui/js/kendo.web.min.js"></script>
+
+<script src="../../../resources/rrtms/js/commons.js"></script>
+
+<script src="../../../resources/rrtms/js/rrtms/system/chartdesign/PointTree.js"></script>
+<script src="../../../resources/rrtms/js/rrtms/system/chartdesign/DataPointTree.js"></script>
+<script src="../../../resources/rrtms/js/rrtms/component/CloseableTab.js"></script>
+<script src="../../../resources/rrtms/js/rrtms/component/Canvas.js"></script>
+<script src="../../../resources/rrtms/js/rrtms/component/WebSocket.js"></script>
+<script src="../../../resources/rrtms/js/rrtms/system/chartdesign/ChartDesign.js"></script>
+
+
+<SCRIPT src="../../../../resources/draw2d/shifty.js"></SCRIPT>
+<SCRIPT src="../../../../resources/draw2d/raphael.js"></SCRIPT>
+<SCRIPT src="../../../../resources/draw2d/jquery-ui-1.8.23.custom.min.js"></SCRIPT>
+<SCRIPT src="../../../../resources/draw2d/jquery.layout.js"></SCRIPT>
+<SCRIPT src="../../../../resources/draw2d/jquery.autoresize.js"></SCRIPT>
+<SCRIPT src="../../../../resources/draw2d/jquery-touch_punch.js"></SCRIPT>
+<SCRIPT src="../../../../resources/draw2d/jquery.contextmenu.js"></SCRIPT>
+<SCRIPT src="../../../../resources/draw2d/rgbcolor.js"></SCRIPT>
+<SCRIPT src="../../../../resources/draw2d/canvg.js"></SCRIPT>
+<SCRIPT src="../../../../resources/draw2d/Class.js"></SCRIPT>
+<SCRIPT src="../../../../resources/draw2d/draw2d.js"></SCRIPT>
+<SCRIPT src="../../../../resources/draw2d/Switch.js"></SCRIPT>
+
+<style>
+.col-sm-4 {
+	background-color: #fee;
+}
+
+.col-sm-8 {
+	background-color: #efe;
+}
+
+.page-content {
+	padding-bottom: 10px;
+}
+
+.widget-toolbar {
+	float: left;
+}
+
+.nav>li .close {
+	serializeObject margin: -2px 0 0 10px;
+	font-size: 18px;
+}
+
+.page-content {
+	padding-top: 0;
+}
+
+.widget-box {
+	margin-top: 0;
+}
+
+.tab-content {
+	height: 250px;
+	padding: 0;
+	overflow: auto;
+}
+
+.tab-pane {
+	padding: 0;
+	width: 4500px;
+	height: 3500px;
+	background-image: url("../../../resources/draw2d/background-chart.png");
+}
+
+#datapoint-tree {
+	height: 200px;
+}
+
+.btn-zoom-group {
+	position: absolute;
+	z-index: 12;
+}
+</style>
+</head>
+<body>
+	<div class="navbar navbar-default" id="navbar">
+		<div class="btn-group">
+			<button class="btn dropdown-toggle" data-toggle="dropdown">
+				文件 <i class="icon-angle-down icon-on-right"></i>
+			</button>
+			<ul class="dropdown-menu">
+				<li><a id="new-chart" href="#"><i class="icon-file"></i>新增</a></li>
+				<li><a id="modify-chart" href="#"><i class="icon-edit"></i>编辑元数据</a></li>
+				<li><a id="remove-chart" href="#"><i class="icon-remove"></i>删除</a></li>
+				<li><a id="edit-chart" href="#"><i class="icon-edit"></i>编辑图表</a></li>
+				<li class="divider"></li>
+				<li><a href="#">退出</a></li>
+			</ul>
+		</div>
+		<div class="btn-group">
+			<button class="btn dropdown-toggle" data-toggle="dropdown">
+				图表 <i class="icon-angle-down icon-on-right"></i>
+			</button>
+			<ul class="dropdown-menu">
+				<li><a id="set-background-image" href="#"><i class="icon-film"></i>设置背景</a></li>
+				<li><a id="generate-labels" href="#">生成标签</a></li>
+				<li class="divider"></li>
+				<li><a id="insert-label" href="#">插入标签</a></li>
+				<li><a id="insert-picture" href="#"><i class="icon-picture"></i>插入图片</a></li>
+				<li><a id="insert-note" href="#">插入文本</a></li>
+				<li><a id="insert-switch" href="#">插入开关</a></li>
+				<li class="divider"></li>
+				<li><a id="refresh-chart" href="#"><i class="icon-refresh"></i>刷新</a></li>
+				<li><a id="revert-chart" href="#"><i class="icon-undo"></i>恢复</a></li>
+				<li class="divider"></li>
+				<li><a id="close-chart" href="#">&times;关闭</a></li>
+				<li><a id="close-all-chart" href="#">全部关闭</a></li>
+				<li><a id="marshal-chart" href="#">MARSHAL</a></li>
+				<li><a id="unmarshal-chart" href="#">UNMARSHAL</a></li>
+			</ul>
+		</div>
+		<div class="btn-group">
+			<button type="button" class="btn btn-grey">
+				<i class="icon-only icon-align-left"></i>
+			</button>
+
+			<button type="button" class="btn btn-grey">
+				<i class="icon-only icon-align-center"></i>
+			</button>
+
+			<button type="button" class="btn btn-grey">
+				<i class="icon-only icon-align-right"></i>
+			</button>
+
+			<button type="button" class="btn btn-grey">
+				<i class="icon-only icon-align-justify"></i>
+			</button>
+		</div>
+
+		<div class="btn-group">
+			<button type="button" id="save-chart" class="btn">
+				<i class="icon-only icon-save"></i> 保存
+			</button>
+			<button type="button" id="save-all-chart" class="btn">
+				<i class="icon-only icon-save"></i> 全部保存
+			</button>
+		</div>
+		<div class="btn-group">
+			<button type="button" id="test-start-chart" class="btn">
+				<i class="icon-only icon-play"></i> 运行
+			</button>
+			<button type="button" id="test-stop-chart" class="btn">
+				<i class="icon-only icon-stop"></i> 停止
+			</button>
+		</div>
+	</div>
+
+	<div class="main-container" id="main-container">
+		<div class="main-container-inner">
+			<div class="sidebar" id="sidebar">
+				<div id="tree"></div>
+				<div id="sidebar-collapse" class="sidebar-collapse">
+					<i class="icon-double-angle-left"></i>
+				</div>
+			</div>
+			<div class="main-content">
+				<div class="page-content">
+					<div class="row">
+
+						<div id='chart-tab' class="widget-box">
+							<div class="widget-header">
+
+								<div class="widget-toolbar no-border">
+									<ul class="nav nav-tabs" id="myTab">
+										<!-- 										<li class="active"><a data-toggle="tab" href="#home"><button class="close closeTab">&times;</button>Home</a></li> -->
+
+										<!-- 										<li><a data-toggle="tab" href="#profile"><button class="close closeTab">&times;</button>Profile</a></li> -->
+
+										<!-- 										<li><a data-toggle="tab" href="#info"><button class="close closeTab">&times;</button>Info</a></li> -->
+									</ul>
+								</div>
+							</div>
+
+							<div class="widget-body">
+								<div class="widget-main padding-6">
+									<div class="tab-content">
+										<!-- 										<div id="home" class="tab-pane active"> -->
+										<!-- 											<p>Raw denim you probably haven't heard of them jean shorts Austin.</p> -->
+										<!-- 										</div> -->
+
+										<!-- 										<div id="profile" class="tab-pane"> -->
+										<!-- 											<p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.</p> -->
+										<!-- 										</div> -->
+
+										<!-- 										<div id="info" class="tab-pane"> -->
+										<!-- 											<p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table -->
+										<!-- 												readymade.</p> -->
+										<!-- 										</div> -->
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /.main-container-inner -->
+	</div>
+	<!-- /.main-container -->
+	<div class="btn-group btn-zoom-group">
+		<button class="btn btn-xs">放大</button>
+		<button class="btn btn-xs">缩小</button>
+		<button class="btn btn-xs">原始尺寸</button>
+	</div>
+
+
+	<div id="upload-form-modal" class="modal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="blue bigger title">上传图片</h4>
+				</div>
+				<div class="modal-body overflow-visible">
+					<div class="row">
+						<form id="upload-form" action="../../../chart/upload" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+							<input type="hidden" name="convert" value="true" /> <input type="hidden" id="background" value="false" />
+							<div class="form-group">
+								<label for="file" class="col-xs-12 col-sm-3 control-label no-padding-right"> 选择图片* </label>
+								<div class="col-xs-12 col-sm-6">
+									<input type="file" class="form-control" id="file" name="file" required>
+								</div>
+							</div>
+
+
+							<div data-percent="0%" class="progress progress-striped">
+								<div style="width: 0%;" class="progress-bar progress-bar-success"></div>
+							</div>
+							<div id="status"></div>
+						</form>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button class="btn btn-sm btn-cancel" data-dismiss="modal">
+						<i class="icon-remove"></i> 取消
+					</button>
+
+					<button class="btn btn-sm btn-primary btn-save">
+						<i class="icon-save"></i> 保存
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end upload-form-modal -->
+
+	<div id="datapoint-select-modal" class="modal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="blue bigger title"></h4>
+				</div>
+				<div class="modal-body overflow-visible">
+					<div class="row">
+						<div id="datapoint-tree"></div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button class="btn btn-sm btn-cancel" data-dismiss="modal">
+						<i class="icon-remove"></i> 取消
+					</button>
+
+					<button class="btn btn-sm btn-primary btn-ok-point">
+						<i class="icon-ok"></i> 确定
+					</button>
+
+					<button class="btn btn-sm btn-primary btn-ok-datapoint">
+						<i class="icon-ok"></i> 确定
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end datapoint-select-modal -->
+
+	<div id="chart-form-modal" class="modal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="blue bigger title">新增图表</h4>
+				</div>
+				<div class="modal-body overflow-visible">
+					<div class="row">
+						<form id="chart-form" action="#" method="post" class="form-horizontal" role="form">
+							<input type="hidden" name="id">
+							<div class="form-group">
+								<label for="name" class="col-xs-12 col-sm-3 control-label no-padding-right"> 名称* </label>
+								<div class="col-xs-12 col-sm-6">
+									<input type="text" class="form-control" id="name" name="name" required>
+								</div>
+							</div>
+
+							<div class="space-4"></div>
+							<div class="form-group">
+								<label for="type" class="col-xs-12 col-sm-3 control-label no-padding-right"> 类型* </label>
+								<div class="col-xs-12 col-sm-6">
+									<select class="form-control" name="heigh" id="heigh" required>
+										<option value="1">高压</option>
+										<option value="0">低压</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="space-4"></div>
+							<div class="form-group">
+								<label for="summary" class="col-xs-12 col-sm-3 control-label no-padding-right"> 描述 </label>
+								<div class="col-xs-12 col-sm-6">
+									<textarea class="form-control" name="summary" id="summary" disabled="disabled"></textarea>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button class="btn btn-sm btn-cancel" data-dismiss="modal">
+						<i class="icon-remove"></i> 取消
+					</button>
+
+					<button class="btn btn-sm btn-primary btn-save">
+						<i class="icon-save"></i> 保存
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end chart-form-modal -->
+
+</body>
+<script>
+	$(function() {
+		var chartDesign = new com.rrtms.system.ChartDesign();
+	});
+</script>
+</html>

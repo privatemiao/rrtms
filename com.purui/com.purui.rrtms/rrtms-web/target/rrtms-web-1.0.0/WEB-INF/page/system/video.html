@@ -1,0 +1,113 @@
+<html>
+<head>
+<style>
+body {
+	padding: 0;
+	margin: 0;
+}
+</style>
+
+<link rel="stylesheet" href="../../../resources/pace/js/themes/pace-theme-barber-shop.css" />
+<script data-pace-options='{ "restartOnRequestAfter": true, "ajax" : true }' src="../../../resources/pace/js/pace.js"></script>
+
+<link href="../../../resources/aceadmin/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../../../resources/aceadmin/css/jquery.gritter.css" />
+<link href="../../../resources/aceadmin/css/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" />
+
+<link rel="stylesheet" href="../../../resources/aceadmin/css/ace.min.css" />
+<link rel="stylesheet" href="../../../resources/aceadmin/css/ace-rtl.min.css" />
+<link rel="stylesheet" href="../../../resources/aceadmin/css/ace-skins.min.css" />
+<link rel="stylesheet" href="../../../resources/aceadmin/css/font-awesome.min.css" />
+<link rel="stylesheet" href="../../../resources/aceadmin/css/datepicker.css" />
+
+<link rel="stylesheet" href="../../../resources/dhtmlx/tree/dhtmlxtree_std.css" />
+
+<link rel="stylesheet" href="../../../resources/kendoui/styles/kendo.common.min.css" />
+<link rel="stylesheet" href="../../../resources/kendoui/styles/kendo.metro.min.css" />
+
+<link rel="stylesheet" href="../../../resources/rrtms/main.css" />
+
+<style>
+body, button, input, select, textarea, h1, h2, h3, h4, h5, h6 {
+	font-family: "Microsoft YaHei", Arial;
+}
+</style>
+
+<script src='../../../resources/aceadmin/js/jquery-2.0.3.min.js'></script>
+<script src="../../../resources/aceadmin/js/bootstrap.min.js"></script>
+<script src="../../../resources/aceadmin/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="../../../resources/aceadmin/js/bootbox.min.js"></script>
+<script src="../../../resources/aceadmin/js/jquery.gritter.min.js"></script>
+<script src="../../../resources/cookie/jquery.cookie.js"></script>
+<script src="../../../resources/dhtmlx/tree/dhtmlxtree_std.js"></script>
+
+<script src="../../../resources/kendoui/js/kendo.web.js"></script>
+<script src="../../../resources/kendoui/js/cultures/kendo.culture.zh-CN.min.js"></script>
+<script src="../../../resources/highcharts/js/highcharts.js"></script>
+<script src="../../../resources/highcharts/js/highcharts-more.js"></script>
+<script src="../../../resources/highcharts/js/modules/exporting.js"></script>
+
+<script src="../../../resources/aceadmin/js/date-time/bootstrap-datepicker.min.js"></script>
+<script src="../../../resources/aceadmin/js/date-time/locales/bootstrap-datepicker.zh-CN.js" charset="UTF-8"></script>
+
+<script src="../../../resources/rrtms/js/commons.js"></script>
+</head>
+<body>
+
+	<iframe id="ifr" width="100%" height="100%" frameborder="0"></iframe>
+	<div class="right-panel">
+		<div class="btn btn-app btn-xs btn-warning">
+			<i class="icon-desktop bigger-150"></i>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<ul id="urls" class="list-unstyled spaced2">
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		$(function() {
+			var url = window.location.href;
+			var code = url.substring(url.indexOf('/station/') + '/station/'.length, url.indexOf('/video'));
+
+			$.ajax({
+				url : '../../../system/station/' + code + '/videos',
+				error : handleError,
+				success : function(response) {
+					handleResult(response);
+					if (!response.push) {
+						return;
+					}
+
+					var buffer = [];
+					response.forEach(function(video) {
+						buffer.push('<li><i class="icon-circle green"></i> <a href="'+video.ip+'">' + video.videoName + '</a> </li>');
+					});
+					$('#urls').html(buffer.join(''));
+				}
+			});
+
+			$(document).off('click', '#urls a').on('click', '#urls a', function(e){
+				e.preventDefault();
+				var url = $(this).attr('href');
+				if (!url){
+					return;
+				}
+				$('#ifr').attr('src', 'http://' + url);
+			});
+
+			$(document).off('click', '.right-panel>div:first-child').on('click', '.right-panel>div:first-child', function() {
+				if ($(this).next().css('display') == 'none') {
+					$(this).parent().width(300);
+					$(this).next().show();
+				} else {
+					$(this).parent().width(51);
+					$(this).next().hide();
+				}
+			});
+		});
+	</script>
+</body>
+</html>

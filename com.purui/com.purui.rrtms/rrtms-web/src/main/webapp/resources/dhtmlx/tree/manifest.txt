@@ -1,0 +1,14 @@
+Skin: dhx_skyblue
+
+======== JS CODE =========
+./dhtmlxcommon.js
+../dhtmlxDataProcessor/codebase/dhtmlxdataprocessor.js
+../dhtmlxTree/codebase/dhtmlxtree.js
+../dhtmlxTree/codebase/ext/dhtmlxtree_dragin.js
+../dhtmlxTree/codebase/ext/dhtmlxtree_ed.js
+../dhtmlxTree/codebase/ext/dhtmlxtree_json.js
+../dhtmlxTree/codebase/ext/dhtmlxtree_start.js
+../dhtmlxDataStore/codebase/datastore.js
+
+======== CSS CODE ========
+../dhtmlxTree/codebase/dhtmlxtree.css

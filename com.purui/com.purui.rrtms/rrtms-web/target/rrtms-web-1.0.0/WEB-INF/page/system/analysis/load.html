@@ -1,0 +1,70 @@
+<style>
+#load-compare-form>div {
+	padding: 0 6px;
+}
+#compare-chart {
+	height: 300px;
+}
+</style>
+<div class="page-header">
+	<h1>负荷对比分析</h1>
+</div>
+<!-- /.page-header -->
+<div class="row">
+	<div class="col-xs-12">
+		<div class="col-sm-3">
+			<div id="compare-group" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-primary active"> <input type="radio" name="groupBy" value="area"> 区域对比
+				</label> <label class="btn btn-primary"> <input type="radio" name="groupBy" value="industry"> 行业对比
+				</label>
+			</div>
+			<div id="compare-tree"></div>
+		</div>
+		<div class="col-sm-9">
+			<div class="col-sm-12 no-padding">
+				<form id="compare-form">
+					<div class="input-group col-sm-3">
+						<select id="type" name="type" class="form-control">
+							<option value="day">按日对比</option>
+							<option value="month">按月对比</option>
+							<option value="year">按年对比</option>
+						</select>
+					</div>
+					<div class="input-group col-sm-3">
+						<input id="startDate" name="startDate" type="text" class="form-control date-picker" data-rel="tooltip" title="开始日期">
+					</div>
+					<div class="input-group col-sm-3">
+						<input id="endDate" name="endDate" type="text" class="form-control date-picker" data-rel="tooltip" title="结束日期">
+					</div>
+				</form>
+				<div class="input-group col-sm-3">
+					<button class="btn btn-primary btn-sm btn-okay">比对</button>
+				</div>
+			</div>
+			<div class="col-sm-12">
+				<div id="compare-chart"></div>
+			</div>
+			<div class="col-sm-12">
+				<div id="compare-grid"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="../../resources/rrtms/js/rrtms/system/analysis/LoadCompare.js"></script>
+
+
+<script>
+	$(function() {
+		sideMenu.setTitle([ '数据分析', '负荷对比分析' ]);
+		var loadCompare = new com.rrtms.system.analysis.LoadCompare();
+		$.clear = function() {
+			console.log('clear load compare page...');
+			if (loadCompare && loadCompare.destroy) {
+				loadCompare.destroy();
+				loadCompare = null;
+			}
+
+		};
+	});
+</script>

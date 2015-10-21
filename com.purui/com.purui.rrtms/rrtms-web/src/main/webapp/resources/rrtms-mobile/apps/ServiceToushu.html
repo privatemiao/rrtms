@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>服务投诉</title>
+    <link href="../css/mui.min.css" rel="stylesheet"/>
+    <script src="../js/mui.js"></script>
+    
+    <script type="text/javascript" src="../js/Math.uuid.js" ></script>
+    <script type="text/javascript" src="../js/pr_common.js" ></script>
+    <script type="text/javascript" src="../js/config.js" ></script>
+    <script type="text/javascript" src="../js/app.js" ></script>
+    <style>
+	.mui-control-content h3 {
+		padding-top: 100px;
+		text-align: center;
+	}
+	.mui-table h4,.mui-table h5,.mui-table .mui-h5,.mui-table .mui-h6,.mui-table p{
+        margin-top: 0;
+    }
+    .mui-table h4{
+        line-height: 21px;
+        font-weight: 500;
+    }
+
+    .mui-table .oa-icon{
+        position: absolute;
+        right:0;
+        bottom: 0;
+    }
+    .mui-table .oa-icon-star-filled{
+        color:#f14e41;
+    }
+</style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav">
+	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	<h1 class="mui-title">服务投诉</h1>
+</header>
+<div class="mui-content">
+	<div class="mui-content-padded">
+			<div class="mui-input-row">
+                <input type="number" class="mui-input-speech mui-input-clear" placeholder="服务工号" id="ServerID">
+            </div>
+            <div class="mui-input-row">
+                <input type="text" class="mui-input-speech mui-input-clear" placeholder="投诉类型" id="TypeName">
+            </div>
+            <div class="mui-input-row">
+                <input type="text" class="mui-input-speech mui-input-clear" placeholder="投诉内容" id="Content">
+            </div>
+            <div class="mui-input-row">
+                <textarea rows="5" placeholder="更详细的描述，我们会尽快处理，感谢您对我们服务的监督" id="Nodes"></textarea>
+            </div>
+            <div class="mui-content-padded">
+            <div class="mui-input-row">
+                <button class="mui-btn mui-btn-positive mui-btn-block" id="report">我要投诉</button>
+            </div>
+            </div>
+		</div>
+	</div>
+	<script>
+		          
+          function callback(response)
+          {
+          	var result = JSON.stringify(response);
+				if(result.indexOf("ERROR") >0)
+				{
+					showNjsView("错误","很遗憾，您提交的投诉内容无法完成!","确认");
+					
+				}
+				else
+				{
+					showNjsView("提示","恭喜您，您提交的投诉内容已成功入库!","谢谢");
+					document.getElementById("ServerID").value='';
+           			document.getElementById("TypeName").value='';
+           			document.getElementById("Content").value='';
+           			document.getElementById("Nodes").value='';
+				}
+				
+				//
+		   
+          }
+          
+          function ajax()
+          {
+          	var url=config.variables.mobile_url+'reportServer';
+				
+				 var currentuser= JSON.parse(plus.storage.getItem("user"));
+								
+	        var data={
+		         ServerID:document.getElementById("ServerID").value,
+		         TypeName:document.getElementById("TypeName").value,
+		         Content:document.getElementById("Content").value,
+		         Nodes:document.getElementById("Nodes").value,
+		         GUID:Math.uuid(),
+		         UserID:currentuser.securityUser.id,
+		         UserName:currentuser.name,
+		         Status:0
+	            };
+	            if(data.ServerID==undefined || data.ServerID =='')
+	            {
+	            	showNjsView("提示","服务工号不能为空!","确认");
+	            	deviceVibrate();
+	            	return;
+	            }
+	            if(data.TypeName==undefined || data.TypeName =='')
+	            {
+	            	showNjsView("提示","投诉类型不能为空!","确认");
+	            	deviceVibrate();
+	            	return;
+	            }
+	            if(data.Content==undefined || data.Content =='')
+	            {
+	            	showNjsView("提示","投诉内容不能为空!","确认");
+	            	deviceVibrate();
+	            	return;
+	            }
+	            mui.post(url,data,callback);
+          }
+          
+          
+          window.onload =function(){
+          	
+          	//
+          	document.getElementById("report").addEventListener('tap', function() {
+				ajax();
+				});
+			mui.init();
+			mui.plusReady(function(){
+				
+				//增加震动提示
+		    	if(window.plus){
+	            plusReady();
+                  }else{
+	            document.addEventListener("plusready",plusReady,false);
+                }
+          	
+				
+			});
+          };
+		
+		
+	</script>
+</body>
+</html>

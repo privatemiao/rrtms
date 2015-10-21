@@ -1,0 +1,284 @@
+<style>
+.grid-command {
+	padding: 0;
+	width: 50px;
+}
+
+.k-marquee {
+	z-index: 1041;
+}
+</style>
+<div class="page-header">
+	<h1>用户</h1>
+</div>
+<!-- /.page-header -->
+<div class="row">
+	<div class="col-xs-12">
+		<div id="toolbar" class="table-header"></div>
+		<div id="user-grid" role="grid"></div>
+	</div>
+</div>
+
+<div id="user-form-modal" class="modal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="blue bigger title">新增用户</h4>
+			</div>
+
+			<div class="modal-body overflow-visible">
+				<div class="row">
+					<form id="user-form" class="form-horizontal" role="form">
+						<input type="hidden" name="id" /> <input type="hidden" name="securityUser.id" /> <input type="hidden" name="company.id" />
+						<div class="form-group">
+							<label for="securityUser.loginId" class="col-xs-12 col-sm-3 control-label no-padding-right"> 登录名* </label>
+							<div class="col-xs-12 col-sm-6">
+								<input type="text" class="form-control" id="securityUser.loginId" name="securityUser.loginId" required>
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+
+						<div class="form-group">
+							<label for="securityUser.password" class="col-xs-12 col-sm-3 control-label no-padding-right"> 口令 </label>
+							<div class="col-xs-12 col-sm-6">
+								<input type="password" class="form-control" id="securityUser.password" name="securityUser.password">
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+
+						<div class="form-group">
+							<label for="repass" class="col-xs-12 col-sm-3 control-label no-padding-right"> 重复口令 </label>
+							<div class="col-xs-12 col-sm-6">
+								<input type="password" class="form-control" id="repass" name="repass">
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+
+						<div class="form-group">
+							<label for="roles" class="col-xs-12 col-sm-3 control-label no-padding-right"> 角色 </label>
+							<div class="col-xs-12 col-sm-6">
+								<select class="form-control" name="roles" id="roles" multiple="multiple"></select>
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+
+						<div class="form-group">
+							<label for="status" class="col-xs-12 col-sm-3 control-label no-padding-right"> 状态* </label>
+							<div class="col-xs-12 col-sm-6">
+								<select class="form-control" name="securityUser.status" id="securityUser.status" required>
+									<!-- AUDIT - 审核; NORMAL - 正常; FORBID - 禁用; DEPARTURE - 离职; PURGED - 已删除 -->
+									<option value="">请选择</option>
+									<option value="NORMAL">正常</option>
+									<option value="AUDIT">审核</option>
+									<option value="FORBID">禁用</option>
+									<option value="DEPARTURE">离职</option>
+									<option value="PURGED">已删除</option>
+								</select>
+							</div>
+						</div>
+
+						<hr>
+
+						<div class="form-group">
+							<label for="name" class="col-xs-12 col-sm-3 control-label no-padding-right"> 姓名* </label>
+							<div class="col-xs-12 col-sm-6">
+								<input type="text" class="form-control" id="name" name="name" required>
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+
+						<div class="form-group">
+							<label for="gender" class="col-xs-12 col-sm-3 control-label no-padding-right"> 性别* </label>
+							<div class="col-xs-12 col-sm-6">
+								<select class="form-control" name="gender" id="gender" required>
+									<option value="">请选择</option>
+									<option value="MALE">男</option>
+									<option value="FEMALE">女</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+
+						<div class="form-group">
+							<label for="birthday" class="col-xs-12 col-sm-3 control-label no-padding-right"> 生日 </label>
+							<div class="input-group col-xs-12 col-sm-6">
+								<input type="text" class="form-control date-picker" name="birthday" id="birthday"  data-date-format="yyyy-mm-dd" /> <span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
+								<span class="input-group-addon btn-clear-birthday"><i class="icon-only icon-trash"></i></span>
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+
+						<div class="form-group">
+							<label for="hireDate" class="col-xs-12 col-sm-3 control-label no-padding-right"> 雇用日期 </label>
+							<div class="input-group col-xs-12 col-sm-6">
+								<input type="text" class="form-control date-picker" name="hireDate" id="hireDate" data-date-format="yyyy-mm-dd" /> <span class="input-group-addon"><i class="icon-calendar bigger-110"></i></span>
+								<span class="input-group-addon btn-clear-hireDate"><i class="icon-only icon-trash"></i></span>
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+
+						<div class="form-group">
+							<label for="email" class="col-xs-12 col-sm-3 control-label no-padding-right"> 邮箱 </label>
+							<div class="col-xs-12 col-sm-6">
+								<input type="text" class="form-control" name="email" id="email" />
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+
+						<div class="form-group">
+							<label for="mobile" class="col-xs-12 col-sm-3 control-label no-padding-right"> 电话 </label>
+							<div class="col-xs-12 col-sm-6">
+								<input type="text" class="form-control" name="mobile" id="mobile" />
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+
+						<div class="form-group">
+							<label for="address" class="col-xs-12 col-sm-3 control-label no-padding-right"> 地址 </label>
+							<div class="col-xs-12 col-sm-6">
+								<input type="text" class="form-control" name="address" id="address" />
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+
+						<div class="form-group">
+							<label for="userType" class="col-xs-12 col-sm-3 control-label no-padding-right"> 用户类型* </label>
+							<div class="col-xs-12 col-sm-6">
+								<select type="text" class="form-control" name="userType" id="userType" required>
+									<!-- GOVERNMENT, ENTERPRISE, INTERNAL -->
+									<option value="">请选择</option>
+									<option value="GOVERNMENT">政府用户</option>
+									<option value="ENTERPRISE">企业用户</option>
+									<option value="INTERNAL">内部用户</option>
+									<option value="POWER">电力公司</option>
+									<option value="PROVIDER">服务商</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+						<div class="form-group">
+							<label for="company.name" class="col-xs-12 col-sm-3 control-label no-padding-right"> 公司 </label>
+							<div class="input-group col-xs-12 col-sm-6">
+								<input type="text" class="form-control" name="company.name" id="company.name" readonly /> <span class="input-group-addon btn-pop-company"><i class="icon-only icon-align-justify"></i></span> <span
+									class="input-group-addon btn-clear-company"><i class="icon-only icon-trash"></i></span>
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+						<div class="form-group">
+							<label for="stations" class="col-xs-12 col-sm-3 control-label no-padding-right"> 站点 </label>
+							<div class="col-xs-12 col-sm-6">
+								<div id="station-grid" style="height: 150px;"></div>
+								<div id="btn-pop-stations" style="position: absolute;">
+									<button class="close" type="button">&plus;</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<button class="btn btn-sm btn-primary btn-okay" data-dismiss="modal">
+					<i class="icon-ok"></i> 确定
+				</button>
+
+				<button class="btn btn-sm btn-primary btn-save">
+					<i class="icon-save"></i> 保存
+				</button>
+
+				<button class="btn btn-sm btn-cancel" data-dismiss="modal">
+					<i class="icon-remove"></i> 取消
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end user-form-modal -->
+
+<div id="company-modal" class="modal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="blue bigger">请选择公司</h4>
+			</div>
+
+			<div class="modal-body overflow-visible">
+				<div class="row">
+					<div id="company-grid" class="table-responsive" role="grid"></div>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<button class="btn btn-sm btn-primary btn-okay">
+					<i class="icon-ok"></i> 确定
+				</button>
+
+				<button class="btn btn-sm" data-dismiss="modal">
+					<i class="icon-remove"></i> 取消
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end company-modal -->
+
+<div id="station-modal" class="modal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="blue bigger">请选择站点</h4>
+			</div>
+
+			<div class="modal-body overflow-visible">
+				<div class="row">
+					<div><form action="#" id="grid-filter-form"><input type="text" name="param" placeholder="过滤"></form></div>
+					<div id="station-chooser-grid" class="table-responsive" role="grid"></div>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<button class="btn btn-sm btn-primary btn-okay">
+					<i class="icon-ok"></i> 确定
+				</button>
+
+				<button class="btn btn-sm" data-dismiss="modal">
+					<i class="icon-remove"></i> 取消
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end station modal -->
+
+<script src="resources/rrtms/js/rrtms/system/User.js"></script>
+<script>
+	$(function() {
+		sideMenu.setTitle([ '用户' ]);
+		sideMenu.showSearchPanel();
+		var user = new com.rrtms.system.User();
+
+		$.clear = function() {
+			console.log('clear user page...');
+			if (user && user.destroy) {
+				user.destroy();
+				user = null;
+			}
+		};
+	});
+</script>

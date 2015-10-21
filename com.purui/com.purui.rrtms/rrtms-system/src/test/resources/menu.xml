@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu>
+	<node id="com.purui.rrtms.dashboard" except="true" text="工作台（仪表盘）" type="MENU" css="icon-dashboard" url="dashboard" />
+	<node id="com.purui.rrtms.system.stationdist" except="true" text="站点分布" css="icon-desktop" type="MENU" url="system/station/showstationdistpage" />
+	<!-- <node id="com.purui.rrtms.chartmap" except="true" text="图表" type="MENU" css="icon-bar-chart" url="chartmap" /> -->
+	<node id="com.purui.rrtms.system.stationmanager" text="站点管理" css="icon-desktop" type="ACCORDION">
+		<node id="com.purui.rrtms.system.station" text="站点" type="MENU" url="system/station/showstationpage">
+			<node id="com.purui.rrtms.system.station.view" text="查看" type="OPERATE" desc="查看站点" />
+			<!-- <node id="com.purui.rrtms.system.station.new" text="新增" desc="新增站点" type="TOOLBAR" css="icon-file" url="system/station/newstation" method="newStation" /> -->
+			<!-- <node id="com.purui.rrtms.system.station.modify" text="编辑" desc="编辑站点" type="TOOLBAR" css="icon-edit" url="system/station/modifystation" method="modifyStation" /> -->
+			<!-- <node id="com.purui.rrtms.system.station.remove" text="删除" desc="删除站点" type="TOOLBAR" css="icon-trash" url="system/station/removestations" method="removeStation" /> -->
+			<node id="com.purui.rrtms.system.station.datapoint" text="监测点" desc="监测点维护" type="TOOLBAR" css="icon-trash" method="showDataPoint" />
+			<node id="com.purui.rrtms.system.station.chart.design" text="图表" desc="图表设计" type="TOOLBAR" css="icon-trash" method="showChartDesign" />
+		</node>
+	</node>
+	<node id="com.purui.rrtms.system.powerstopinfo" text="停电信息" css="icon-minus" type="ACCORDION">
+		<node id="com.purui.rrtms.system.powerstopinfo.line" text="线路停电" type="MENU" url="system/powerstopinfo/line" />
+		<node id="com.purui.rrtms.system.powerstopinfo.cuofeng" text="错峰停电" type="MENU" url="system/powerstopinfo/cuofeng" />
+	</node>
+	<node id="com.purui.rrtms.system.loadresponse" text="负荷响应" css="icon-minus" type="ACCORDION">
+		<node id="com.purui.rrtms.system.loadresponse.control" text="负荷控制指令" type="MENU" url="system/loadresponse/control" />
+		<node id="com.purui.rrtms.system.loadresponse.solution" text="负荷响应解决方案" type="MENU" url="system/loadresponse/solution" />
+	</node>
+	<node id="com.purui.rrtms.system.usermgr" text="用户管理" css="icon-user" type="ACCORDION">
+		<node id="com.purui.rrtms.system.user" text="用户" type="MENU" url="system/user/userpage">
+			<node id="com.purui.rrtms.system.user.view" text="查看" type="OPERATE" desc="查看用户" />
+			<node id="com.purui.rrtms.system.user.new" text="新增" type="TOOLBAR" desc="新增用户" css="icon-file" url="system/user/new" method="newUser" />
+			<node id="com.purui.rrtms.system.user.modify" text="编辑" type="TOOLBAR" desc="编辑用户" css="icon-edit" url="system/user/modify" method="modifyUser" />
+			<node id="com.purui.rrtms.system.user.remove" text="删除" type="TOOLBAR" desc="删除用户" css="icon-trash" url="system/user/remove" method="removeUser" />
+		</node>
+		<node id="org.mel.generic.security.role" text="角色" type="MENU" url="system/role/rolepage">
+			<node id="org.mel.generic.security.role.view" text="查看" type="OPERATE" desc="查看角色" />
+			<node id="org.mel.generic.security.role.new" text="新增" type="TOOLBAR" desc="新增角色" css="icon-file" url="system/role/new" method="newRole" />
+			<node id="org.mel.generic.security.role.modify" text="编辑" type="TOOLBAR" desc="编辑角色" css="icon-edit" url="system/role/modify" method="modifyRole" />
+			<node id="org.mel.generic.security.role.remove" text="删除" type="TOOLBAR" desc="删除角色" css="icon-trash" url="system/role/remove" method="removeRole" />
+		</node>
+	</node>
+	
+	<!-- <node id="com.purui.rrtms.system.station.chart.view" opener="true" text="图表" type="MENU" url="system/station/chartviewpage" /> -->
+
+</menu>

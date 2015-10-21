@@ -1,0 +1,31 @@
+=================================================
+----------------Object Template------------------
+=================================================
+window.generic = window.generic || {};
+
+generic.{ObjectName} = function(obj) {
+	$.extend(this, obj);
+
+	this.init();
+};
+
+generic.{ObjectName}.prototype = {
+	destroy : function() {
+		console.log('destroy ' + this.title);
+
+		if (this.ws && this.ws.destroy) {
+			this.ws.destroy();
+			this.ws = null;
+		}
+	},
+	init : function() {
+		console.log('init ' + this.title);
+	},
+	active : function() {
+		console.log('active ' + this.title);
+	},
+	stop : function() {
+		console.log('stop ' + this.title);
+		this.destroy();
+	}
+};

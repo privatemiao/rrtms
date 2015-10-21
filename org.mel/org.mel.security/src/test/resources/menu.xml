@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu>
+	<node id="com.purui.rrtms.dashboard" text="仪表盘" type="MENU" css="icon-dashboard" url="dashboard" />
+	<node id="com.purui.rrtms.system.usermgr" text="用户管理" css="icon-user" type="ACCORDION">
+		<node id="com.purui.rrtms.system.user" text="用户" type="MENU" url="system/user/userpage">
+			<node id="com.purui.rrtms.system.user.new" text="新增" type="TOOLBAR" desc="新增用户" css="icon-file" url="system/user/new" />
+			<node id="com.purui.rrtms.system.user.modify" text="编辑" type="TOOLBAR" desc="编辑用户" css="icon-edit" url="system/user/modify/" />
+			<node id="com.purui.rrtms.system.user.remove" text="删除" type="TOOLBAR" desc="删除用户" css="icon-trash" url="system/user/remove" />
+		</node>
+		<node id="org.mel.generic.security.role" text="角色" type="MENU" url="security/role/rolepage">
+			<node id="org.mel.generic.security.role.new" text="新增" type="TOOLBAR" desc="新增角色" css="icon-file" url="security/role/new" />
+			<node id="org.mel.generic.security.role.modify" text="编辑" type="TOOLBAR" desc="编辑角色" css="icon-edit" url="security/role/modify" />
+			<node id="org.mel.generic.security.role.remove" text="删除" type="TOOLBAR" desc="删除角色" css="icon-trash" url="security/role/remove" />
+		</node>
+	</node>
+	<node id="com.purui.rrtms.system.stationmanager" text="站点管理" type="ACCORDION">
+		<node id="com.purui.rrtms.system.station" text="站点" type="MENU" url="system/station/showstationpage">
+			<node id="com.purui.rrtms.system.station.new" text="新增" desc="新增站点" type="TOOLBAR" css="icon-file" url="system/station/newstation" />
+			<node id="com.purui.rrtms.system.station.modify" text="编辑" desc="编辑站点" type="TOOLBAR" css="icon-edit" url="system/station/modifystation" />
+			<node id="com.purui.rrtms.system.station.remove" text="删除" desc="删除站点" type="TOOLBAR" css="icon-trash" url="system/station/removestations" />
+		</node>
+	</node>
+</menu>

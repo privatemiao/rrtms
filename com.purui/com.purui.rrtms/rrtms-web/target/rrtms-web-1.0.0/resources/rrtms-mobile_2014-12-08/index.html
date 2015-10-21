@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>普瑞智能</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		
+		<script src="js/mui.js"></script>
+		<!--<script src="js/app.js"></script>-->
+		<!--<script src="js/update.js" type="text/javascript" charset="utf-8"></script>-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		
+	</head>
+	<body>
+		
+			
+		<header class="mui-bar mui-bar-nav">
+			<a id="info" class="mui-icon mui-icon-info-filled mui-pull-right" style="color: #999;"></a>
+			<a id="close" class="mui-icon mui-icon-close-filled mui-pull-left" style="color: #999;"></a>
+			<h1 class="mui-title">普瑞智能</h1>
+		</header>
+		<div class="mui-content">
+			
+		</div>
+				
+		
+		<script>
+		
+		window.onload = function(){
+			
+			document.getElementById('info').addEventListener('click', function() {
+				
+				mui.openWindow({url:'apps/info.html', id:'info'});
+				
+				
+			});	
+			
+			document.getElementById('close').addEventListener('click', function() {
+				
+				try{
+					switch ( plus.os.name ) {
+		              case "Android":
+					    plus.runtime.quit();
+					    break;
+					    case "iOS":
+					    plus.nativeUI.alert("亲,您的手机不支持关闭,按HOME退出!",null,'提示','谢谢');
+					    break;
+					}
+				}catch(e){
+					//TODO handle the exception
+					alert(e);
+				}
+				
+				
+			});	
+			
+			mui.init({
+				swipeBack : false,
+				subpages : [{
+					id : 'login',
+					url : 'apps/login.html',
+					styles : {
+						top : '48px',
+						bottom : 0,
+						bounce :'vertical'
+						//scrollIndicator : "none"
+					}
+				}]
+			});
+			
+			mui.plusReady(function() {
+				
+			});
+			
+		};//end window
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		</script>
+	</body>
+</html>
+

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<title></title>
+<script src="../js/mui.min.js"></script>
+<script src="../js/jquery-2.1.0.js"></script>
+<link href="../css/mui.min.css" rel="stylesheet" />
+<link href="../css/main.css" rel="stylesheet" />
+<script src="../js/knockout-3.2.0.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/generic.Realtime.js"></script>
+<script>
+	mui.init();
+</script>
+<style>
+</style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> <a class="mui-icon mui-icon-refresh mui-pull-right"></a>
+		<h1 class="mui-title" data-bind="with:point">
+			实时数据 - <span data-bind="text:name"></span>
+		</h1>
+	</header>
+	<div class="mui-content">
+		<div id="list-datapoints" class="mui-control-content mui-active">
+			<!-- 	ko with:point -->
+			<ul class="mui-table-view" data-bind="foreach:dataPoints">
+				<li class="mui-table-view-cell"><a href="#" data-bind="attr:{guid:guid, class:css}"><span data-bind="text:subTagType.name"></span>: <span data-bind="text:val"></span>&nbsp;<span data-bind="text:unit"></span></a></li>
+			</ul>
+			<!-- 		/ko -->
+		</div>
+	</div>
+
+	<script type="text/javascript" charset="utf-8">
+		window.onload = function() {
+			mui.plusReady(function() {
+				console.log('显示 realtime 页面');
+				var realtime = new generic.Realtime();
+				ko.applyBindings(realtime);
+				generic.showPage();
+			});
+		};
+	</script>
+</body>
+</html>

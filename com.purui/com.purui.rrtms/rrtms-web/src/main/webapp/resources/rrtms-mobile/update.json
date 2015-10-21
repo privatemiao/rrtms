@@ -1,0 +1,9 @@
+{
+    "appid":"RRTMS-MOBILE",
+    "Android":{
+    	"version":"1.1.4",
+    	"title":"RRTMS-MOBILE(1.1.4)版本更新",
+        "note":"bug fixed",
+    	"url":"http://222.92.76.46/resources/rrtms-mobile.apk"
+    }
+}

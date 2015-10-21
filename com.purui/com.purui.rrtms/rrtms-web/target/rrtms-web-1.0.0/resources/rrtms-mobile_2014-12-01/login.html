@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/main.css" />
+		<script src="js/common.js"></script>
+		<script src="js/update.js"></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">RRTMS-MOBILE(BETA)</h1>
+		</header>
+		<div class="mui-content">
+			<form id="frm-login" class="mui-input-group">
+				<div class="mui-input-row">
+					<label>用户名</label>
+					<input id="loginId" type="text" class="mui-input-clear" value="">
+				</div>
+				<div class="mui-input-row">
+					<label>口令</label>
+					<input id="password" type="password" class="mui-input-clear" value="">
+				</div>
+				<div class="mui-button-row">
+					<button class="mui-btn mui-btn-block">登录</button>
+				</div>
+			</form>
+		</div>
+
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+			window.onload = function() {
+				mui.plusReady(function() {
+					var d = JSON.parse(plus.storage.getItem('login'));
+					if (d){
+						document.querySelector("#loginId").value = d.loginId;
+						document.querySelector("#password").value = d.password;
+					}
+					document.querySelector("#frm-login").addEventListener("submit", function(e) {
+						e.preventDefault();
+
+						var data = {
+								loginId: document.querySelector("#loginId").value,
+								password: document.querySelector("#password").value
+							},
+							url = generic.variables.url.LOGIN;
+						generic.waiting.show();
+						generic.ajax({
+							url: url,
+							data: data,
+							final: function(response) {
+								if (response.hasOwnProperty("status") && response.status === "SUCCESS") {
+									console.log('登录成功！跳转页面！');
+									plus.storage.setItem('login', JSON.stringify(data));
+									mui.openWindow({
+										url: 'main.html',
+										show : {
+											autoShow : false
+										}
+									});
+								}
+							}
+						});
+						return false;
+					});
+				});
+
+
+			};
+		</script>
+	</body>

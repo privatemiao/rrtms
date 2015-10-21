@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="../js/mui.min.js"></script>
+    <link href="../css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../css/demo.css" />
+    <script src="../js/common.js"></script>
+   
+    <!--<script type="text/javascript" src="../js/ichart.1.2.min.js" ></script>-->
+    <script type="text/javascript" src="../js/dygraph-combined.js" ></script>
+    <style>
+    	.dygraph-title
+    	{
+    		font-size: 10pt;
+    	}
+    </style>
+   
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a  id="mybck" class="mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">历史趋势</h1>
+	</header>
+	<div class="mui-content">
+		
+		<div align="center">
+			 <h5>时间区域:<span id="timerange" class="mui-badge mui-badge-royal"></span>最大值: <span id="mxdata" class="mui-badge mui-badge-danger"></span>最小值: <span id="mindata" class="mui-badge mui-badge-success"></span></h5>
+		</div>
+		<div id="graphdiv" style="width: 100%;">
+			
+		</div>
+
+	</div>
+	<script>
+		mui.init();
+	
+		document.getElementById('mybck').addEventListener('click', function(){
+			//console.log('解除锁屏');
+			//alert('解除锁屏');
+			//plus.nativeUI.toast('解除锁屏!');
+			plus.screen.unlockOrientation();
+			mui.back();
+		});
+		mui.plusReady(function(){
+						
+			window.addEventListener('backbutton',function(){
+				
+				plus.screen.unlockOrientation();
+				mui.back();
+			});
+
+			
+			var dataPoint = JSON.parse(plus.storage.getItem('dataPoint'));
+			//alert(JSON.stringify(dataPoint));
+			var point = JSON.parse(plus.storage.getItem('currentPoint'));
+			
+			var code = point.currentId.split('_')[0];
+			var endDate = new Date();
+			var startDate = new Date(endDate.getTime() - 86400000);
+			var data = {
+			startDate : startDate,
+			endDate : endDate,
+			guid : dataPoint.guid
+		     };
+		    var url = generic.variables.url.DATAPOINT_HISTORY.replace('{code}', code);
+		    plus.nativeUI.showWaiting();
+		    generic.ajax({
+				url : url,
+				data : data,
+				final : function(response) {
+					
+					console.log('response>>' + JSON.stringify(response));
+					plus.nativeUI.closeWaiting();
+					//alert(JSON.stringify(response));
+					var labels = [], vals = [], count = 1;
+					 var gdata ='Date,Value\n';
+					response.forEach(function(e) {
+						//labels.push(dateTimeFormat2(new Date(e.atTime)));
+						// labels.push(count++);
+						//vals.push(parseFloat(e.tagValue.toFixed(2)));
+						gdata+=dateTimeFormat3(new Date(e.atTime))+','+parseFloat(e.tagValue.toFixed(2))+'\n';
+					});
+                   
+                   var chart = document.getElementById('graphdiv');
+                   //chart.setAttribute("width",plus.screen.resolutionWidth);
+                   chart.setAttribute('height',plus.screen.resolutionHeight);
+                    
+                    
+                   //alert(chart.getAttribute('height') +'' +plus.screen.resolutionHeight);
+                    //draw dygraphs
+                    var g = new Dygraph(
+                    	 chart,
+                    	 gdata,
+                    	 {
+            rollPeriod: 7,
+            customBars: false,
+            title: dataPoint.subTagType.name,
+            ylabel: dataPoint.subTagType.unit,
+            legend: 'always',
+            labelsSeparateLines: true,
+            labelsDivWidth: 100,
+            
+            labelsDivStyles: { 
+            'textalign': 'right', 
+            'background': 'none'},
+            showRangeSelector: true,
+            axes: {
+                x: {
+                  axisLabelFormatter: function(d, gran) {
+                    return Dygraph.zeropad(d.getDate())+"日"
+                         +Dygraph.zeropad(d.getHours()) + ":"
+                         +Dygraph.zeropad(d.getMinutes()); 
+                        
+                  }
+                }
+             },
+            drawCallback: function(me, initial) {
+            	 var minValue = me.yAxisRange()[0];
+                 var maxValue = me.yAxisRange()[1];
+                  var minDate = me.xAxisRange()[0];
+                  var maxDate = me.xAxisRange()[1];
+                document.getElementById("timerange").innerHTML = "" + dateTimeFormat4(new Date(minDate))+'-'+dateTimeFormat4(new Date(maxDate));
+            	document.getElementById("mxdata").innerHTML = "" + maxValue.toFixed(2);
+            	document.getElementById("mindata").innerHTML = "" + minValue.toFixed(2);
+            }
+          }   
+                    );
+			      
+                 
+	
+                   }//end final
+                  
+					
+			});//end ajax
+			
+	
+			
+		});//end plusready
+	</script>
+</body>
+</html>

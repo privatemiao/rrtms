@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>普瑞 - RRTMS - 下发指令详细信息</title>
+<meta name="description" content="overview &amp; stats" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="../../../resources/rrtms/main.css" />
+<link rel="stylesheet" href="../../../resources/pace/js/themes/pace-theme-barber-shop.css" />
+<script data-pace-options='{ "restartOnRequestAfter": true, "ajax" : true }' src="../../../resources/pace/js/pace.js"></script>
+
+<link href="../../../resources/aceadmin/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../../../resources/aceadmin/css/jquery.gritter.css" />
+<link href="../../../resources/aceadmin/css/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" />
+
+<link rel="stylesheet" href="../../../resources/aceadmin/css/ace.min.css" />
+<link rel="stylesheet" href="../../../resources/aceadmin/css/ace-rtl.min.css" />
+<link rel="stylesheet" href="../../../resources/aceadmin/css/ace-skins.min.css" />
+<link rel="stylesheet" href="../../../resources/aceadmin/css/font-awesome.min.css" />
+<link rel="stylesheet" href="../../../resources/aceadmin/css/datepicker.css" />
+
+<link rel="stylesheet" href="../../../resources/dhtmlx/tree/dhtmlxtree_std.css" />
+
+<link rel="stylesheet" href="../../../resources/kendoui/styles/kendo.common.min.css" />
+<link rel="stylesheet" href="../../../resources/kendoui/styles/kendo.metro.min.css" />
+
+
+
+
+<style>
+body,button,input,select,textarea,h1,h2,h3,h4,h5,h6 {
+	font-family: "Microsoft YaHei", Arial;
+}
+
+body {
+	background-color: #fff;
+	margin: 0;
+	padding: 0;
+}
+
+.space-4 {
+	min-height: 1px;
+	clear: both;
+}
+
+.popover {
+	z-index: 500020 !important;
+}
+</style>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-6">
+				<div class="widget-box transparent">
+					<div class="widget-header widget-header-flat">
+						<h4 class="lighter">负荷响应方案基本信息</h4>
+					</div>
+
+					<div class="widget-body">
+						<div class="widget-main no-padding">
+							<table class="table table-bordered table-striped">
+								<tbody>
+									<tr>
+										<td width="120px">全局编号</td>
+										<td id='td-guid'></td>
+									</tr>
+									<tr>
+										<td>控制区域</td>
+										<td id='td-area-name'></td>
+									</tr>
+									<tr>
+										<td>基准值数据日期</td>
+										<td id='td-base-day'></td>
+									</tr>
+									<tr>
+										<td>控制目标</td>
+										<td id='td-percent'></td>
+									</tr>
+									<tr>
+										<td>下发指令者</td>
+										<td id='td-user-name'></td>
+									</tr>
+									<tr>
+										<td>方案执行日期</td>
+										<td id='td-apply-day'></td>
+									</tr>
+									<tr>
+										<td>方案状态</td>
+										<td id='td-status'></td>
+									</tr>
+									<tr>
+										<td>下发指令时间</td>
+										<td id='td-insert-time'></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- /widget-main -->
+					</div>
+					<!-- /widget-body -->
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-6">
+				<!-- 完成率 -->
+				<div class="infobox infobox-blue2" style="margin-top: 40px; width: 250px!important;">
+					<div class="infobox-progress">
+						<div id='chart-percent' class="easy-pie-chart percentage" data-percent="42" data-size="46">
+							<span class="percent">42</span>%
+						</div>
+					</div>
+
+					<div class="infobox-data">
+						<span id="chart-percent-title" class="infobox-text">负荷控制目标完成率</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="space-4"></div>
+
+			<div class="col-xs-12 col-sm-12">
+				<div class="widget-box transparent">
+					<div class="widget-header widget-header-flat">
+						<h4 class="lighter">实时负荷情况</h4>
+					</div>
+
+					<div class="widget-body">
+						<div class="widget-main no-padding">
+							<div id='chart'></div>
+						</div>
+						<!-- /widget-main -->
+					</div>
+					<!-- /widget-body -->
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12">
+				<div class="tab-pane active" id="task-tab">
+					<h4 class="smaller lighter green">
+						<i class="icon-list"></i> 执行详细步骤
+					</h4>
+	
+					<ul class="item-list ui-sortable" id="tasks">
+						<!-- 										<li class="item-blue clearfix"><span class="lbl"> Adding skins</span><span class="pull-right">2014-12-12 12:12:11</span></li> -->
+					</ul>
+				</div>
+			</div>
+
+			<div class="space-4"></div>
+
+			<div class="col-xs-12 col-sm-12">
+				<div class="widget-box transparent">
+					<div class="widget-header widget-header-flat">
+						<h4 class="lighter">参与企业响应执行情况</h4>
+					</div>
+
+					<div class="widget-body">
+						<div id="response-info-grid"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="space-4"></div>
+
+			<div class="col-xs-12 col-sm-12">
+				<div class="widget-box transparent">
+					<div class="widget-header widget-header-flat">
+						<h4 class="lighter">预演方案与实施方案对比</h4>
+					</div>
+
+					<div class="widget-body">
+						<div id="compare-grid"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="../../../resources/aceadmin/js/jquery-2.0.3.min.js"></script>
+	<script src="../../../resources/aceadmin/js/bootstrap.min.js"></script>
+	<script src="../../../resources/aceadmin/js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="../../../resources/aceadmin/js/jquery.easy-pie-chart.min.js"></script>
+	<script src="../../../resources/highcharts/js/highcharts.js"></script>
+	<script src="../../../resources/highcharts/js/highcharts-more.js"></script>
+	<script src="../../../resources/aceadmin/js/bootbox.min.js"></script>
+	<script src="../../../resources/aceadmin/js/jquery.slimscroll.min.js"></script>
+	<script src="../../../resources/aceadmin/js/jquery.gritter.min.js"></script>
+
+
+	<script src="../../../resources/kendoui/js/kendo.web.min.js"></script>
+	<script src="../../../resources/rrtms/js/commons.js"></script>
+	<script src="../../../resources/rrtms/js/rrtms/component/WebSocket.js"></script>
+
+	<script src="../../../resources/rrtms/js/rrtms/system/loadresponse/Detail.js"></script>
+	<script>
+		$(function() {
+			var href = window.location.href, guid, index = href.indexOf('?');
+			if (index != -1) {
+				guid = href.substring(href.lastIndexOf('/') + 1, index);
+			} else {
+				guid = href.substring(href.lastIndexOf('/') + 1);
+			}
+			var detail = new com.rrtms.system.loadresponse.Detail(guid);
+		});
+	</script>
+</body>
+</html>

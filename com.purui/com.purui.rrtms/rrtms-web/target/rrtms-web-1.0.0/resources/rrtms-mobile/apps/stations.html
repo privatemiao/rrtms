@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<title></title>
+<link rel="stylesheet" href="../css/mui.min.css" />
+<link href="../css/main.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+<script src="../js/mui.min.js"></script>
+<script src="../js/jquery-2.1.0.js"></script>
+<script src="../js/knockout-3.2.0.js"></script>
+<script src="../js/common.js"></script>
+<script type="text/javascript" src="../js/app.js"></script>
+
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		<h1 class="mui-title">我的站点</h1>
+	</header>
+
+	<div class="mui-content">
+		<div id="list-station" class="mui-control-content mui-active">
+			<ul class="mui-table-view" data-bind="foreach:stations">
+				<li class="mui-table-view-cell"><a class="mui-navigate-right" href="#" data-bind="attr:{code:code}">
+						<h4>
+							<i class="fa fa-stop pull-left"></i><span data-bind="text:name"></span>
+						</h4>
+				</a></li>
+			</ul>
+		</div>
+	</div>
+
+
+	<script type="text/javascript" charset="utf-8">
+		window.onload = function() {
+
+			mui.init();
+			mui.plusReady(function() {
+
+				var user = JSON.parse(plus.storage.getItem('user'));
+
+				var Station = function(array) {
+					this.stations = ko.observableArray(array);
+				}
+
+				ko.applyBindings(new Station(user.stations));
+				checkStationStatus(user.stations);
+
+				function checkStationStatus(stations) {
+					stations.forEach(function(station) {
+						generic.ajax({
+							url : generic.variables.HOST_URL + '/system/station/' + station.code + '/run',
+							data : {
+								code : station.code
+							},
+							error : function(e) {
+								console.log(e.status + " - " + (e.statusText || e.message));
+							},
+							async : true,
+							final : function(response) {
+								console.log('response>>' + JSON.stringify(response));
+								if (response) {
+									if (response.runStatus === 1) {
+										if (new Date().getTime() - response.atTime < 60000) {
+											$('a[code=' + station.code + ']').find('.fa').removeClass('fa-play').removeClass('fa-stop').addClass('fa-play');
+											return;
+										}
+									}
+								}
+								$('a[code=' + station.code + ']').find('.fa').removeClass('fa-play').removeClass('fa-stop').addClass('fa-stop');
+							}
+						});
+					});
+				}
+
+				var anchors = document.querySelectorAll('#list-station a');
+				for (var i = 0; i < anchors.length; i++) {
+					anchors[i].addEventListener('tap', function(e) {
+						e.preventDefault();
+						//var href = this.getAttribute('href');
+
+						var code = this.getAttribute('code');
+						if (code) {
+							plus.storage.setItem('currentStation', (function() {
+								for (var i = 0; i < user.stations.length; i++) {
+									if (user.stations[i].code === code) {
+										return JSON.stringify(user.stations[i]);
+									}
+								}
+							})());
+							mui.openWindow({
+								url : 'StationDetail.html'
+							});
+						}
+					});
+				}
+			}); // mui.plusReady
+		};
+	</script>
+</body>
+</html>

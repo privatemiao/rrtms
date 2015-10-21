@@ -1,0 +1,497 @@
+<!doctype html>
+<html>
+<head>
+<title>RRTMS-MOBILE</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<link rel="stylesheet" href="jquery-mobile/jquery.mobile-1.4.3.min.css">
+<link rel="stylesheet" href="jquery-ui/jquery-ui.min.css">
+<link href="font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<style>
+#template {
+	display: none;
+}
+
+[data-role=content] {
+	padding: 0;
+}
+
+[data-role=listview] {
+	margin: 0 !important;
+}
+
+.controlgroup-textinput {
+	padding-top: .22em;
+	padding-bottom: .22em;
+}
+
+.ui-controlgroup, .ui-controlgroup-controls {
+	width: 100%;
+}
+
+#list-message .publisher>i {
+	padding-right: 20px;
+}
+
+#list-message .owner {
+	text-align: right;
+}
+
+#list-message .owner>i {
+	padding-left: 20px;
+}
+
+.ui-datepicker {
+	z-index: 11 !important;
+}
+
+[data-role=listview] .ui-checkbox {
+	float: left;
+	margin: 0;
+}
+
+[data-role=listview] .ui-checkbox label {
+	width: 50px;
+	height: 50px;
+	border-bottom: 0;
+	border-left: 0;
+	border-top: 0;
+	border-radius: 0;
+}
+
+#pop-publish{
+	display: none;
+}
+
+
+.easyPieChart {
+  position: relative;
+  text-align: center;
+}
+.easyPieChart canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+</style>
+</head>
+<body>
+	<div id="page-login" data-role="page">
+		<div data-role="header" data-position="fixed">
+<!-- 		<a id="btn-setting" class="ui-btn-left" data-icon="gear" data-transition="pop">设置</a> -->
+			<h1>RRTMS-MOBILE-BETA</h1>
+		</div>
+		<!-- /header -->
+		<div data-role="content">
+			<form id="frm-login" action="#">
+				<input type="text" name="loginId" id="loginId" placeholder="用户名" data-clear-btn="true"> <input type="password" name="password" id="password" placeholder="口令" data-clear-btn="true">
+				<button>登录</button>
+			</form>
+		</div>
+		<!-- /content -->
+		<div data-role="footer" data-position="fixed">
+			<h1>&nbsp;</h1>
+		</div>
+		<!-- /footer -->
+	</div>
+	<!-- /page -->
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+	<div id="page-home" data-role="page">
+		<div data-role="header" data-position="fixed">
+			<a id="btn-logout" class="ui-btn-right" data-icon="power" data-transition="flip">退出</a>
+			<h1>主页</h1>
+		</div>
+		<!-- /header -->
+		<div data-role="content">
+			<ul data-role="listview" data-inset="true" data-divider-theme="a">
+				<li id="area-info" data-role="list-divider"><i class="fa fa-th-list pull-left"></i>区域负荷信息</li>
+				<li class="area-info">吴江</li>
+				<li class="area-info">工业园区</li>
+				<li class="area-chart"><div id="home-area-chart"></div></li>
+				<li data-role="list-divider"><i class="fa fa-th-list pull-left"></i>系统运行信息</li>
+				<li>总接收数据：1000Mb</li>
+				<li>上报数据：500</li>
+				<li data-role="list-divider"><i class="fa fa-th-list pull-left"></i>子站信息</li>
+				<li>在线子站：100家</li>
+				<li>上报子站：80家</li>
+			</ul>
+		</div>
+		<!-- /content -->
+		<div data-role="footer" data-nav="#primary" data-position="fixed"></div>
+		<!-- /footer -->
+	</div>
+	<!-- /page -->
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+	<div id="page-station" data-role="page">
+		<div data-role="header" data-position="fixed">
+			<h1>站点</h1>
+		</div>
+		<!-- /header -->
+		<div data-role="content">
+			<ul id="list-station" data-role="listview" data-inset="true">
+			</ul>
+		</div>
+		<!-- /content -->
+		<div data-role="footer" data-nav="#primary" data-position="fixed"></div>
+		<!-- /footer -->
+	</div>
+	<!-- /page -->
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+	<div id="page-message" data-role="page">
+		<div data-role="header" data-position="fixed">
+			<a id="pop-publish" href="#" class="ui-btn-left" data-icon="gear" data-transition="pop">发表</a>
+			<h1>消息</h1>
+		</div>
+		<!-- /header -->
+		<div data-role="content">
+			<ul id="list-system-message" data-role="listview" data-split-icon="eye">
+				<li>
+					<a href="#">
+						<h3>停电通知</h3>
+						<p>2014-12-12 吴江线计划停电一个小时，用于清理外星人尸体。</p>
+						<p class="ui-li-aside"><strong>2014-09-22 16:59:12</strong></p>
+					</a>
+					<a class="message-pop-info">查看</a>
+				</li>	
+			</ul>
+		</div>
+		<!-- /content -->
+		<div data-role="footer" data-nav="#primary" data-position="fixed"></div>
+		<!-- /footer -->
+	</div>
+	<div id="page-message-dialog" data-role="page" data-dialog="true">
+		<div data-role="header" data-position="fixed">
+			<h1>消息</h1>
+		</div>
+		<!-- /header -->
+		<div data-role="content">
+			<input type="text" name="title" id="title" value="" placeholder="标题" data-clear-btn="true">
+			<textarea cols="40" rows="8" name="content" id="content" placeholder="内容"></textarea>
+			<button class="btn-publish ui-shadow ui-btn ui-corner-all">发布</button>
+			<button class="btn-cancel ui-shadow ui-btn ui-corner-all">取消</button>
+			<button class="btn-okay ui-shadow ui-btn ui-corner-all">确定</button>
+		</div>
+		<!-- /content -->
+	</div>
+	<!-- /page -->
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+	<div id="page-chat" data-role="page">
+		<div data-role="header" data-position="fixed">
+			<h1>聊天</h1>
+		</div>
+		<!-- /header -->
+		<div data-role="content">
+			<ul id="list-message" data-role="listview" data-inset="true">
+			</ul>
+		</div>
+		<form id="frm-message" action="#">
+			<input type="text" id="message" data-clear-btn="true">
+		</form>
+		<!-- /content -->
+		<div data-role="footer" data-nav="#primary" data-position="fixed"></div>
+		<!-- /footer -->
+	</div>
+	<!-- /page -->
+
+	<!-- ~~~~~~~~~~~~~~~~~~~sub page~~~~~~~~~~~~~~~~~~~~~~ -->
+	<div id="page-summary" data-role="page">
+		<div data-role="header" data-position="fixed">
+			<a href="#" class="back-to-station ui-btn-left ui-btn ui-icon-back ui-btn-icon-left" data-role="button" role="button">返回站点</a>
+			<h1>概要</h1>
+		</div>
+		<!-- /header -->
+		<div data-role="content">
+			<div id="summary-energy-chart"></div>
+			<div id="summary-load-chart"></div>
+			<div style="position: absolute; top: 0; right: 0; z-index: 20000;">
+				<div id="energy-of-month-chart" class="easy-pie-chart percentage pull-right" data-percent="0" data-size="42">
+					<span class="percent">0</span>%
+				</div>
+				<div class="info-data">0KW</div>
+			</div>
+		</div>
+		<!-- /content -->
+		<div data-role="footer" data-nav="#station-detail" data-position="fixed"></div>
+		<!-- /footer -->
+	</div>
+	<!-- /page -->
+
+	<div id="page-realtime" data-role="page">
+		<div data-role="header" data-position="fixed">
+			<a href="#" class="back-to-station ui-btn-left ui-btn ui-icon-back ui-btn-icon-left" data-role="button" role="button">返回站点</a>
+			<h1>实时数据</h1>
+		</div>
+		<!-- /header -->
+		<div data-role="content">
+			<ul id="list-point" data-role="listview" data-inset="true">
+
+			</ul>
+		</div>
+		<!-- /content -->
+		<div data-role="footer" data-nav="#station-detail" data-position="fixed"></div>
+		<!-- /footer -->
+	</div>
+	<!-- /page -->
+
+	<!-- ------------------------------------------------ -->
+
+	<div id="page-warning" data-role="page">
+		<div data-role="header" data-position="fixed">
+			<a href="#" class="back-to-station ui-btn-left ui-btn ui-icon-back ui-btn-icon-left" data-role="button" role="button">返回站点</a>
+			<a href="#page-warning-filter-dialog" class="ui-btn-right" data-icon="gear" data-transition="flip">过滤</a>
+			<h1>告警数据</h1>
+		</div>
+		<!-- /header -->
+		<div data-role="content">
+			<ul id="list-warn" data-role="listview" data-inset="true">
+
+			</ul>
+		</div>
+		<!-- /content -->
+		<div data-role="footer" data-nav="#station-detail" data-position="fixed"></div>
+		<!-- /footer -->
+	</div>
+	<!-- /page -->
+
+	<div id="page-warning-filter-dialog" data-role="page" data-dialog="true">
+		<div data-role="header">
+			<h1>过滤选项</h1>
+		</div>
+		<div data-role="content" class="ui-content" style="overflow-y: auto;">
+			<form id='frm-query-message' action="#">
+				<select name="warnType" id="warn-type" data-native-menu="false">
+				</select> <input class="datepicker" type="text" name="startDate" id="start-date" data-role="date" data-clear-btn="true"> <input class="datepicker" type="text" name="endDate" id="end-date"
+					data-role="date" data-clear-btn="true">
+				<button id="btn-query-warn" class="ui-btn ui-icon-search ui-btn-icon-left">搜索</button>
+			</form>
+		</div>
+	</div>
+
+	<!-- ------------------------------------------------ -->
+
+	<div id="page-indicator" data-role="page">
+		<div data-role="header" data-position="fixed">
+			<a href="#" class="back-to-station ui-btn-left ui-btn ui-icon-back ui-btn-icon-left" data-role="button" role="button">返回站点</a> <a href="#page-indicator-filter-dialog" class="ui-btn-right"
+				data-icon="gear" data-transition="flip">过滤</a>
+			<h1>数据对比-电力指标</h1>
+		</div>
+		<!-- /header -->
+		<div data-role="content">
+			<div id="chart-indicator"></div>
+		</div>
+		<!-- /content -->
+		<div data-role="footer" data-nav="#station-compare" data-position="fixed"></div>
+		<!-- /footer -->
+	</div>
+	<!-- /page -->
+
+	<div id="page-indicator-filter-dialog" data-role="page">
+		<div data-role="header">
+			<h1>过滤选项</h1>
+		</div>
+		<div data-role="content" class="ui-content" style="overflow-y: auto;">
+			<input class="datepicker" type="text" name="startDate" id="indicator-start-date" data-role="date" data-clear-btn="true" placeholder="开始日期"> <input class="datepicker" type="text"
+				name="endDate" id="indicator-end-date" data-role="date" data-clear-btn="true" placeholder="结束日期"> 监测点:&nbsp; <a href="#"
+				class="ui-btn ui-icon-plus ui-btn-icon-notext ui-corner-all ui-btn-inline">添加</a> <a href="#" class="ui-btn ui-icon-minus ui-btn-icon-notext ui-corner-all ui-btn-inline">删除</a>
+			<div data-role="controlgroup" id="my-controlgroup"></div>
+			<button class="btn-query ui-btn ui-icon-search ui-btn-icon-left">搜索</button>
+			<button class="btn-cancel ui-btn ui-btn-icon-left">取消</button>
+		</div>
+	</div>
+	<!-- /page -->
+
+	<!-- ------------------------------------------------ -->
+
+	<div id="page-energy" data-role="page">
+		<div data-role="header" data-position="fixed">
+			<a href="#" class="back-to-station ui-btn-left ui-btn ui-icon-back ui-btn-icon-left" data-role="button" role="button">返回站点</a>
+			<a href="#page-energy-filter" class="ui-btn-right" data-icon="gear" data-transition="flip">过滤</a>
+			<h1>数据对比-总能耗对比</h1>
+		</div>
+		<!-- /header -->
+		<div data-role="content">
+			<div id="chart-energy"></div>
+		</div>
+		<!-- /content -->
+		<div data-role="footer" data-nav="#station-compare" data-position="fixed"></div>
+		<!-- /footer -->
+	</div>
+	<!-- /page -->
+	<div id="page-energy-filter" data-role="page">
+		<div data-role="header">
+			<h1>过滤选项</h1>
+		</div>
+		<div data-role="content" class="ui-content" style="overflow-y: auto;">
+			 <div data-role="controlgroup" data-type="horizontal">
+		        <label>
+		        	<input type="radio" name="type" id="radio-choice-h-2a" value="day" data-format="yy-mm-dd" checked="checked">
+		        	按日
+		   		</label>
+		        <label>
+		        	<input type="radio" name="type" id="radio-choice-h-2b" value="month" data-format="yy-mm">
+		        	按月
+		       	</label>
+		        <label>
+		        	<input type="radio" name="type" id="radio-choice-h-2c" value="year" data-format="yy">
+		        	按年
+		       	</label>
+		    </div>
+			<input class="datepicker" type="text" name="startDate" id="energy-start-date" data-role="date" data-clear-btn="true" placeholder="开始日期"> 
+			<input class="datepicker" type="text" name="endDate" id="energy-end-date" data-role="date" data-clear-btn="true" placeholder="结束日期"> 
+			<button class="btn-query ui-btn ui-icon-search ui-btn-icon-left">搜索</button>
+			<button class="btn-cancel ui-btn ui-btn-icon-left">取消</button>
+		</div>
+	</div>
+
+	<!-- ------------------------------------------------ -->
+
+	<div id="page-load" data-role="page">
+		<div data-role="header" data-position="fixed">
+			<a href="#" class="back-to-station ui-btn-left ui-btn ui-icon-back ui-btn-icon-left" data-role="button" role="button">返回站点</a>
+			<a href="#page-load-filter" class="ui-btn-right" data-icon="gear" data-transition="flip">过滤</a>
+			<h1>数据对比-总负荷对比</h1>
+		</div>
+		<!-- /header -->
+		<div data-role="content">
+			<div id="chart-load"></div>
+		</div>
+		<!-- /content -->
+		<div data-role="footer" data-nav="#station-compare" data-position="fixed"></div>
+		<!-- /footer -->
+	</div>
+	<!-- /page -->
+	<div id="page-load-filter" data-role="page">
+		<div data-role="header">
+			<h1>过滤选项</h1>
+		</div>
+		<div data-role="content" class="ui-content" style="overflow-y: auto;">
+			 <div data-role="controlgroup" data-type="horizontal">
+		        <label>
+		        	<input type="radio" name="type-load" id="load-type-a" value="day" data-format="yy-mm-dd" checked="checked">
+		        	按日
+		   		</label>
+		        <label>
+		        	<input type="radio" name="type-load" id="load-type-b" value="month" data-format="yy-mm">
+		        	按月
+		       	</label>
+		        <label>
+		        	<input type="radio" name="type-load" id="load-type-c" value="year" data-format="yy">
+		        	按年
+		       	</label>
+		    </div>
+			<input class="datepicker" type="text" name="startDate" id="load-start-date" data-role="date" data-clear-btn="true" placeholder="开始日期"> 
+			<input class="datepicker" type="text" name="endDate" id="load-end-date" data-role="date" data-clear-btn="true" placeholder="结束日期"> 
+			<button class="btn-query ui-btn ui-icon-search ui-btn-icon-left">搜索</button>
+			<button class="btn-cancel ui-btn ui-btn-icon-left">取消</button>
+		</div>
+	</div>
+
+	<!-- ~~~~~~~~~~~~~~~~~~~template~~~~~~~~~~~~~~~~~~~~~~ -->
+	<div id="template">
+		<div data-role="navbar" id="primary">
+			<ul>
+				<li><a href="#page-home" data-obj="Home" data-icon="home" data-transition="none">主页</a></li>
+				<li><a href="#page-station" data-obj="Station" data-icon="grid" data-transition="none">站点</a></li>
+				<li><a href="#page-message" data-obj="Message" data-icon="mail" data-transition="none">消息</a></li>
+				<li><a href="#page-chat" data-obj="Chat" data-icon="comment" data-transition="none">聊天</a></li>
+			</ul>
+		</div>
+
+		<div data-role="navbar" id="station-detail">
+			<ul>
+				<li><a href="#page-summary" data-cache="false" data-obj="Summary" data-icon="home" data-transition="none">概要</a></li>
+				<li><a href="#page-realtime" data-cache="false" data-obj="Realtime" data-icon="home" data-transition="none">实时数据</a></li>
+				<li><a href="#page-warning" data-cache="false" data-obj="Warning" data-icon="alert" data-transition="none">告警</a></li>
+				<li><a href="#page-indicator" data-cache="false" data-obj="Indicator" data-icon="mail" data-transition="slidedown">数据对比</a></li>
+			</ul>
+		</div>
+
+		<div data-role="navbar" id="station-compare">
+			<ul>
+				<li><a href="#page-indicator" data-cache="false" data-obj="Indicator" data-icon="grid" data-transition="none">电力指标</a></li>
+				<li><a href="#page-energy" data-cache="false" data-obj="Energy" data-icon="grid" data-transition="none">总能耗对比</a></li>
+				<li><a href="#page-load" data-cache="false" data-obj="Load" data-icon="grid" data-transition="none">总负荷对比</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div id="point-selector" data-role="page" data-dialog="true">
+		<div data-role="header">
+			<h1>请选择</h1>
+		</div>
+		<div data-role="content" class="ui-content" style="overflow-y: auto;">
+			<ul data-role="listview">
+				<li><a href='#'>1111</a></li>
+				<li><a href='#'>2222</a></li>
+				<li><a href='#'>3333</a></li>
+				<li><a href='#'>4444</a></li>
+			</ul>
+		</div>
+		<div data-role="footer">
+			<div data-role="navbar">
+				<ul>
+					<li><button id="btn-okay" class="ui-btn" style="width: 100%;">确定</button></li>
+					<li><button id="btn-cancel" class="ui-btn" style="width: 100%;">取消</button></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+<!-- 	<script src="http://192.168.1.244:8888/target/target-script-min.js#anonymous"></script> -->
+
+	<script src="cordova.js"></script>
+
+	<script src="jquery-mobile/jquery-2.0.3.min.js"></script>
+	<script src="jquery-ui/jquery-ui.min.js"></script>
+	<script src="jquery-mobile/jquery.mobile-1.4.3.js"></script>
+
+	<script src="highstock/highstock.js"></script>
+	
+	<script src="jquery-easy-pie-chart/jquery.easy-pie-chart.min.js"></script>
+
+	<script src="js/common.js"></script>
+	<script src="js/generic.service.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/generic.component.WebSocket.js"></script>
+	<script src="js/generic.Home.js"></script>
+	<script src="js/generic.Station.js"></script>
+	<script src="js/generic.Summary.js"></script>
+	<script src="js/generic.Realtime.js"></script>
+	<script src="js/generic.Warning.js"></script>
+	<script src="js/generic.Chat.js"></script>
+	<script src="js/generic.Compare.js"></script>
+	<script src="js/generic.Analysis.js"></script>
+	<script src="js/generic.Indicator.js"></script>
+	<script src="js/generic.Energy.js"></script>
+	<script src="js/generic.Load.js"></script>
+	<script src="js/generic.Message.js"></script>
+
+	<script src="js/generic.Indicator.js"></script>
+	<script src="js/generic.pointSelector.js"></script>
+
+	<script>
+		document.onreadystatechange = function() {
+			if (document.readyState === 'complete') {
+				var footers = $('div[data-role="footer"]');
+				$.each(footers, function(key, val) {
+					if ($(this).attr('data-nav')) {
+						$(this).empty().append($('#template ' + $(this).attr('data-nav')).clone(true));
+					}
+				});
+
+				$('#page-login').find('#loginId').focus();
+				init();
+				console.log('2014-09-11 13:44');
+			}
+		};
+	</script>
+</body>
+</html>

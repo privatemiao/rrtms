@@ -1,0 +1,114 @@
+<style>
+#area-map {
+	height: 200px;
+	background-color: #e0e0e0;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+.space-4 {
+	clear: both;
+}
+</style>
+<div class="page-header">
+	<h1>负荷控制指令</h1>
+</div>
+<!-- /.page-header -->
+<div class="row">
+	<div class="col-sm-5">
+		<div id="area-map"></div>
+	</div>
+	<div class="col-sm-7">
+		<div class="row">
+			<form id="load-control-form">
+				<div class="input-group col-xs-12 col-sm-6">
+					<span class="input-group-addon"> <i class="icon-calendar bigger-110"></i>
+					</span><input type="number" id="baseDays" name="baseDays" value="" data-rel="tooltip" placeholder="负荷响应基准值取值范围" title="负荷响应基准值取值范围" min="0" max="10"
+						data-placement="bottom" class="form-control"><span class="input-group-addon"> 天 </span>
+				</div>
+
+				<div class="space-4"></div>
+
+
+				<div class="input-group col-xs-12 col-sm-6">
+					<input type="text" id="startDate" name="startDate" class="form-control date-picker" placeholder="开始日期" data-rel="tooltip" title="开始日期"> <span
+						class="input-group-addon"> <i class="icon-calendar bigger-110"></i></span> <span class="input-group-addon"> <i
+						class="icon-remove bigger-110"></i>
+					</span>
+				</div>
+
+				<div class="input-group col-xs-12 col-sm-6">
+					<input type="text" id="endDate" name="endDate" class="form-control date-picker" placeholder="截止日期" data-rel="tooltip" title="截止日期"> <span
+						class="input-group-addon"> <i class="icon-calendar bigger-110"></i></span> <span class="input-group-addon"> <i
+						class="icon-remove bigger-110"></i>
+					</span>
+				</div>
+
+				<div class="space-4"></div>
+
+				<div class="col-xs-12 col-sm-6 no-padding">
+					<div class="input-group col-xs-7 col-sm-7">
+						<input type="text" id="applyStartDate" name="applyStartDate" class="form-control date-picker" placeholder="指令开始日期" data-rel="tooltip"
+							title="指令开始日期"><span class="input-group-addon"> <i class="icon-calendar bigger-110"></i></span> <span class="input-group-addon">
+							<i class="icon-remove bigger-110"></i>
+					</div>
+					<div class="input-group col-xs-5 col-sm-5 bootstrap-timepicker">
+						<input type="text" id="applyStartTime" name="applyStartTime" class="form-control time-picker" placeholder="指令开始时间" data-rel="tooltip"
+							title="指令开始时间"> <span class="input-group-addon"> <i class="icon-time bigger-110"></i>
+						</span>
+					</div>
+				</div>
+
+				<div class="col-xs-12 col-sm-6 no-padding">
+					<div class="input-group col-xs-7 col-sm-7 ">
+						<input type="text" id="applyEndDate" name="applyEndDate" class="form-control date-picker" placeholder="指令截止日期" data-rel="tooltip" title="指令截止日期">
+						<span class="input-group-addon"> <i class="icon-calendar bigger-110"></i></span> <span class="input-group-addon"> <i
+							class="icon-remove bigger-110"></i>
+						</span>
+					</div>
+					<div class="input-group col-xs-5 col-sm-5  bootstrap-timepicker">
+						<input type="text" id="applyEndTime" name="applyEndTime" class="form-control time-picker" placeholder="指令截止时间" data-rel="tooltip" title="指令截止时间">
+						<span class="input-group-addon"> <i class="icon-time bigger-110"></i>
+						</span>
+					</div>
+				</div>
+
+				<div class="space-4"></div>
+
+				<div class="input-group col-xs-12 col-sm-6">
+					<input type="number" min="0" max="100" step="1" id="percent" name="percent" data-rel="tooltip" placeholder="负荷控制目标（1~100）" title="负荷控制目标（1~100）"
+						data-placement="bottom" class="form-control"><span class="input-group-addon"> % </span>
+				</div>
+			</form>
+			<div class="input-group col-xs-12 col-sm-3">
+				<button class="btn btn-primary btn-test">评估</button>
+			</div>
+			<div class="input-group col-xs-12 col-sm-3">
+				<button class="btn btn-primary btn-okay">下发指令</button>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="col-sm-12">
+		<div id="station-grid"></div>
+	</div>
+</div>
+
+<script src='resources/rrtms/js/rrtms/system/loadresponse/Control.js'></script>
+
+<script>
+	$(function() {
+		sideMenu.setTitle([ '负荷响应', '负荷控制指令' ]);
+
+		var control = new com.rrtms.system.loadresponse.Control();
+
+		$.clear = function() {
+			console.log('clear control page.');
+			if (control && control.destroy) {
+				control.destroy();
+				control = null;
+			}
+		};
+	});
+</script>

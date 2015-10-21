@@ -1,0 +1,194 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+<meta charset="UTF-8">
+<link href="../../../resources/aceadmin/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../../../resources/aceadmin/css/jquery.gritter.css" />
+<link href="../../../resources/aceadmin/css/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" />
+
+
+
+<link rel="stylesheet" href="../../../resources/aceadmin/css/ace.min.css" />
+<link rel="stylesheet" href="../../../resources/aceadmin/css/ace-rtl.min.css" />
+<link rel="stylesheet" href="../../../resources/aceadmin/css/ace-skins.min.css" />
+<link rel="stylesheet" href="../../../resources/aceadmin/css/font-awesome.min.css" />
+
+<link rel="stylesheet" href="../../../resources/dhtmlx/tree/dhtmlxtree_std.css" />
+
+<link rel="stylesheet" href="../../../resources/kendoui/styles/kendo.common.min.css" />
+<link rel="stylesheet" href="../../../resources/kendoui/styles/kendo.metro.min.css" />
+
+<SCRIPT src="../../../../resources/draw2d/jquery-1.8.1.min.js"></SCRIPT>
+<script src="../../../resources/aceadmin/js/bootstrap.min.js"></script>
+<script src="../../../resources/aceadmin/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="../../../resources/aceadmin/js/bootbox.min.js"></script>
+<script src="../../../resources/aceadmin/js/jquery.gritter.min.js"></script>
+<script src="../../../resources/cookie/jquery.cookie.js"></script>
+<script src="../../../resources/dhtmlx/tree/dhtmlxtree_std.js"></script>
+
+<script src="../../../resources/kendoui/js/kendo.web.min.js"></script>
+
+<script src="../../../resources/rrtms/js/commons.js"></script>
+
+<script src="../../../resources/rrtms/js/rrtms/system/chartdesign/PointTree.js"></script>
+<script src="../../../resources/rrtms/js/rrtms/component/Canvas.js"></script>
+<script src="../../../resources/rrtms/js/rrtms/component/WebSocket.js"></script>
+<script src="../../../resources/rrtms/js/rrtms/system/chartview/ChartView.js"></script>
+
+
+<SCRIPT src="../../../../resources/draw2d/shifty.js"></SCRIPT>
+<SCRIPT src="../../../../resources/draw2d/raphael.js"></SCRIPT>
+<SCRIPT src="../../../../resources/draw2d/jquery-ui-1.8.23.custom.min.js"></SCRIPT>
+<SCRIPT src="../../../../resources/draw2d/jquery.layout.js"></SCRIPT>
+<SCRIPT src="../../../../resources/draw2d/jquery.autoresize.js"></SCRIPT>
+<SCRIPT src="../../../../resources/draw2d/jquery-touch_punch.js"></SCRIPT>
+<SCRIPT src="../../../../resources/draw2d/jquery.contextmenu.js"></SCRIPT>
+<SCRIPT src="../../../../resources/draw2d/rgbcolor.js"></SCRIPT>
+<SCRIPT src="../../../../resources/draw2d/canvg.js"></SCRIPT>
+<SCRIPT src="../../../../resources/draw2d/Class.js"></SCRIPT>
+<SCRIPT src="../../../../resources/draw2d/draw2d.js"></SCRIPT>
+<SCRIPT src="../../../../resources/draw2d/Switch.js"></SCRIPT>
+
+<style>
+.col-sm-4 {
+	background-color: #fee;
+}
+
+.col-sm-8 {
+	background-color: #efe;
+}
+
+.page-content {
+	padding-bottom: 10px;
+}
+
+.widget-toolbar {
+	float: left;
+}
+
+.nav>li .close {
+	serializeObject margin: -2px 0 0 10px;
+	font-size: 18px;
+}
+
+.page-content {
+	padding-top: 0;
+}
+
+.widget-box {
+	margin-top: 0;
+}
+
+.tab-content {
+	height: 250px;
+	padding: 0;
+	overflow: auto;
+}
+
+#canvas-wrapper {
+	height: 250px;
+	padding: 0;
+	overflow: auto;
+	position: relative;
+}
+
+#canvas {
+	padding: 0;
+	width: 2500px;
+	height: 2500px;
+	background-image: url("../../../resources/draw2d/background-chart.png");
+	height: 2500px;
+	display: block;
+}
+
+.btn-group {
+	position: absolute;
+}
+.space-4 {
+	clear: both;
+}
+</style>
+</head>
+<body>
+	<div class="main-container" id="main-container">
+		<div class="main-container-inner">
+			<div class="sidebar" id="sidebar">
+				<div id="tree"></div>
+				<div id="sidebar-collapse" class="sidebar-collapse">
+					<i class="icon-double-angle-left"></i>
+				</div>
+			</div>
+			<div class="main-content">
+				<div class="page-content">
+					<div class="row">
+						<div id="canvas-wrapper">
+							<div id="canvas"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /.main-container-inner -->
+	</div>
+	<!-- /.main-container -->
+	<div class="btn-group">
+		<button class="btn btn-xs">放大</button>
+		<button class="btn btn-xs">缩小</button>
+		<button class="btn btn-xs">原始尺寸</button>
+	</div>
+
+
+
+	<!-- switch trigger -->
+	<div id="switch-trigger-modal-form" class="modal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="blue bigger">分/合闸操作</h4>
+				</div>
+
+				<div class="modal-body overflow-visible">
+					<form>
+						<div class="row">
+							<input type="hidden" name="code"> <input type="hidden" name="tagId">
+							<div class="input-group col-xs-12 col-sm-12">
+								当前状态：<span id='status'></span>
+							</div>
+							<div class="space-4"></div>
+							<div class="input-group col-xs-12 col-sm-12">
+								<select class="form-control" name="operate">
+									<option value="0">分闸</option>
+									<option value="1">合闸</option>
+								</select>
+							</div>
+							<div class="space-4"></div>
+							<div class="input-group col-xs-12 col-sm-12">
+								<input class="form-control" type="text" name="password" placeholder="口令">
+							</div>
+							<div class="space-4"></div>
+							<div class="input-group col-xs-12 col-sm-12">
+								<textarea class="form-control" name="note" placeholder="备注"></textarea>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+
+					<button class="btn btn-sm btn-primary btn-okay">下发</button>
+
+					<button class="btn btn-sm btn-cancel" data-dismiss="modal">
+						<i class="icon-remove"></i> 取消
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end switch trigger -->
+</body>
+<script>
+	$(function() {
+		$.chartView = new com.rrtms.system.ChartView();
+	});
+</script>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<title></title>
+<script src="../js/mui.min.js"></script>
+<script src="../js/common.js"></script>
+<link href="../css/mui.min.css" rel="stylesheet" />
+<link href="../css/main.css" />
+<script type="text/javascript" src="../js/app.js"></script>
+<!--<script type="text/javascript" src="../js/update.js" ></script>-->
+
+<script>
+	mui.init();
+</script>
+
+</head>
+
+<body>
+	<div class="mui-content">
+
+
+
+		<div class="mui-card">
+			<div class="mui-content-padded">
+
+				<div class="mui-input-row">
+					<input id="loginId" type="text" class="mui-input-clear" placeholder="用户名称" value="">
+				</div>
+				<div class="mui-input-row">
+
+					<input id="password" type="password" class="mui-input-clear" placeholder="登录密码" value="">
+				</div>
+				<div class="mui-input-row mui-checkbox">
+					<label>下次自动登录</label> <input name="checkbox1" type="checkbox" id="saveid">
+				</div>
+				<div class="mui-input-row">
+					<button class="mui-btn mui-btn-positive mui-btn-block" id="login">登录系统</button>
+				</div>
+
+				<div class="mui-input-row">
+					<button class="mui-btn mui-btn-positive mui-btn-block" id="anymore">游客登录</button>
+				</div>
+
+			</div>
+			<h5 align="center">
+				<span> 版权所有@苏州普瑞智能综合服务有限公司</span>
+			</h5>
+		</div>
+
+	</div>
+
+	<script type="text/javascript" charset="utf-8">
+		function login() {
+			try {
+				var data = {
+					loginId : document.getElementById('loginId').value,
+					password : document.getElementById("password").value,
+					clientId : plus.push.getClientInfo().clientid,
+					devType : mui.os.ios ? 'ios' : 'android'
+				},
+
+				url = generic.variables.url.LOGIN;
+
+				generic.ajax({
+					url : url,
+					data : data,
+					final : function(response) {
+						if (response.hasOwnProperty("status") && response.status === "SUCCESS") {
+							console.log('登录成功！跳转页面！');
+							mui.openWindow({
+								url : 'main.html',
+								id : 'main'
+							});
+						}
+					}
+				});
+
+			} catch (e) {
+				alert(e);
+			}
+
+		};
+
+		window.onload = function() {
+
+			document.getElementById('login').addEventListener('click', function() {
+
+				login();
+			});
+
+			document.getElementById('anymore').addEventListener('click', function() {
+				document.getElementById("loginId").value = 'demo';
+				document.getElementById("password").value = 'demo';
+				login();
+			});
+
+			mui.plusReady(function() {
+
+				try {
+					var currentuser = JSON.parse(plus.storage.getItem("user"));
+					if (currentuser == undefined || currentuser == '') {
+						var ck = document.getElementById("saveid").checked = false;
+					} else {
+						document.getElementById("loginId").value = currentuser.securityUser.loginId;
+						document.getElementById("password").value = currentuser.securityUser.password;
+						document.getElementById("saveid").checked = true;
+					}
+				} catch (e) {
+					//TODO handle the exception
+					console.log("error @ login" + e);
+				}
+
+				plus.navigator.closeSplashscreen();
+				//首页返回键处理
+				//处理逻辑：1秒内，连续两次按返回键，则退出应用；
+				var first = null;
+				plus.key.addEventListener('backbutton', function() {
+					//首次按键，提示‘再按一次退出应用’
+					if (!first) {
+						first = new Date().getTime();
+						mui.toast('再按一次退出应用');
+						setTimeout(function() {
+							first = null;
+						}, 1000);
+					} else {
+						if (new Date().getTime() - first < 1000) {
+							plus.runtime.quit();
+						}
+					}
+				}, false);
+
+			});
+
+		};
+	</script>
+</body>

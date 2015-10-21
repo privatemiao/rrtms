@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/main.css" rel="stylesheet" />
+		<script src="js/knockout-3.2.0.js"></script>
+		<script src="js/Chart.min.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/generic.Home.js"></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<a class="mui-icon mui-icon-refresh mui-pull-right"></a>
+			<h1 class="mui-title">主页</h1>
+		</header>
+		<div class="mui-content">
+			<h4><span class="mui-icon mui-icon-chatboxes"></span>区域总负荷 <span data-bind="text:totalLoad"  class="mui-badge mui-badge-primary">789955 Kw</span></h4>
+			<div class="mui-control-content mui-active">
+				<ul class="mui-table-view" data-bind="foreach: stations">
+					<li class="mui-table-view-cell">
+						<p>
+							<span data-bind="text:areaName"></span>: <span class="mui-badge mui-badge-primary" data-bind="text: loadData.realtimeSumValueStr">12528 Kw</span>
+						</p>
+					</li>
+				</ul>
+			</div>
+			<h4><span class="mui-icon mui-icon-paperclip"></span></span>区域负荷占比</h4>
+			<div id="chart-holder" style="width: 100%; background-color: #fff;position: relative;">
+				<canvas id="chart" width="400" height="400"></canvas>
+			</div>
+			<h4><span class="mui-icon mui-icon-paperclip"></span></span>系统运行信息<span class="mui-badge mui-badge-purple" data-bind="text:stationCount">102 家</span></h4>
+			<div id="systemRunInfo" class="mui-control-content mui-active">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+<!-- 					rawDataInputSize -->
+						<p>平台接收数据:<span class="mui-badge mui-badge-purple" data-bind="text:rawDataInputSize">4560 MB</span>
+						</p>
+					</li>
+
+					<li class="mui-table-view-cell">
+<!-- 					rawEnergyReportSize -->
+						<p>上报能源中心:<span class="mui-badge mui-badge-purple" data-bind="text:rawEnergyReportSize">4560 MB</span>
+						</p>
+					</li>
+
+					<li class="mui-table-view-cell">
+<!-- 					onlineStationCount -->
+						<p>在线子站:<span class="mui-badge mui-badge-purple" data-bind="text:onlineStationCount">45 家 98%</span>
+						</p>
+					</li>
+
+					<li class="mui-table-view-cell">
+<!-- 					energyEnableCount -->
+						<p>能源接入:<span class="mui-badge mui-badge-purple" data-bind="text:energyEnableCount">42 家 87%</span>
+						</p>
+					</li>
+
+					<li class="mui-table-view-cell">
+<!-- 					faultStationCount -->
+						<p>故障子站:<span class="mui-badge mui-badge-purple" data-bind="text:faultStationCount">0 家</span>
+						</p>
+					</li>
+					
+					<li class="mui-table-view-cell">
+<!-- 					timeoutCount -->
+						<p>通讯超时子站:<span class="mui-badge mui-badge-purple" data-bind="text:timeoutCount">0 家</span>
+						</p>
+					</li>
+
+					<li class="mui-table-view-cell">
+<!-- 					cpuLoad -->
+						<p>CPU使用率:<span class="mui-badge mui-badge-purple" data-bind="text:cpuLoad">0 </span>
+						</p>
+					</li>
+					
+					<li class="mui-table-view-cell">
+<!-- 					ram -->
+						<p>可用内存:<span class="mui-badge mui-badge-purple" data-bind="text:ram">0 </span>
+						</p>
+					</li>
+				</ul>
+			</div>
+		</div>
+			<script type="text/javascript" charset="utf-8">
+				mui.init();
+				mui.plusReady(function() {
+					var home = new generic.Home();
+					ko.applyBindings(home);
+					generic.showPage();
+					document.querySelector('.mui-icon-refresh').addEventListener('click', function() {
+						home.init();
+					});
+				}); // mui.plusReady
+			</script>
+	</body>
+
+</html>

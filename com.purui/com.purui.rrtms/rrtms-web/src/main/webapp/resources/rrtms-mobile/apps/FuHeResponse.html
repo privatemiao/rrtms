@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>负荷响应业务</title>
+    <link href="../css/mui.min.css" rel="stylesheet"/>
+    <script src="../js/mui.min.js"></script>
+    <script type="text/javascript" src="../js/Math.uuid.js" ></script>
+    <script type="text/javascript" src="../js/pr_common.js" ></script>
+    <script type="text/javascript" src="../js/config.js" ></script>
+    <script type="text/javascript" src="../js/app.js" ></script>
+    
+    <style>
+	.mui-control-content h3 {
+		padding-top: 100px;
+		text-align: center;
+	}
+	.mui-table h4,.mui-table h5,.mui-table .mui-h5,.mui-table .mui-h6,.mui-table p{
+        margin-top: 0;
+    }
+    .mui-table h4{
+        line-height: 21px;
+        font-weight: 500;
+    }
+
+    .mui-table .oa-icon{
+        position: absolute;
+        right:0;
+        bottom: 0;
+    }
+    .mui-table .oa-icon-star-filled{
+        color:#f14e41;
+    }
+</style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav">
+	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	<h1 class="mui-title">负荷响应业务</h1>
+	<a id="info" class="mui-icon mui-icon-info-filled mui-pull-right" style="color: #999;"></a>
+	
+</header>
+<nav class="mui-bar mui-bar-tab">
+	<a id="defaultTab" class="mui-tab-item mui-active" href="tab-webview-subpage-open.html">
+		<span class="mui-icon mui-icon-phone"></span>
+		<span class="mui-tab-label">开通业务</span>
+	</a>
+	<a class="mui-tab-item" href="tab-webview-subpage-info.html">
+		<span class="mui-icon mui-icon-email"></span>
+		<span class="mui-tab-label">负荷响应</span>
+	</a>
+	<a class="mui-tab-item" href="tab-webview-subpage-me.html">
+		<span class="mui-icon mui-icon-contact"></span>
+		<span class="mui-tab-label">我的响应</span>
+	</a>
+	<a class="mui-tab-item" href="tab-webview-subpage-history.html">
+		<span class="mui-icon mui-icon-map"></span>
+		<span class="mui-tab-label">历史响应</span>
+	</a>
+</nav>
+
+<script>
+	
+		mui.init();
+		var subpages = ['tab-webview-subpage-open.html','tab-webview-subpage-info.html','tab-webview-subpage-me.html','tab-webview-subpage-history.html'];
+	   var subpage_style = {
+		top: '48px',
+		bottom: '50px'
+	    };
+		mui.plusReady(function(){
+		var self = plus.webview.currentWebview();
+		for(var i=0;i<4;i++){
+			var sub = plus.webview.create(subpages[i],subpages[i],subpage_style);
+			if(i>0){
+				sub.hide();
+			}
+			self.append(sub);
+		}
+	});
+	
+	//当前激活选项，默认为第一个；
+	var activeTab = subpages[0];
+	//选项卡点击事件
+	mui('.mui-bar-tab').on('tap', 'a', function(e) {
+		var targetTab = this.getAttribute('href');
+		if (targetTab == activeTab) {
+			return;
+		}
+		
+		//先隐藏当前的
+		plus.webview.hide(activeTab);
+		//再显示目标
+		plus.webview.show(targetTab);
+		//更改当前活跃的选项卡
+		activeTab = targetTab;
+	});
+
+</script>
+</body>
+</html>

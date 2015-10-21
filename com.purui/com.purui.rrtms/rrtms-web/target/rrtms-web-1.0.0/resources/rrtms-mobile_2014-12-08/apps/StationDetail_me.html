@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/jquery-2.1.0.js"></script>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/main.css" rel="stylesheet" />
+		<script src="../js/knockout-3.2.0.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/Chart.min.js"></script>
+		<script src="../js/generic.StationDetail.js"></script>
+		
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css"/>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<script>
+		mui.init();
+  function shareHide(){
+	setTimeout(function(){
+		popover.style.display="none";
+		menu.style.display="none";
+	},500);
+	popover.style.opacity="0";
+	menu.style.opacity="0";
+	menu.style.webkitTransform="translateY(100%)";
+}
+  function shareShow(){
+	popover.style.display="block";
+	menu.style.display="block";
+	setTimeout(function(){
+		popover.style.opacity="1";
+		menu.style.opacity="1";
+		menu.style.webkitTransform="translateY(0)";
+	},0);
+}
+  // 取消分享
+function shareHide(){
+	setTimeout(function(){
+		popover.style.display="none";
+		menu.style.display="none";
+	},500);
+	popover.style.opacity="0";
+	menu.style.opacity="0";
+	menu.style.webkitTransform="translateY(100%)";
+}
+function getPos() {
+	
+	plus.geolocation.getCurrentPosition( nav, function ( e ) {
+		plus.nativeUI.alert( "获取位置信息失败："+e.message );
+	} );
+}
+function nav(position)
+{
+	try{
+		var codns = position.coords
+		 var station = JSON.parse(plus.storage.getItem('currentStation'));
+		// alert(JSON.stringify(station));
+			var dst = new plus.maps.Point(station.lat,station.lon); // 当前位置
+			var scr = new plus.maps.Point(codns.latitude,codns.longitude);//苏州普瑞
+			plus.maps.openSysMap( dst, station.name, scr );
+		
+	}catch(e){
+		//TODO handle the exception
+		alert(e);
+	}
+	
+}
+		</script>
+<style>
+			#popover{
+	display:none;
+	position:fixed;
+	width:100%;
+	height:100%;
+	top:0;
+	text-align: center;
+	background-color: rgba(0,0,0,0.8);
+	overflow: hidden;
+	opacity:0;
+	-webkit-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+	z-index:99998;
+}
+#menu{
+	display:none;
+	position:fixed;
+	left:1%;
+	width:98%;
+	background: #FFF;
+	bottom:1px;
+	border-radius: 2px;
+	opacity:0;
+	-webkit-transform:translateY(100%);
+	-webkit-transition: all 0.3s ease-in;
+	transition: all 0.3s ease-in;
+	z-index:99999;
+}
+		</style>
+		<style type="text/css">
+			#compare {
+				height: 50px !important;
+			}
+			.compare-tab>li{
+				float: left;
+				width: 30%;
+				border : 1px solid #007AFF;
+				text-align: center;		
+				color : #007AFF;	
+				padding: 6px 0 7px 0;	
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="cust-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">站点详情</h1>
+			<a id="smenu" class="mui-icon mui-icon-bars mui-pull-right"></a>
+		</header>
+		<nav class="mui-bar mui-bar-tab">
+			<a class="mui-tab-item mui-active" href="#basic">
+				<span class="mui-icon"><i class="fa fa-map-marker"></i></span>
+				
+				<span class="mui-tab-label">站点信息</span>
+			</a>
+			<a class="mui-tab-item" href="#realtime">
+				<span class="mui-icon"><i class="fa fa-paper-plane-o"></i></span>
+				<span class="mui-tab-label">实时数据</span>
+			</a>
+			<a class="mui-tab-item" href="#warning">
+				<span class="mui-icon"><i class="fa fa-exclamation-triangle"></i></span>
+				<span class="mui-tab-label">告警数据</span>
+			</a>
+			<a class="mui-tab-item" href="#compare">
+				<span class="mui-icon"><i class="fa fa-line-chart"></i></span>
+				<span class="mui-tab-label">数据对比</span>
+			</a>
+		</nav>
+
+		<div class="mui-content">
+			<div id="basic" class="mui-control-content mui-active">
+				<!-- 					ko with:station -->
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<i class="fa fa-info-circle"></i>变电站名称: <span data-bind="text:name"></span>
+					</li>
+					<li class="mui-table-view-cell">
+						<i class="fa fa-barcode"></i>子站代码: <span data-bind="text:code"></span>
+					</li>
+					<li class="mui-table-view-cell">
+						<i class="fa fa-globe"></i>所属区域: <span data-bind="text:province.name"></span>&nbsp;<span data-bind="text:city.name"></span>&nbsp;<span data-bind="text:dist.name"></span>
+					</li>
+					<li class="mui-table-view-cell">
+						<i class="fa fa-reorder"></i>行业类型: <span data-bind="text:company.industry.name"></span>
+					</li>
+
+					<li class="mui-table-view-cell">
+						<i class="fa fa-flask"></i>设计容量: <span data-bind="text:designkw"></span> KVA
+					</li>
+
+					<li class="mui-table-view-cell">
+						<i class="fa fa-adjust"></i>当前负荷: <span data-bind="text:loadData.realtimeSumValue" style="color: #DD524D;"></span> KW
+					</li>
+
+					<li class="mui-table-view-cell">
+						<i class="fa fa-at"></i>功率因数: <span data-bind="text:company.cardinalInclude" ></span>
+					</li>
+                   <li class="mui-table-view-cell">
+						<i class="fa fa-power-off"></i>用户号: <span data-bind="text:company.cno"></span>
+					</li>
+					<li class="mui-table-view-cell">
+						<i class="fa fa-money"></i>平台编号: <span data-bind="text:company.no"></span>
+					</li>
+					<li class="mui-table-view-cell">
+						<i class="fa fa-plug"></i>能源接入: <span data-bind="if:!energyEnable">未</span>上报 
+					</li>
+					<li class="mui-table-view-cell">
+					<i class="fa fa-plug"></i>参与负荷响应: <span data-bind="if:!tradeEnable">未</span>参与	
+					</li>
+					<li class="mui-table-view-cell">
+						<i class="fa fa-tags"></i>数据监测点: <span data-bind="text:pointSize"></span>
+					</li>
+					
+					<li class="mui-table-view-cell">
+						<i class="fa fa-info-circle"></i>企业简介: <span data-bind="text:company.summary"></span>
+					</li>
+				</ul>
+				<!-- 						/ko -->
+			</div>
+			<div id="realtime" class="mui-control-content">
+				<ul class="mui-table-view" data-bind="foreach:points">
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right" href="#" data-bind="attr:{guid:guid, id:currentId}">
+							<h4 data-bind="text:name"></h4>
+						</a>
+					</li>
+<!-- 					<li class="mui-table-view-cell"> -->
+<!-- 						<a class="mui-navigate-right" href="#"> -->
+<!-- 							<h4>2#进线开关</h4> -->
+<!-- 						</a> -->
+<!-- 					</li> -->
+				</ul>
+			</div>
+			<div id="warning" class="mui-control-content">
+				<div style="padding: 10px 10px;">
+					<div id="warning-configured-tab" class="mui-segmented-control">
+						<a class="mui-control-item mui-active" href="#" configured="true">已处理</a>
+						<a class="mui-control-item" href="#" configured="false">未处理</a>
+						<a class="mui-control-item" href="#">全部</a>
+					</div>
+				</div>
+				<div class="mui-content-padded">
+					<ul id="list-warning-configured" class="mui-table-view" data-bind="foreach:warninginfos">
+						<li class="mui-table-view-cell">
+							<div class="mui-table">
+				                <div class="mui-table-cell mui-col-xs-10" data-bind="html:warnContent">
+				                    <h5 >普华电力工程有限公司</h5>
+				                    <h5 >监测点:1#主变开关</h5>
+				                    <h5>告警内容：发生变位告警(1->0)</h5>
+				                    <h5>备注：系统在检修</h5>
+				                    <h5>值班人员：admin</h5>
+				                </div>
+				                <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+				                    <span class="mui-h5" data-bind="text:date">12:25</span>
+				                </div>
+				            </div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div id="compare" class="mui-control-content">
+				<div style="padding: 10px 10px;">
+					<div class="mui-segmented-control">
+						<a class="mui-control-item mui-active" href="#" method='compareEnergy'>总能耗对比</a>
+						<a class="mui-control-item" href="#" method="compareLoad">总负荷对比</a>
+					</div>
+				</div>
+				<div id="chart-holder" style="width: 100%; background-color: #fff;position: relative; top: 100px;">
+					<canvas id="chart" width="400" height="400"></canvas>
+				</div>
+			</div>
+		</div>
+		
+		<div id="popover"></div>
+		<div id="menu">
+			<div class="button" >代理缴费</div>
+			<div class="button" onclick="getPos()">定位到站点</div>
+			<div class="button button-waring" onclick="shareHide()">取 消</div>
+			
+		</div>
+		
+		<script type="text/javascript" charset="utf-8">
+			window.onload =function(){
+			document.getElementById('smenu').addEventListener('tap', function() {
+				
+				shareShow();
+			    });
+		};
+			mui.init({
+				gestureConfig : {
+					longtap: true
+				}
+			});
+			mui.plusReady(function() {
+				shareHide();
+				
+				var detail = new generic.StationDetail();
+				ko.applyBindings(detail);
+				
+				plus.nativeUI.closeWaiting();
+  	
+  	            //mui.currentWebview.show();	
+			});
+		</script>
+		
+	</body>
+
+</html>

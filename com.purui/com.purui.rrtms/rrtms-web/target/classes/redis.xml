@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxActive" value="${jedis.config.maxActive}" />
+		<property name="maxIdle" value="${jedis.config.maxIdle}" />
+		<property name="maxWait" value="${jedis.config.maxWait}" />
+	</bean>
+	<bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+		<constructor-arg index="0" ref="jedisPoolConfig" />
+		<constructor-arg index="1" value="${jedis.pool.ip}" />
+		<constructor-arg index="2" value="${jedis.pool.port}" />
+	</bean>
+</beans>

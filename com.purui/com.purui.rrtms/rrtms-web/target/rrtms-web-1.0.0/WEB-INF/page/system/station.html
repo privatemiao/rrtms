@@ -1,0 +1,268 @@
+<style>
+#datapoint-tree, #station-list {
+	height: 300px;
+}
+</style>
+<div class="page-header">
+	<h1>站点</h1>
+</div>
+<!-- /.page-header -->
+<div class="row">
+	<div class="col-xs-12">
+		<div id="toolbar" class="table-header"></div>
+		<div id="station-grid" role="grid"></div>
+	</div>
+</div>
+
+<div id="station-modal" class="modal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="blue bigger title">查看站点</h4>
+			</div>
+
+			<div class="modal-body overflow-visible">
+				<div class="row">
+					<div class="form-horizontal" role="form">
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 control-label no-padding-right"> 名称 </label>
+							<div class="col-xs-12 col-sm-9">
+								<input type="text" class="form-control" id="name" name="name" readonly>
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 control-label no-padding-right"> 子站代码 </label>
+							<div class="col-xs-12 col-sm-9">
+								<input type="text" class="form-control" id="code" name="code" readonly>
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 control-label no-padding-right"> 经度 </label>
+							<div class="col-xs-12 col-sm-9">
+								<input type="text" class="form-control" id="lon" name="lon" readonly>
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 control-label no-padding-right"> 纬度 </label>
+							<div class="col-xs-12 col-sm-9">
+								<input type="text" class="form-control" id="lat" name="lat" readonly>
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 control-label no-padding-right"> 站点地址 </label>
+							<div class="col-xs-12 col-sm-9">
+								<input type="text" class="form-control" id="address" name="address" readonly>
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 control-label no-padding-right"> 公司 </label>
+							<div class="col-xs-12 col-sm-9">
+								<input type="text" class="form-control" id="company.name" name="company.name" readonly>
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 control-label no-padding-right"> 联系人 </label>
+							<div class="col-xs-12 col-sm-9">
+								<input type="text" class="form-control" id="contact" name="contact" readonly>
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 control-label no-padding-right"> 电话 </label>
+							<div class="col-xs-12 col-sm-9">
+								<input type="text" class="form-control" id="tel" name="tel" readonly>
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 control-label no-padding-right"> 电压等级 </label>
+							<div class="col-xs-12 col-sm-9">
+								<input type="text" class="form-control" id="level" name="level" readonly>
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 control-label no-padding-right"> 简介 </label>
+							<div class="col-xs-12 col-sm-9">
+								<textarea class="form-control" id="summary" name="summary" readonly></textarea>
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 control-label no-padding-right"> 省 </label>
+							<div class="col-xs-12 col-sm-9">
+								<input type="text" class="form-control" id="province.name" name="province.name" readonly>
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 control-label no-padding-right"> 市 </label>
+							<div class="col-xs-12 col-sm-9">
+								<input type="text" class="form-control" id="city.name" name="city.name" readonly>
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 control-label no-padding-right"> 地区 </label>
+							<div class="col-xs-12 col-sm-9">
+								<input type="text" class="form-control" id="dist.name" name="dist.name" readonly>
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 control-label no-padding-right"> 完成日期 </label>
+							<div class="col-xs-12 col-sm-9">
+								<input type="text" class="form-control" id="buildDate" name="buildDate" readonly>
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 control-label no-padding-right"> 状态 </label>
+							<div class="col-xs-12 col-sm-9">
+								<input type="text" class="form-control" id="status" name="status" readonly>
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 control-label no-padding-right"> 设计容量 </label>
+							<div class="col-xs-12 col-sm-9">
+								<input type="text" class="form-control" id="designkw" name="designkw" readonly>
+							</div>
+						</div>
+
+						<div class="space-4"></div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 control-label no-padding-right"> 是否接入能源平台 </label>
+							<div class="col-xs-12 col-sm-9">
+								<input type="text" class="form-control" id="access" name="access" readonly>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<button class="btn btn-sm btn-primary btn-okay" data-dismiss="modal">
+					<i class="icon-ok"></i> 确定
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end station-modal -->
+<div id="datapoint-panel" class="widget-box">
+	<div class="widget-header">
+		<h5>Default Widget Box</h5>
+		<div class="widget-toolbar">
+			<a href="#" data-action="hide"> <i class="icon-remove"></i></a>
+		</div>
+	</div>
+
+	<div class="widget-body">
+		<div class="widget-main">
+			<div class="row">
+				<div class="col-xs-4 col-sm-4">
+					<div class="row">
+						<div class="col-xs-12 col-sm-12">
+							<div class="btn-group">
+								<button type="button" class="btn btn-xs btn-expand">打开</button>
+								<button type="button" class="btn btn-xs btn-collapse">关闭</button>
+								<!-- 								<button type="button" class="btn btn-xs"> -->
+								<!-- 									<i class="icon-file"></i>新增 -->
+								<!-- 								</button> -->
+								<!-- 								<button type="button" class="btn btn-xs"> -->
+								<!-- 									<i class="icon-edit"></i>编辑 -->
+								<!-- 								</button> -->
+								<!-- 								<button type="button" class="btn btn-xs"> -->
+								<!-- 									<i class="icon-trash"></i>删除 -->
+								<!-- 								</button> -->
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-12">
+							<div id="datapoint-tree"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-8 col-sm-8">
+					<div class="row">
+						<div class="col-xs-12 col-sm-12">
+							<div class="btn-group">
+								<button type="button" class="btn btn-xs btn-set-default">设为默认</button>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-12">
+							<div id="datapoint-grid"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end datapoint panel -->
+
+<div id="station-video-modal" class="modal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="blue bigger title">选择视频</h4>
+			</div>
+
+			<div class="modal-body overflow-visible">
+				<div class="row">
+					<input type="hidden" id="station-video-modal-type" value="VIDEO">
+					<ul class="list-unstyled spaced2 video-list">
+				</ul>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<button class="btn btn-sm btn-cancel" data-dismiss="modal">
+					<i class="icon-remove"></i> 关闭
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end user-form-modal -->
+<script type="text/javascript" src="resources/rrtms/js/rrtms/system/Station.js"></script>
+<script type="text/javascript" src="resources/rrtms/js/rrtms/system/DataPoint.js"></script>
+<script>
+	$(function() {
+		sideMenu.setTitle([ '站点' ]);
+		sideMenu.showSearchPanel();
+
+		var station = new com.rrtms.system.Station();
+
+		$.clear = function() {
+			console.log("clear station page...");
+			if (station && station.destroy) {
+				station.destroy();
+				station = null;
+			}
+		};
+	});
+</script>

@@ -1,0 +1,133 @@
+<div class="page-header">
+	<h1>图表</h1>
+</div>
+<!-- /.page-header -->
+<div class="row">
+	<div class="col-xs-12">
+		<div id="main" class="col-sm-12" style="height: 500px; border: 1px solid #ccc; padding: 10px;"></div>
+	</div>
+</div>
+
+<script src='resources/echarts-1.3.8/provinces.js'></script>
+<script src='resources/echarts-1.3.8/citys.js'></script>
+<script src='resources/echarts-1.3.8/build/echarts-plain-map.js'></script>
+
+<script type="text/javascript">
+	var chart = echarts.init(document.getElementById('main'));
+	var option = {
+		tooltip : {
+			trigger : 'item'
+		},
+		toolbox : {
+			show : true,
+			orient : 'vertical',
+			x : 'right',
+			y : 'center',
+			feature : {
+				mark : true,
+				dataView : {
+					readOnly : false
+				}
+			}
+		},
+		series : [ {
+			tooltip : {
+				trigger : 'item',
+				formatter : '{b}'
+			},
+			name : '选择器',
+			type : 'map',
+			mapType : 'china',
+			mapLocation : {
+				x : 'left',
+				y : 'top',
+				width : '30%'
+			},
+			roam : true,
+			selectedMode : 'single',
+			itemStyle : {
+				normal : {
+					label : {
+						show : true
+					}
+				},
+				emphasis : {
+					label : {
+						show : true
+					}
+				}
+			},
+			data : provinces
+		} ],
+		animation : false
+	};
+	chart.setOption(option, true);
+
+	chart.on('mapSelected', function(param) {
+		var selected = param.selected;
+		var selectedProvince;
+		var name;
+		for ( var i = 0, l = option.series[0].data.length; i < l; i++) {
+			name = option.series[0].data[i].name;
+			option.series[0].data[i].selected = selected[name];
+			if (selected[name]) {
+				selectedProvince = name;
+			}
+		}
+		if (typeof selectedProvince == 'undefined') {
+			option.series.splice(1);
+			option.legend = null;
+			option.dataRange = null;
+			chart.setOption(option, true);
+			return;
+		}
+		option.series[1] = {
+			name : '随机数据',
+			type : 'map',
+			mapType : selectedProvince,
+			itemStyle : {
+				normal : {
+					label : {
+						show : true
+					}
+				},
+				emphasis : {
+					label : {
+						show : true
+					}
+				}
+			},
+			mapLocation : {
+				x : '35%'
+			},
+			roam : true,
+			data : citys
+		};
+
+		option.legend = {
+			x : 'right',
+			data : [ '随机数据' ]
+		};
+
+		option.dataRange = {
+			orient : 'horizontal',
+			x : 'right',
+			min : 0,
+			max : 1000,
+			color : [ 'orange', 'yellow' ],
+			text : [ '高', '低' ], // 文本，默认为数值文本
+			splitNumber : 0
+		};
+
+		chart.setOption(option, true);
+	});
+
+	$.clear = function() {
+		console.log('clear map page...');
+		if (chart && chart.dispose) {
+			console.log('destroy chart');
+			chart.dispose();
+			chart = null;
+		}
+	}
+</script>

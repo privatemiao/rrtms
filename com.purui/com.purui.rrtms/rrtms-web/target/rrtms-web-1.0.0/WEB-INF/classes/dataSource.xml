@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" init-method="createDataSource" destroy-method="close" lazy-init="false">
+		<property name="driverClassName" value="${database.mysql.driverClassName}" />
+		<property name="url" value="${database.mysql.url}" />
+		<property name="username" value="${database.mysql.username}" />
+		<property name="password" value="${database.mysql.password}" />
+
+		<property name="initialSize" value="${database.mysql.initialSize}" />
+		<property name="maxActive" value="${database.mysql.maxActive}" />
+		<property name="maxWait" value="${database.mysql.maxWait}" />
+		<property name="maxIdle" value="${database.mysql.maxIdle}" />
+		<property name="minIdle" value="${database.mysql.minIdle}" />
+		<property name="removeAbandoned" value="${database.mysql.removeAbandoned}" />
+		<property name="removeAbandonedTimeout" value="${database.mysql.removeAbandonedTimeout}" />
+		<property name="connectionProperties" value="${database.mysql.connectionProperties}" />
+
+		<property name="testWhileIdle" value="${database.mysql.testWhileIdle}" />
+		<property name="testOnBorrow" value="${database.mysql.testOnBorrow}" />
+		<property name="testOnReturn" value="${database.mysql.testOnReturn}" />
+		<property name="validationQuery" value="${database.mysql.validationQuery}" />
+		<property name="validationQueryTimeout" value="${database.mysql.validationQueryTimeout}" />
+		<property name="timeBetweenEvictionRunsMillis" value="${database.mysql.timeBetweenEvictionRunsMillis}" />
+		<property name="numTestsPerEvictionRun" value="${database.mysql.numTestsPerEvictionRun}" />
+	</bean>
+
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan">
+			<list>
+				<value>org.mel.**.entity</value>
+				<value>com.purui.**.entity</value>
+			</list>
+		</property>
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="showSql" value="${database.mysql.showsql}" />
+				<property name="generateDdl" value="${database.mysql.generateDdl}" />
+				<property name="databasePlatform" value="${database.mysql.databasePlatform}" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<aop:config proxy-target-class="true">
+		<aop:advisor advice-ref="txAdvice" pointcut="execution(* *..*.service.*Service.*(..))" />
+	</aop:config>
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="save*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="remove*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="*" propagation="NOT_SUPPORTED" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+</beans>

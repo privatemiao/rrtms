@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>Hello H5+</title>
+		<script type="text/javascript" src="../js/mui.min.js" ></script>
+		<script type="text/javascript" src="../js/commonx.js"></script>
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<script type="text/javascript">
+var pushServer = "http://demo.dcloud.net.cn/helloh5/push/";
+var message = null;
+// 监听plusready事件  
+
+/**
+ * 日志输入推送消息内容
+ */
+function logoutPushMsg( msg ) {
+	outLine( "title: "+msg.title );
+	outLine( "content: "+msg.content );
+	if ( msg.payload ) {
+		if ( typeof(msg.payload)=="string" ) {
+			outLine( "payload(String): "+msg.payload );
+		} else {
+			outLine( "payload(JSON): "+JSON.stringify(msg.payload) );
+		}
+	} else {
+		outLine( "payload: undefined" );
+	}
+	if ( msg.aps ) {
+		outLine( "aps: "+JSON.stringify(msg.aps) );
+	}
+}
+
+/**
+ * 获取本地推送标识信息
+ */
+function getPushInfo(){
+	var info = plus.push.getClientInfo();
+	//outSet( "获取客户端推送标识信息：" );
+	//outLine( "token: "+info.token );
+	plus.nativeUI.alert(info.clientid );
+	//outLine( "clientid: "+info.clientid );
+	//outLine( "appid: "+info.appid );
+	//outLine( "appkey: "+info.appkey );
+}
+
+/**
+ * 读取所有推送消息
+ */
+function listAllPush(){
+	var msgs=null;
+	switch ( plus.os.name ) {
+		case "Android":
+		msgs = plus.push.getAllMessage();
+		break;
+		default:
+		break;
+	}
+	if ( !msgs ) {
+		plus.nativeUI.alert( "此平台不支持枚举推送消息列表！" );
+		return;
+	}
+	outSet( "枚举消息列表（"+msgs.length+"）：" );
+	for ( var i in msgs ) {
+		var msg = msgs[i];
+		outLine( i+": "+msg.title+" - "+msg.content );
+	}
+}
+/**
+ * 清空所有推动消息
+ */
+function clearAllPush(){
+	plus.push.clear();
+	plus.nativeUI.alert( "清空所有推送消息成功！" );
+}
+
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+	<body>
+		
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">推送消息</h1>
+		</header>
+		<div id="dcontent" class="dcontent">
+			
+			<ul id="dlist" class="dlist">
+				<li class="ditem" onclick="getPushInfo();">获取客户端推送标识</li>
+				
+				<li class="ditem" onclick="listAllPush();">枚举推送消息（Android）</li>
+				<li class="ditem" onclick="clearAllPush();">清空推送消息</li>
+			</ul>
+		</div>
+		<div id="output">
+
+		</div>
+		<script>
+			window.onload=function(){
+				
+				mui.plusReady(function(){
+			try{
+				
+			
+			document.addEventListener( "plusready", function(){
+	        message = document.getElementById("message");
+	
+	// 监听在线消息事件
+	plus.push.addEventListener( "receive", function( msg ) {
+		if ( msg.aps ) {  // Apple APNS message
+			outSet( "接收到在线APNS消息：" );
+		} else {
+			outSet( "接收到在线透传消息：" );
+		}
+		logoutPushMsg( msg );
+	}, false );
+}, false );
+			
+			//plus.nativeUI.closeWaiting();
+  	
+  	        //mui.currentWebview.show();	
+  	        }catch(e){
+				//TODO handle the exception
+				alert(e);
+			}
+				});
+			};
+		</script>
+	</body>
+</html>

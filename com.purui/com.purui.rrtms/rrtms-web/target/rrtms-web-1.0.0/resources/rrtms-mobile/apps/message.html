@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="../js/mui.js"></script>
+		<script src="../js/jquery-2.1.0.js"></script>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/main.css" rel="stylesheet" />
+		<script src="../js/knockout-3.2.0.js"></script>
+		<script src="../js/common.js"></script>
+		<script type="text/javascript" src="../js/app.js" ></script>
+		<script src="../js/generic.Message.js"></script>
+		
+		
+	</head>
+
+	<body>
+		<style>
+	.mui-h6, h5, h4 {
+		font-weight: 500;
+		margin: 0;
+		margin-left: 5px;
+		text-transform: none;
+	}
+	.mui-table-view .mui-table-view-cell {
+		padding-right: 0;
+	}
+	.mui-table .mui-table-cell, .oa-contact-cell.mui-table .mui-table-cell {
+		padding: 11px 0;
+		vertical-align: middle;
+	}
+
+	.oa-contact-cell {
+		position: relative;
+		margin: -11px 0;
+	}
+	
+	.oa-contact-avatar {
+		width: 75px;
+	}
+	.oa-contact-avatar img {
+		border-radius: 50%;
+	}
+	.oa-contact-content {
+		width: 100%;
+	}
+	.oa-contact-name {
+		margin-right: 20px;
+	}
+	.oa-contact-name, oa-contact-position {
+		float: left;
+	}
+	/*左拖，右拖，超出该区域宽度后，释放触发slideleft,slideright事件*/
+	/*重要：该样式定制拉出的功能图标区域的width(必须)*/
+	.mui-slider-cell .mui-swipe-delete{
+		color: #fff;
+		background-color: #ff3b30;
+		text-align: center;
+		line-height: 44px;
+		width: 25%;
+	}
+	/*左拖拉出，右拖关闭菜单*/
+	/*重要：该样式定制拉出的功能菜单区域的margin-left(必须,该值是功能菜单距离mui-slider-cell左侧的位置)*/
+	.oa-contact-action {
+		background-color: #527fdc;
+		margin-left: 75px;
+		height: 87px;
+	}
+	.oa-contact-action .mui-icon {
+		width: 20%;
+		color: white;
+		text-align: center;
+		line-height: 87px;
+		height: 84px;
+		float: left;
+	}
+	.oa-contact-action .mui-icon:first-child, .oa-contact-action .mui-icon:last-child {
+		width: 50%;
+	}
+	
+	.mui-slider-handle.mui-table{
+		margin: -11px 0;
+	}
+	
+	.mui-slider-handle .mui-table-cell{
+		line-height: 22px;
+	}
+	
+	
+	/*.mui-table-view-cell>.mui-slider-cell>.mui-slider-right {
+		top: 0px;
+		bottom: 0px;
+	}*/
+</style>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<a class="mui-icon mui-icon-refresh mui-pull-right"></a>
+			<h1 class="mui-title">我的消息</h1>
+		</header>
+		<div class="mui-content">
+			
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+			
+				<a class="mui-control-item mui-active" href="#systeminfo">
+						系统消息 <span class="systeminfo-count">(0)</span>
+					</a>
+				<a class="mui-control-item" href="#warninginfo">
+						告警信息 <span class="warninginfo-count">(0)</span>
+					</a>
+				<a class="mui-control-item" href="#stopinfo">
+						停电信息 <span class="stopinfo-count">(0)</span>
+					</a>
+			</div>
+			
+			
+				<div id="systeminfo" class="mui-slider-item mui-control-content mui-active">
+				
+					
+					<ul id="OA_task_1" class="mui-table-view" data-bind="foreach:systeminfos">				
+                         
+						<li class="mui-table-view-cell">
+							<div class="mui-slider-cell">
+							<div class="mui-slider-right mui-table-cell mui-disabled mui-swipe-delete">
+					删除
+				</div>
+				            <div class="mui-slider-handle mui-table">
+				                <div class="mui-table-cell mui-col-xs-10">
+				                    <h4 class="mui-ellipsis-2" data-bind="text:title"></h4>
+				                    <h5 data-bind="text:name"></h5>
+				                    <p class="mui-h6 mui-ellipsis-2" data-bind="text:content"></p>
+				                </div>
+				                <div class="mui-table-cell mui-col-xs-4 mui-text-right">
+				                    <span class="mui-h5" data-bind="text:date"></span>
+				                </div>
+				               </div>
+				            
+				           </div>
+						</li>
+						
+					</ul>
+				
+				
+			</div>
+				<div id="warninginfo" class="mui-control-content">
+					<div align="center"><span class="mui-badge mui-badge-success">Tip:向左侧滑可进行电话咨询</span></div>
+					<ul id="OA_contact" class="mui-table-view" data-bind="foreach:warninginfos">
+						<li class="mui-table-view-cell">
+							<div class="mui-slider-cell">
+							<div class="oa-contact-cell mui-table">
+				                <div class="mui-table-cell mui-col-xs-10" data-bind="html:warnContent">
+				                   
+				                </div>
+				                <div class="mui-table-cell mui-col-xs-3 mui-text-right">
+				                    <span class="mui-h5" data-bind="text:date"></span>
+				                     
+				                </div>
+				            </div>
+				            <div class="mui-slider-handle oa-contact-action mui-table-cell mui-disabled">
+					        <span class="mui-icon mui-icon-phone"></span>
+					        <span class="mui-icon mui-icon-chat"></span>
+					        </div>
+				           </div>
+						</li>
+					</ul>
+				</div>
+				<div id="stopinfo" class="mui-control-content">
+					<ul class="mui-table-view" data-bind="foreach:stopinfos">
+						<li class="mui-table-view-cell">
+							<div class="mui-table">
+				                <div class="mui-table-cell mui-col-xs-10">
+				                    <h5>停电区域:<span data-bind="text:area"></span></h5>
+				                    <h5>停电时间：<span data-bind="text:_startDate"></span> - <span data-bind="text:_endDate"></span></h5>
+				                    <div>
+				                    	<span style="float: left;"><h5>涉及企业：</h5></span>
+				                    	<span style="float: left;" data-bind="html:_companys"></span>
+				                    </div>
+				                </div>
+				            </div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			</div>
+		</div>
+           
+			<script type="text/javascript" charset="utf-8">
+				
+				mui.plusReady(function() {
+				mui.init();
+					var message = new generic.Message();
+					//message.init();
+					ko.applyBindings(message);
+					
+					plus.nativeUI.closeWaiting();
+					
+					mui('#OA_task_1').on('tap', '.mui-swipe-delete', function() {
+			         var cell = this.parentNode.parentNode;
+			        cell.parentNode.removeChild(cell);
+		            });
+		            //
+		            mui('#OA_contact').on('tap','.mui-icon-phone',function(){
+		            	plus.nativeUI.confirm( "是否要拨打值班电话咨询?", function(e){
+		                         if(e.index==0)
+		                         {
+		                         	plus.runtime.openURL('tel:051266595001');
+		                         }
+	             }, "电话咨询", ["Yes","No"] );
+		            	
+		            });
+		            
+		            mui('#OA_contact').on('tap','.mui-icon-chat',function(){
+		            	//alert(e);
+		            	plus.nativeUI.confirm( "是否要短信咨询?", function(e){
+		                         if(e.index==0)
+		                         {
+		                         	var msg = plus.messaging.createMessage(plus.messaging.TYPE_SMS);
+	                    msg.to = ['18962514800'];
+	                    msg.body = '请告诉我该告警的具体原因和处理结果!';
+	                    plus.messaging.sendMessage( msg );
+		                         }
+	             }, "短信咨询", ["Yes","No"] );
+		            	
+		            });
+										
+				}); // mui.plusReady
+			</script>
+	</body>
+
+</html>

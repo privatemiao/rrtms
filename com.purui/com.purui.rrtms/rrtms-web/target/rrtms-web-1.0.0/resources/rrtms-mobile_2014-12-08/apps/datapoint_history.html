@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<title></title>
+<link href="../css/mui.min.css" rel="stylesheet" />
+<link href="../css/main.css" rel="stylesheet" />
+<script src="../js/mui.min.js"></script>
+<script src="../js/jquery-2.1.0.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/Chart.min.js"></script>
+<script src="../js/generic.dataPointHistory.js"></script>
+<script type="text/javascript" charset="utf-8">
+	mui.init();
+</script>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-icon mui-icon-left-nav mui-pull-left"></a> <a href="#mui-popover" class="mui-icon mui-icon-search mui-pull-right"></a>
+		<h1 class="mui-title">历史记录</h1>
+	</header>
+
+	<div class="mui-content">
+		<div id="chart-holder" style="width: 100%; background-color: #fff;position: relative;">
+			<canvas id="chart" width="400" height="400"></canvas>
+		</div>
+		<div id="mui-popover" class="mui-popover" style="padding: 10px;">
+			<label>开始日期：<input type="text" id="startDate"></label>
+			<label>结束日期：<input type="text" id="endDate"></label>
+			<button id="btn-okay" class="mui-btn mui-btn-block">确定</button>
+		</div>
+	</div>
+
+	<script>
+		window.onload = function() {
+			mui.plusReady(function() {
+				var history = new generic.dataPointHistory();
+				generic.showPage();
+			});
+		};
+	</script>
+</body>
+</html>

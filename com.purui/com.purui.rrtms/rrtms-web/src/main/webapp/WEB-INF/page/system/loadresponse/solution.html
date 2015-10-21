@@ -1,0 +1,50 @@
+<div class="page-header">
+	<h1>负荷响应解决方案</h1>
+</div>
+<!-- /.page-header -->
+<div class="row">
+	<div class="col-xs-12">
+		<div id='instruction-tab' class="widget-box">
+			<div class="widget-header">
+
+				<div class="widget-toolbar no-border pull-left">
+					<ul class="nav nav-tabs" id="myTab">
+						<li class="active"><a data-toggle="tab" href="#avalible">当前负荷响应</a></li>
+						<li><a data-toggle="tab" href="#history">历史记录</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="widget-body">
+				<div class="widget-main padding-6">
+					<div class="tab-content">
+						<div id="avalible" class="tab-pane active">
+							<div id="avalible-grid"></div>
+						</div>
+						<div id="history" class="tab-pane">
+							<div id="history-grid"></div>
+						</div>
+					</div>
+					<div style="clear: both;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="resources/rrtms/js/rrtms/system/loadresponse/Solution.js"></script>
+<script>
+	$(function() {
+		sideMenu.setTitle([ '负荷响应', '负荷响应解决方案' ]);
+
+		var solution = new com.rrtms.system.loadresponse.Solution();
+
+		$.clear = function() {
+			console.log('clear solution page...');
+			if (solution && solution.destroy) {
+				solution.destroy();
+				solution = null;
+			}
+		};
+	});
+</script>

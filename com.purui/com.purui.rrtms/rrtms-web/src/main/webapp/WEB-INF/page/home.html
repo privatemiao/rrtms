@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>苏州普瑞电力智能服务综合管理平台</title>
+
+<meta name="description" content="overview &amp; stats" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- basic styles -->
+<link rel="stylesheet" href="resources/pace/js/themes/pace-theme-barber-shop.css" />
+<script data-pace-options='{ "restartOnRequestAfter": true }' src="resources/pace/js/pace.js"></script>
+<link href="resources/aceadmin/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="resources/aceadmin/css/font-awesome.min.css" />
+
+<!--[if IE 7]>
+		  <link rel="stylesheet" href="resources/aceadmin/css/font-awesome-ie7.min.css" />
+		<![endif]-->
+
+<!-- page specific plugin styles -->
+<link rel="stylesheet" href="resources/kendoui/styles/kendo.common.min.css" />
+<link rel="stylesheet" href="resources/kendoui/styles/kendo.metro.min.css" />
+
+<link rel="stylesheet" href="resources/aceadmin/css/jquery-ui-1.10.3.custom.min.css">
+<link rel="stylesheet" href="resources/aceadmin/css/chosen.min.css">
+<link rel="stylesheet" href="resources/aceadmin/css/datepicker.css">
+<link rel="stylesheet" href="resources/aceadmin/css/bootstrap-timepicker.css">
+<link rel="stylesheet" href="resources/aceadmin/css/daterangepicker.css">
+<link rel="stylesheet" href="resources/aceadmin/css/colorpicker.css">
+<link rel="stylesheet" href="resources/aceadmin/css/jquery.gritter.css" />
+
+<link rel="stylesheet" href="resources/dhtmlx/tree/dhtmlxtree_std.css" />
+<!-- fonts -->
+
+<link rel="stylesheet" href="resources/aceadmin/css/ace-fonts.css" />
+
+<!-- ace styles -->
+
+<link rel="stylesheet" href="resources/aceadmin/css/ace.min.css" />
+<link rel="stylesheet" href="resources/aceadmin/css/ace-rtl.min.css" />
+<link rel="stylesheet" href="resources/aceadmin/css/ace-skins.min.css" />
+
+<link rel="stylesheet" href="resources/rrtms/main.css" />
+<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="resources/aceadmin/css/ace-ie.min.css" />
+		<![endif]-->
+
+<!-- inline styles related to this page -->
+
+<!-- ace settings handler -->
+
+<script src="resources/aceadmin/js/ace-extra.min.js"></script>
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+<!--[if lt IE 9]>
+		<script src="resources/aceadmin/js/html5shiv.js"></script>
+		<script src="resources/aceadmin/js/respond.min.js"></script>
+		<![endif]-->
+<style>
+#toolbar>button {
+	margin-left: -3px;
+}
+
+body, button, input, select, textarea, h1, h2, h3, h4, h5, h6 {
+	font-family: "Microsoft YaHei", Arial;
+}
+
+#login-modal-form .modal-content {
+	width: 400px;
+}
+</style>
+</head>
+
+<body>
+	<div class="navbar navbar-default" id="navbar">
+		<script type="text/javascript">
+			try {
+				ace.settings.check('navbar', 'fixed')
+			} catch (e) {
+			}
+		</script>
+
+		<div class="navbar-container" id="navbar-container">
+			<div class="navbar-header pull-left">
+				<a href="#" class="navbar-brand"> <small> <img src="resources/rrtms/image/purui_logo.png" style="width: 20px; height: 22px;"> 苏州普瑞电力智能服务综合管理平台
+				</small>
+				</a>
+				<!-- /.brand -->
+			</div>
+			<!-- /.navbar-header -->
+
+			<div class="navbar-header pull-right" role="navigation">
+				<ul class="nav ace-nav">
+
+
+					<li class="purple"><a data-toggle="dropdown" class="dropdown-toggle" href="#"> <i class="icon-bell-alt icon-bell"></i> <span class="badge badge-important"></span>
+					</a>
+						<ul id="global-warning" class="pull-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close" style="width: 400px;">
+							<li class="dropdown-header"><i class="icon-warning-sign"></i>告警</li>
+
+							<li></li>
+						</ul></li>
+
+
+
+
+
+
+					<li class="light-blue"><a data-toggle="dropdown" href="#" class="dropdown-toggle"> <img class="nav-user-photo" src="resources/aceadmin/avatars/avatar2.png" alt="Jason's Photo" /> <span
+							class="user-info"> <small>Welcome,</small> User
+						</span> <i class="icon-caret-down"></i>
+					</a>
+
+						<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+							<li class="disabled"><a href="#"> <i class="icon-cog"></i> 设置
+							</a></li>
+
+							<li><a href="#" class="link-user-profile"> <i class="icon-user"></i> 个人信息
+							</a></li>
+
+							<li class="divider"></li>
+
+							<li><a href="#" class="link-logout"> <i class="icon-off"></i> 登出
+							</a></li>
+						</ul></li>
+				</ul>
+				<!-- /.ace-nav -->
+			</div>
+			<!-- /.navbar-header -->
+		</div>
+		<!-- /.container -->
+	</div>
+
+	<div class="main-container" id="main-container">
+		<script type="text/javascript">
+			try {
+				ace.settings.check('main-container', 'fixed')
+			} catch (e) {
+			}
+		</script>
+
+		<div class="main-container-inner">
+			<a class="menu-toggler" id="menu-toggler" href="#"> <span class="menu-text"></span>
+			</a>
+
+			<div class="sidebar" id="sidebar">
+				<script type="text/javascript">
+					try {
+						ace.settings.check('sidebar', 'fixed')
+					} catch (e) {
+					}
+				</script>
+
+				<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+					<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+						<button class="btn btn-success">
+							<i class="icon-signal"></i>
+						</button>
+
+						<button class="btn btn-info">
+							<i class="icon-pencil"></i>
+						</button>
+
+						<button class="btn btn-warning">
+							<i class="icon-group"></i>
+						</button>
+
+						<button class="btn btn-danger">
+							<i class="icon-cogs"></i>
+						</button>
+					</div>
+
+					<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+						<span class="btn btn-success"></span> <span class="btn btn-info"></span> <span class="btn btn-warning"></span> <span class="btn btn-danger"></span>
+					</div>
+				</div>
+				<!-- #sidebar-shortcuts -->
+
+				<!-- sidemenu -->
+				<ul class="nav nav-list">
+				</ul>
+				<!-- /.nav-list -->
+
+				<div class="sidebar-collapse" id="sidebar-collapse">
+					<i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+				</div>
+
+				<script type="text/javascript">
+					try {
+						ace.settings.check('sidebar', 'collapsed')
+					} catch (e) {
+					}
+				</script>
+			</div>
+
+			<div class="main-content">
+				<div class="breadcrumbs" id="breadcrumbs">
+					<script type="text/javascript">
+						try {
+							ace.settings.check('breadcrumbs', 'fixed')
+						} catch (e) {
+						}
+					</script>
+
+					<ul class="breadcrumb">
+					</ul>
+					<!-- .breadcrumb -->
+
+					<div class="nav-search" id="nav-search">
+						<form class="form-search">
+							<span class="input-icon"> <input type="text" placeholder="Search ..." class="nav-search-input" id="search-param" name="param" autocomplete="off" /> <i
+								class="icon-search nav-search-icon"></i>
+							</span>
+						</form>
+					</div>
+					<!-- #nav-search -->
+				</div>
+				<!-- page-content -->
+				<div class="page-content"></div>
+				<!-- end page-content -->
+			</div>
+			<!-- /.main-content -->
+
+		</div>
+		<!-- /.main-container-inner -->
+
+		<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse"> <i class="icon-double-angle-up icon-only bigger-110"></i>
+		</a>
+	</div>
+	<!-- /.main-container -->
+
+	<!-- user profile -->
+	<div id="user-profile-modal-form" class="modal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="blue bigger">个人信息</h4>
+				</div>
+
+				<div class="modal-body overflow-visible">
+					<form>
+						<input type="hidden" name="id">
+						<div class="row">
+							<div class="col-xs-12 col-sm-12">
+
+								<div class="input-group col-xs-12 col-sm-6">
+									<span class="input-group-addon"> <i class="icon-user bigger-110"></i>
+									</span> <input type="text" name="securityUser.loginId" placeholder="登录名" data-rel="tooltip" title="登录名" data-placement="bottom" class="form-control" readonly>
+								</div>
+
+								<div class="input-group col-xs-12 col-sm-6">
+									<input type="text" class="form-control" name="securityUser.status" data-rel="tooltip" title="状态" readonly>
+								</div>
+
+								<div class="space-4"></div>
+
+								<div class="input-group col-xs-12 col-sm-6">
+									<span class="input-group-addon"> <i class="icon-key bigger-110"></i>
+									</span><input type="password" name="password" class="form-control" placeholder="密码">
+								</div>
+
+								<div class="input-group col-xs-12 col-sm-6">
+									<span class="input-group-addon"> <i class="icon-key bigger-110"></i>
+									</span><input type="password" name="repass" class="form-control" placeholder="重新输入密码">
+								</div>
+
+								<div class="col-xs-12 col-sm-12">
+									<hr>
+								</div>
+
+								<div class="input-group col-xs-12 col-sm-6">
+									<span class="input-group-addon"> <i class="icon-user bigger-110"></i>
+									</span> <input type="text" name="name" placeholder="姓名" data-rel="tooltip" title="姓名" class="form-control">
+								</div>
+
+								<div class="input-group col-xs-12 col-sm-6">
+									<span class="input-group-addon"> <i class="icon-envelope bigger-110"></i>
+									</span><input type="text" name="email" class="form-control" placeholder="邮箱">
+								</div>
+
+								<div class="space-4"></div>
+
+								<div class="input-group col-xs-12 col-sm-6">
+									<span class="input-group-addon"> <i class="icon-mobile-phone bigger-110"></i>
+									</span><input type="text" name="mobile" class="form-control" placeholder="手机">
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button class="btn btn-sm btn-primary btn-save">
+						<i class="icon-ok"></i> 保存
+					</button>
+
+					<button class="btn btn-sm" data-dismiss="modal">
+						<i class="icon-remove"></i> 取消
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end user profile -->
+
+	<!-- configure warning -->
+	<div id="warning-configure-modal-form" class="modal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="blue bigger">输入备注</h4>
+				</div>
+
+				<div class="modal-body overflow-visible">
+					<form>
+						<div class="row">
+							<input type="hidden" name="guid"> <input type="hidden" name="code"> <input type="hidden" name="date">
+							<div class="form-group col-xs-12 col-sm-12">
+								<textarea class="form-control" name="note"></textarea>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+
+					<button class="btn btn-sm btn-primary btn-okay">确定</button>
+
+					<button class="btn btn-sm btn-cancel" data-dismiss="modal">
+						<i class="icon-remove"></i> 取消
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end configure warning -->
+
+	<!-- relogin -->
+	<div id="login-modal-form" class="modal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="blue bigger">您已在其它地方登录！</h4>
+				</div>
+
+				<div class="modal-body overflow-visible">
+					<div class="row">
+						<div class="input-group col-xs-12 col-sm-12">
+							<span class="input-group-addon"> <i class="icon-user bigger-110"></i>
+							</span><input class="form-control" type="text" name="loginId">
+						</div>
+						<div class="space-4"></div>
+						<div class="input-group col-xs-12 col-sm-12">
+							<span class="input-group-addon"> <i class="icon-key bigger-110"></i>
+							</span><input class="form-control" type="password" name="password">
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+
+					<button class="btn btn-sm btn-primary btn-login">登录</button>
+
+					<button class="btn btn-sm btn-cancel" data-dismiss="modal">
+						<i class="icon-remove"></i> 取消
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end relogin -->
+
+	<audio id="warnAudio">
+		<source src="resources/rrtms/audio/BUZZ5.WAV" type="audio/wav" />
+	</audio>
+
+	<!-- basic scripts -->
+
+	<!--[if !IE]> -->
+
+	<script type="text/javascript">
+		window.jQuery || document.write("<script src='resources/aceadmin/js/jquery-2.0.3.min.js'>" + "<"+"/script>");
+	</script>
+
+	<!-- <![endif]-->
+
+	<!--[if IE]>
+			<script type="text/javascript">
+			 window.jQuery || document.write("<script src='resources/aceadmin/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+			</script>
+		<![endif]-->
+
+	<script type="text/javascript">
+		if ("ontouchend" in document)
+			document.write("<script src='resources/aceadmin/js/jquery.mobile.custom.min.js'>" + "<"+"/script>");
+	</script>
+	<script src="resources/aceadmin/js/bootstrap.min.js"></script>
+	<script src="resources/aceadmin/js/typeahead-bs2.min.js"></script>
+
+	<!-- page specific plugin scripts -->
+
+	<!--[if lte IE 8]>
+		  <script src="resources/aceadmin/js/excanvas.min.js"></script>
+		<![endif]-->
+
+	<script src="resources/aceadmin/js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="resources/aceadmin/js/jquery.ui.touch-punch.min.js"></script>
+	<script src="resources/aceadmin/js/jquery.slimscroll.min.js"></script>
+	<script src="resources/aceadmin/js/jquery.easy-pie-chart.min.js"></script>
+	<script src="resources/aceadmin/js/jquery.sparkline.min.js"></script>
+	<script src="resources/flot/jquery.flot.min.js"></script>
+	<script src="resources/flot/jquery.flot.pie.min.js"></script>
+	<script src="resources/flot/jquery.flot.categories.min.js"></script>
+	<script src="resources/flot/jquery.flot.resize.min.js"></script>
+
+	<script src="resources/aceadmin/js/bootbox.min.js"></script>
+
+
+	<script src="resources/kendoui/js/kendo.web.min.js"></script>
+	<script src="resources/kendoui/js/cultures/kendo.culture.zh-CN.min.js"></script>
+	<script src="resources/kendoui/js/console.js"></script>
+
+	<script src="resources/aceadmin/js/chosen.jquery.min.js"></script>
+	<script src="resources/aceadmin/js/date-time/bootstrap-datepicker.min.js"></script>
+	<script src="resources/aceadmin/js/date-time/bootstrap-timepicker.min.js"></script>
+	<script src="resources/aceadmin/js/date-time/moment.min.js"></script>
+	<script src="resources/aceadmin/js/date-time/daterangepicker.min.js"></script>
+	<script src="resources/aceadmin/js/date-time/locales/bootstrap-datepicker.zh-CN.js" charset="UTF-8"></script>
+	<script src="resources/aceadmin/js/jquery.gritter.min.js"></script>
+	<script src="resources/dhtmlx/tree/dhtmlxtree_std.js"></script>
+
+	<script src="resources/highcharts/js/highcharts.js"></script>
+	<script src="resources/highcharts/js/highcharts-more.js"></script>
+
+	<script src="resources/esl-1.8.2/esl.min.js"></script>
+
+	<!-- sidemenu -->
+	<script src="resources/rrtms/js/commons.js"></script>
+	<script src="resources/rrtms/js/sideMenu.js"></script>
+
+	<!-- ace scripts -->
+	<script src="resources/aceadmin/js/ace-elements.min.js"></script>
+	<script src="resources/aceadmin/js/ace.min.js"></script>
+
+	<!-- inline scripts related to this page -->
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&amp;ak=78ee785ec4bc0cd3ff1ec20a68db9c3a"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
+
+	<script src="resources/rrtms/js/main.js"></script>
+	<script src="resources/rrtms/js/profile.js"></script>
+	<script src="resources/rrtms/js/rrtms/component/WebSocket.js"></script>
+	<script src="resources/rrtms/js/globalWarning.js"></script>
+
+	<script>
+		
+	</script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+.space-4 {
+	min-width: 1px;
+}
+
+.console {
+	background-color: #fff;
+	border: solid #ccc;
+	border-width: 1px;
+	color: #333;
+	font: 11px Consolas, Monaco, "Bitstream Vera Sans Mono", "Courier New",
+		Courier, monospace;
+	margin: 0;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	text-align: left;
+}
+
+.console div {
+	background-position: 6px -95px;
+	border-bottom: 1px solid #DDD;
+	padding: 5px 5px 4px 24px;
+}
+
+.console .count {
+	background-color: #91AFEF;
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	border-radius: 15px;
+	color: #FFFFFF;
+	font-size: 10px;
+	margin-left: 5px;
+	padding: 2px 6px 2px 5px;
+}
+
+.console .error_yellow {
+	background-color: yellow;
+}
+
+/*Right Panel*/
+.right-panel {
+	width: 51px;
+	height: 200px;
+	position: absolute;
+	z-index: 12;
+	right: 0;
+	top: 0;
+}
+
+.right-panel>div {
+	position: absolute;
+}
+
+.right-panel>div:first-child {
+	width: 47px !important;
+	border-radius: 0;
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+	border-top-right-radius: 0 !important;
+	border-bottom-right-radius: 0 !important;
+	margin-top: 0;
+	left: 0;
+	top: 0;
+	border-radius: 0;
+}
+
+.right-panel>div:nth-child(2) {
+	margin: 0;
+	border: 1px solid #FFB34B;
+	width: 252px;
+	height: 300px;
+	left: 47px;
+	top: 0;
+	background-color: #fff;
+	overflow-x : hidden;
+	display: none;
+}
+
+.right-panel>div:nth-child(2)>div {
+	margin: 0;
+}
+
+.right-panel>div:nth-child(2) div {
+	padding: 0 !important;
+}
+/*End Right Panel*/
+
+/*calendar*/
+.k-datepicker {
+	border: 1px solid #d5d5d5;
+	padding: 4px 6px;
+	height: 22px;
+}
+
+.k-datepicker>.k-picker-wrap {
+	border: 0;
+	margin-left: 6px;
+}
+/*end calendar*/
